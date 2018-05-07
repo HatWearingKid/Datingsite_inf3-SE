@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "62134588339",
+    "firebase_url": "https://play4match.firebaseio.com",
+    "project_id": "play4match",
+    "storage_bucket": "play4match.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62134588339:android:dec693df87acd096",
+        "android_client_info": {
+          "package_name": "com.android.playformatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62134588339-tgcmue7g9qko4hvivo92dd31lfmluaeb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsmfN_WTWG3wgthvnBKtEzc2lmNC1ryLA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
