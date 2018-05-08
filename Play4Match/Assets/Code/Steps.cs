@@ -13,4 +13,10 @@ public class Steps : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    //put pawn on next place
+    void Step ()
+    {
+
+    }
 }
