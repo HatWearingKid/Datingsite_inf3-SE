@@ -7,11 +7,14 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/main.unity
-    guid: e51f9168d0b38cd4ea8f38067658fcfc
-  - enabled: 0
+    guid: f77f0c015faca3341adedd49b6a7b795
+  - enabled: 1
     path: Assets/level1.unity
-    guid: 6ea2a36bdfe79694198ae481c3e65710
-  - enabled: 0
+    guid: 2e8ef5b071348444bafd45b0626059a6
+  - enabled: 1
+    path: Assets/Options.unity
+    guid: 5d4192bcc6905ba4490d01bb3fcad47a
+  - enabled: 1
     path: Assets/Chat.unity
-    guid: f0c06a7d225faa9408f8ae490fc02f6b
+    guid: 0966ff12a4291b84882be4c89b9e214e
   m_configObjects: {}
