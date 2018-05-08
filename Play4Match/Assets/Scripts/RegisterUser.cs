@@ -67,7 +67,7 @@ public class RegisterUser : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 		if (user != null) {
-			Debug.Log (user.Email + " --- " + user.IsEmailVerified);
+			Debug.Log (user.DisplayName + " --- " + user.IsEmailVerified);
 		}
 		ReAuthenticate ();
 	}
