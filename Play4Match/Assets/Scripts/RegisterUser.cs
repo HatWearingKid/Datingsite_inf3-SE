@@ -18,11 +18,6 @@ public class RegisterUser : MonoBehaviour {
         password = _password;
     }
 
-	public void RegisterUserOnClick(){
-		Register();
-		GetCurrentUser();
-	}
-
     public void Register()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -46,23 +41,57 @@ public class RegisterUser : MonoBehaviour {
         });
     }
 
-	public void GetCurrentUser(){
+	public void SendEmail(){
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-		Firebase.Auth.FirebaseUser user = auth.CurrentUser;
-		auth.StateChanged += AuthStateChanged;
-		AuthStateChanged(this, null);
+		user = auth.CurrentUser;
+		if (user != null) {
+			user.SendEmailVerificationAsync().ContinueWith(task => {
+				if (task.IsCanceled) {
+					Debug.LogError(task.Exception.InnerExceptions[0].Message);
+					return;
+				}
+				if (task.IsFaulted) {
+					Debug.LogError(task.Exception.InnerExceptions[0].Message);
+					return;
+				}
+
+				Debug.Log("Email sent successfully.");
+			});
+		}
 	}
 
-	void AuthStateChanged(object sender, System.EventArgs eventArgs) {
-		if (auth.CurrentUser != user) {
-			bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
-			if (!signedIn && user != null) {
-				Debug.Log("Signed out " + user.UserId);
-			}
-			user = auth.CurrentUser;
-			if (signedIn) {
-				Debug.Log("Signed in " + user.IsEmailVerified);
-			}
+	/// <summary>
+	/// Kan later verwijderd worden
+	/// </summary>
+	public void getUserData(){
+		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+		user = auth.CurrentUser;
+		if (user != null) {
+			Debug.Log (user.Email + " --- " + user.IsEmailVerified);
+		}
+		ReAuthenticate ();
+	}
+
+	/// <summary>
+	/// Kan later verwijderd worden
+	/// </summary>
+	public void ReAuthenticate(){
+		Firebase.Auth.Credential credential =
+			Firebase.Auth.EmailAuthProvider.GetCredential(email, password);
+
+		if (user != null) {
+			user.ReauthenticateAsync(credential).ContinueWith(task => {
+				if (task.IsCanceled) {
+					Debug.LogError("ReauthenticateAsync was canceled.");
+					return;
+				}
+				if (task.IsFaulted) {
+					Debug.LogError("ReauthenticateAsync encountered an error: " + task.Exception);
+					return;
+				}
+
+				Debug.Log("User reauthenticated successfully.");
+			});
 		}
 	}
 }
