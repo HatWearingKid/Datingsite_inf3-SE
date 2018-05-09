@@ -58,4 +58,9 @@ public class Steps : MonoBehaviour {
         /*camera = -569 1186 -1540
         pion = -571 0 - 103*/
     }
+
+    public void ChangeSpeed(float newSpeed)
+    {
+        duration = newSpeed;
+    }
 }
