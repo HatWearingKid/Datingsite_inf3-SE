@@ -38,6 +38,9 @@ public class RegisterUser : MonoBehaviour {
             user = task.Result;
             Debug.LogFormat("Firebase user created successfully: {0} ({1})",
 				user.DisplayName.ToString(), user.UserId.ToString());
+
+			SendEmail();
+			auth.SignOut();
         });
     }
 
@@ -45,53 +48,20 @@ public class RegisterUser : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 		if (user != null) {
-			user.SendEmailVerificationAsync().ContinueWith(task => {
+			user.SendEmailVerificationAsync ().ContinueWith (task => {
 				if (task.IsCanceled) {
-					Debug.LogError(task.Exception.InnerExceptions[0].Message);
+					Debug.LogError (task.Exception.InnerExceptions [0].Message);
 					return;
 				}
 				if (task.IsFaulted) {
-					Debug.LogError(task.Exception.InnerExceptions[0].Message);
+					Debug.LogError (task.Exception.InnerExceptions [0].Message);
 					return;
 				}
 
-				Debug.Log("Email sent successfully.");
+				Debug.Log ("Email sent successfully.");
 			});
-		}
-	}
-
-	/// <summary>
-	/// Kan later verwijderd worden
-	/// </summary>
-	public void getUserData(){
-		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-		user = auth.CurrentUser;
-		if (user != null) {
-			Debug.Log (user.DisplayName + " --- " + user.IsEmailVerified);
-		}
-		ReAuthenticate ();
-	}
-
-	/// <summary>
-	/// Kan later verwijderd worden
-	/// </summary>
-	public void ReAuthenticate(){
-		Firebase.Auth.Credential credential =
-			Firebase.Auth.EmailAuthProvider.GetCredential(email, password);
-
-		if (user != null) {
-			user.ReauthenticateAsync(credential).ContinueWith(task => {
-				if (task.IsCanceled) {
-					Debug.LogError("ReauthenticateAsync was canceled.");
-					return;
-				}
-				if (task.IsFaulted) {
-					Debug.LogError("ReauthenticateAsync encountered an error: " + task.Exception);
-					return;
-				}
-
-				Debug.Log("User reauthenticated successfully.");
-			});
+		} else {
+			Debug.Log ("Could not send email, something went wrong.");
 		}
 	}
 }
