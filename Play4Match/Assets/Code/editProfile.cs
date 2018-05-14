@@ -14,6 +14,7 @@ public class editProfile : MonoBehaviour {
     void Start () {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+        getData();
     }
 
     // Update is called once per frame
@@ -24,7 +25,7 @@ public class editProfile : MonoBehaviour {
     void getData()
     {
         FirebaseDatabase.DefaultInstance
-        .GetReference("Question")
+        .GetReference("Questions")
         .GetValueAsync().ContinueWith(task => {
             if (task.IsFaulted)
             {
@@ -34,6 +35,11 @@ public class editProfile : MonoBehaviour {
             {
                 DataSnapshot snapshot = task.Result;
                 // Do something with snapshot...
+
+                foreach (DataSnapshot question in snapshot.Children)
+                {
+                    Debug.Log(question);
+                }
             }
         });
     }
