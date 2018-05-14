@@ -5,10 +5,11 @@ using UnityEngine.Networking;
 
 public class getQuestions : MonoBehaviour {
 
-    Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
 
 	// Use this for initialization
 	void Start () {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         string userid = auth.CurrentUser.UserId;
 
         string url = "http://play4match.com/api/getq.php?id=" + userid;
