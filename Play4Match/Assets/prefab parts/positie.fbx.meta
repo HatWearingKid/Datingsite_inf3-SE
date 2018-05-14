@@ -1,19 +1,20 @@
 fileFormatVersion: 2
-guid: 32f85fe41c48d5a41bc144933d101591
-timeCreated: 1524565160
-licenseType: Free
+guid: 51a0e4f275ed71e4ea851da7816d8779
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: unnamed
+    2100000: No Name
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Pion
-    7400000: Default Take
-    9500000: //RootNode
-  externalObjects: {}
+    4300000: Positie
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 8313357ffac8cd0428bb664c0809b3e3, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -32,6 +33,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -87,7 +89,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
