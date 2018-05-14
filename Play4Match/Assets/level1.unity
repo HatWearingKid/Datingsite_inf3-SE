@@ -38,7 +38,11 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+<<<<<<< HEAD
   m_IndirectSpecularColor: {r: 0.3529033, g: 0.5736667, b: 0.8686613, a: 1}
+=======
+  m_IndirectSpecularColor: {r: 0.35292542, g: 0.5736763, b: 0.8686609, a: 1}
+>>>>>>> f67a278cd879bb3002de7885553d2bd74a336ac1
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2110,6 +2114,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1266240510}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2129,6 +2134,27 @@ MonoBehaviour:
   m_ChildControlHeight: 0
 --- !u!114 &1266240513
 MonoBehaviour:
+=======
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1016590539}
+  - component: {fileID: 1016590538}
+  - component: {fileID: 1016590537}
+  - component: {fileID: 1016590536}
+  - component: {fileID: 1016590540}
+  - component: {fileID: 1016590542}
+  - component: {fileID: 1016590541}
+  - component: {fileID: 1016590543}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &1016590536
+AudioListener:
+>>>>>>> f67a278cd879bb3002de7885553d2bd74a336ac1
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -2233,7 +2259,33 @@ CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1268851114}
+=======
+  m_GameObject: {fileID: 1016590535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c8793a089a56394fb4ba85c8499d604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OptionsCanvas: {fileID: 0}
+  CanvasObject: {fileID: 0}
+--- !u!114 &1016590543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1016590535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1081750585 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
+  m_PrefabInternal: {fileID: 583465497}
+>>>>>>> f67a278cd879bb3002de7885553d2bd74a336ac1
 --- !u!1001 &1288477870
 Prefab:
   m_ObjectHideFlags: 0
