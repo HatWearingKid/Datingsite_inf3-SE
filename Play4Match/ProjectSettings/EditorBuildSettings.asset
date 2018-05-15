@@ -9,14 +9,8 @@ EditorBuildSettings:
     path: Assets/main.unity
     guid: f77f0c015faca3341adedd49b6a7b795
   - enabled: 1
-    path: Assets/Options.unity
-    guid: 5d4192bcc6905ba4490d01bb3fcad47a
-  - enabled: 1
     path: Assets/Chat.unity
     guid: 0966ff12a4291b84882be4c89b9e214e
-  - enabled: 1
-    path: Assets/editProfile.unity
-    guid: 62d11ed37624af5438664fc39e754f96
   - enabled: 1
     path: Assets/scene0.unity
     guid: a5a866c1eb3a6354d92a8031a5efeaf2
