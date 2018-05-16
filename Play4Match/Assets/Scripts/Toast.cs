@@ -6,10 +6,10 @@ public class Toast : MonoBehaviour {
 	string toastString;
 	AndroidJavaObject currentActivity;
 
-	public void MyShowToastMethod ()
+	public void MyShowToastMethod (string message)
 	{
 		if (Application.platform == RuntimePlatform.Android) {
-			showToastOnUiThread ("It Worked!");
+			showToastOnUiThread (message);
 		}
 	}
 
