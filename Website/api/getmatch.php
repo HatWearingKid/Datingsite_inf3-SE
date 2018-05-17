@@ -15,29 +15,12 @@ if($id !== false && $id !== '')
 
 	if(isset($dataArray['Users'][$id]))
 	{
-		// Select 5 new questions for user
-		$newQuestions = [];
 
-		$questionCount = 0;
-
-		for($i = 0; $i < count($dataArray['Questions']); $i++)
-		{
-			// Check which questions the user has already dones
-			if($dataArray['Users'][$id]['Answered'][$i] === NULL)
-			{
-				$newQuestions[$i] = $dataArray['Questions'][$i];
-			
-				$questionCount++;
-			}
-			
-			if($questionCount == 5)
-			{
-				break;
-			}
-		}
 		
-		// Return questions
-		echo(json_encode($newQuestions));
+		$matches = [];
+		
+		// Return matches
+		echo(json_encode($matches));
 	}
 	else
 	{
@@ -49,6 +32,11 @@ else
 {
 	// Id not entered
 	echo(json_encode(false));
+}
+
+function compareUsers($user1, $user2)
+{
+	
 }
 
 ?>
