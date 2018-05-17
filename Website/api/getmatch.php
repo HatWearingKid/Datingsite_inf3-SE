@@ -22,11 +22,14 @@ if($id !== false && $id !== '')
 		unset($dataArray['Users'][$id]);
 		$users = $dataArray['Users'];
 		
-		// Filteren op basis van de gebruiker's voorkeuren
+		// Filter based on user's preferences
 		$matches = filterUsersByUserPref($user, $users);
 		
-		// Verder filteren op basis van de andere gebruikers zijn/haar voorkeuren
+		// Filter more based on the other users preferences
 		$matches = filterUsersByOthersPref($user, $matches);
+		
+		// Compare $user answers given with the $matches answers
+		$matches = compareAnswers($user, $matches);
 		
 		// Return matches
 		echo(json_encode($matches));
@@ -88,7 +91,7 @@ function filterUsersByOthersPref($user, $matches)
 	return $result;
 }
 
-function compareUsers($user1, $user2)
+function compareAnswers($user1, $user2)
 {
 	
 }
