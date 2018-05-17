@@ -14,6 +14,8 @@ public class Steps : MonoBehaviour {
     private float startTime;
     public GameObject[] Positions;
     public List<Vector3> Pawnpositions;
+    private bool QuestionLock;
+    public getQuestions getQuestions;
 
     //Vector3[] Pawnpositions;
     /*= { new Vector3 { x = -571, y = 0, z = -103 },
@@ -51,7 +53,7 @@ public class Steps : MonoBehaviour {
     Ray ray;
     private string nextlocation;
     // Update is called once per frame
-    void Update () {
+    void Update() {
         pawn.transform.position = Vector3.Lerp(startPoint, Pawnpositions[stepNumber], (Time.time - startTime) / duration);
         //camera.transform.position = Vector3.Lerp(startPointCamera, cameraStand, (Time.time - startTime) / duration);
 
@@ -74,18 +76,25 @@ public class Steps : MonoBehaviour {
                 if (hit.transform.gameObject.tag == "positie")
                 {
                     nextlocation = hit.collider.gameObject.ToString();
-                    Debug.Log(hit.collider.gameObject.ToString());
-                    Debug.Log("i touched somethign");
-                    if(Positions[stepNumber + 1].ToString().Equals(nextlocation))
+                   // Debug.Log(hit.collider.gameObject.ToString());
+                   // Debug.Log("i touched somethign");
+                    if (Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
                         Step();
                     }
-                    
+
                 }
             }
         }
 
-
+        if (pawn.transform.position.x.Equals(Positions[stepNumber].transform.position.x)&& pawn.transform.position.z.Equals(Positions[stepNumber].transform.position.z) && !QuestionLock)
+        {
+            
+            Debug.Log("question time");
+            //show question
+            getQuestions.ShowQuestion(stepNumber);
+            QuestionLock = true;
+        }
 
 
 
@@ -104,6 +113,7 @@ public class Steps : MonoBehaviour {
         }
         startTime = Time.time;
         startPoint = pawn.transform.position;
+        QuestionLock = false;
         
        // startPointCamera = camera.transform.position;
 
