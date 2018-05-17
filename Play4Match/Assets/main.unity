@@ -4901,7 +4901,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1914393302}
-        m_MethodName: setPassword
+        m_MethodName: setConfirmationPassword
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
