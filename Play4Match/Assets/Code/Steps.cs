@@ -14,6 +14,8 @@ public class Steps : MonoBehaviour {
     private float startTime;
     public GameObject[] Positions;
     public List<Vector3> Pawnpositions;
+    private bool QuestionLock;
+    public getQuestions getQuestions;
 
     //Vector3[] Pawnpositions;
     /*= { new Vector3 { x = -571, y = 0, z = -103 },
@@ -74,8 +76,8 @@ public class Steps : MonoBehaviour {
                 if (hit.transform.gameObject.tag == "positie")
                 {
                     nextlocation = hit.collider.gameObject.ToString();
-                    Debug.Log(hit.collider.gameObject.ToString());
-                    Debug.Log("i touched somethign");
+                    //Debug.Log(hit.collider.gameObject.ToString());
+                    //Debug.Log("i touched somethign");
                     if(Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
                         Step();
@@ -85,6 +87,14 @@ public class Steps : MonoBehaviour {
             }
         }
 
+        if (pawn.transform.position.x.Equals(Positions[stepNumber].transform.position.x) && pawn.transform.position.z.Equals(Positions[stepNumber].transform.position.z) && !QuestionLock)
+            {
+            
+                Debug.Log("question time");
+                //show question
+                getQuestions.ShowQuestion(stepNumber);
+                QuestionLock = true;
+            }
 
 
 
@@ -104,8 +114,9 @@ public class Steps : MonoBehaviour {
         }
         startTime = Time.time;
         startPoint = pawn.transform.position;
-        
-       // startPointCamera = camera.transform.position;
+        QuestionLock = false;
+
+        // startPointCamera = camera.transform.position;
 
         //  cameraStand.x = Pawnpositions[stepNumber].x;
         // cameraStand.y = 1186;
