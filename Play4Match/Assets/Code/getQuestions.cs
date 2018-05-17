@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class getQuestions : MonoBehaviour {
 
-
+    string[] questionArray;
     WWW www;
+    private int currentQuestionNumber = 0;
+    private int answerNumber = 1;
+    private int weightNumber = 1;
     // Use this for initialization
     void Start () {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -24,7 +28,16 @@ public class getQuestions : MonoBehaviour {
         // check for errors
         if (www.error == null)
         {
+
             Debug.Log("WWW Ok!: " + www.text);
+            string temp = www.text.Trim(new System.Char[] {'[', ']'});
+            questionArray = temp.Split(',');
+
+/*
+            foreach (var vraag in questionArray)
+            {
+                Debug.Log(vraag.Trim(new System.Char[] {'"' }));
+            }*/
         }
         else
         {
@@ -37,13 +50,43 @@ public class getQuestions : MonoBehaviour {
 
 	}
 
-    public GameObject questiontext;
+    public Text questiontext;
     
     public void ShowQuestion(int QuestionNumber)
     {
         //make question apear on screen
         //questiontext = GameObject.Find("Question").GetComponent<Text>();
-        Debug.Log("question number: " + QuestionNumber);
-        Debug.Log(www.text[QuestionNumber]);
+        if (QuestionNumber >= questionArray.Length)
+        {
+            Debug.Log("there are no more questions to be asked");
+            //put in pop-up
+            questiontext.text = "there are no more questions to be asked";
+        }
+        else
+        {
+            currentQuestionNumber = QuestionNumber;
+            Debug.Log("question number: " + QuestionNumber);
+            Debug.Log(questionArray[QuestionNumber].Trim(new System.Char[] { '"' }));
+            //put in pop-up
+            questiontext.text = questionArray[QuestionNumber].Trim(new System.Char[] { '"' });
+
+            
+        }
+        
+    }
+    public void ChangeAnswer(int answer)
+    {
+        answerNumber = answer;
+    }
+
+    public void ChangeWeight(int Weight)
+    {
+        weightNumber = Weight;
+    }
+
+    public void SendAnswer()
+    {
+        //send currentQuestionNumber, answerNumber and weightNumber
+        Debug.Log("ik verzend nu vraagnummer: " + currentQuestionNumber + " met antwoordnummer: " + answerNumber + " met het gewicht van: " + weightNumber);
     }
 }

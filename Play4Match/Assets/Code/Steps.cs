@@ -76,8 +76,8 @@ public class Steps : MonoBehaviour {
                 if (hit.transform.gameObject.tag == "positie")
                 {
                     nextlocation = hit.collider.gameObject.ToString();
-                    Debug.Log(hit.collider.gameObject.ToString());
-                    Debug.Log("i touched somethign");
+                    //Debug.Log(hit.collider.gameObject.ToString());
+                    //Debug.Log("i touched somethign");
                     if(Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
                         Step();
