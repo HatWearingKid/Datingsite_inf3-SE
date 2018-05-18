@@ -14,6 +14,10 @@ public class chatTest : MonoBehaviour
     public int chatroomID;
     public List<string> recieved = new List<string>();
 
+    /*
+        Of gewoon kijken hoe we alleen data ophalen van na een bepaald tijdstip ?
+        Dat scheelt data, en hoef je geen locking te gebruiken
+    */
     public float refreshRate = 2f; // 2 seconden
     public bool updateLock = false;
 
