@@ -721,9 +721,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 6820de1e-7c22-4090-92ce-e8af36973f92
-  projectName: Play4Match
-  organizationId: jessewever
+  cloudProjectId: 76a06952-8b66-411d-967a-a62b6e9cd853
+  projectName: test2
+  organizationId: pekeltje
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
