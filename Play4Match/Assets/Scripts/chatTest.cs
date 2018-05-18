@@ -15,7 +15,7 @@ public class chatTest : MonoBehaviour {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         Debug.Log("Voor sendMessage aanroepen");
-        sendMessage("From","To","Content");
+        sendMessage("123456","987654","Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
         Debug.Log("Na sendMessage aanroepen");
     }
 
@@ -32,10 +32,10 @@ public class chatTest : MonoBehaviour {
 
         Debug.Log(json);
 
-        string key = reference.Child("Chat").Child("userID").Push().Key;
+        string key = reference.Child("Chat").Push().Key;
 
 
-        reference.Child("Chat").Child("userID").Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
+        reference.Child("Chat").Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
         Debug.Log("Einde sendMessage");
         
     }
