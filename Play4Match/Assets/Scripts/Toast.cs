@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Toast. Class used to show toast messages on Android devices
+/// </summary>
 public class Toast : MonoBehaviour {
 	string toastString;
 	AndroidJavaObject currentActivity;
 
 	public void MyShowToastMethod (string message)
 	{
+		// Check if the running device is an Android device
 		if (Application.platform == RuntimePlatform.Android) {
 			showToastOnUiThread (message);
 		}
