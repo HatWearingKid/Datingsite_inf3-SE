@@ -45,9 +45,10 @@ public class chatTest : MonoBehaviour
             updateLock = true;
 
             getMessages();
-            refreshRate = 2f;
+            
             Debug.Log("Update check om: " + System.DateTime.UtcNow.ToString());
 
+            refreshRate = 2f;
             updateLock = false;
         }
     }
