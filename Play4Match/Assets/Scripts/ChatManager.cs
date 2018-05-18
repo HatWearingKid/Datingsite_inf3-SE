@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firebase;
 using Firebase.Unity.Editor;
+using Firebase.Database;
 
 public class ChatManager : MonoBehaviour {
 
@@ -12,40 +13,28 @@ public class ChatManager : MonoBehaviour {
     public GameObject chatPanel, textObject;
     public InputField chatBox;
 
-    public Color userMessage, info;
+    DatabaseReference mDatabaseRef;
 
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
-	void Start () {
-        Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
-        Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
+    void Start() {
         // Set this before calling into the realtime database.
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
-        FirebaseApp.DefaultInstance.SetEditorP12FileName("YOUR-FIREBASE-APP-P12.p12");
-        FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("SERVICE-ACCOUNT-ID@YOUR-FIREBASE-APP.iam.gserviceaccount.com");
-        FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
+        mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
     }
-}
-	
-	void Update () {
-        if(chatBox.text != "")
+
+    void Update() {
+        if (chatBox.text != "")
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 SendMessageToChat(username + ": " + chatBox.text);
+                sendMessage(username, "test", chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
                 chatBox.text = "";
 
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
-                FirebaseDatabase.getInstance()
-                        .getReference()
-                        .push()
-                        .setValue(new ChatMessage(input.getText().toString(),
-                                FirebaseAuth.getInstance()
-                                        .getCurrentUser()
-                                        .getDisplayName())
-                        );
+
+               
             }
         }
         if (!chatBox.isFocused)
@@ -54,19 +43,9 @@ public class ChatManager : MonoBehaviour {
             {
                 SendMessageToChat("You pressed space");
             }
-        }	
-	}
-
-    public void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token)
-    {
-        UnityEngine.Debug.Log("Received Registration Token: " + token.Token);
+        }
     }
 
-    public void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
-    {
-        UnityEngine.Debug.Log("Received a new message from: " + e.Message.From);
-        UnityEngine.Debug.Log("Message ID: " + e.Message.MessageId);
-    }
 
     public void SendMessageToChat(string text)
     {
@@ -83,6 +62,22 @@ public class ChatManager : MonoBehaviour {
         messagelist.Add(newMessage);
     }
 
+    void sendMessage(string from, string to, string content)
+    {
+        Debug.Log("Begin sendMessage");
+        chatMessage Message = new chatMessage(from, to, content);
+        string json = JsonUtility.ToJson(Message);
+
+        Debug.Log(json);
+
+        string key = mDatabaseRef.Child("Chat").Push().Key;
+
+
+        mDatabaseRef.Child("Chat").Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
+        Debug.Log("Einde sendMessage");
+
+    }
+
 }
 
 [System.Serializable]
@@ -91,52 +86,30 @@ public class Message
     public string text;
     public Text textObject;
 
-    private string messageText;
-    private string messageUser;
-    private string messageTime;
-
-    public Message(string messageText, string messageUser)
-    {
-        this.messageText = messageText;
-        this.messageUser = messageUser;
-
-        // Initialize to current time
-        messageTime = System.DateTime.UtcNow.ToString();
-
-    }
-
     public Message()
     {
 
     }
 
-    public string getMessageText()
-    {
-        return messageText;
-    }
+}
 
-    public void setMessageText(string messageText)
-    {
-        this.messageText = messageText;
-    }
+public class chatMessage
+{
+    public string username;
+    public string to;
+    public string text;
+    public string date;
 
-    public string getMessageUser()
+    public chatMessage(string username, string to, string text)
     {
-        return messageUser;
-    }
-
-    public void setMessageUser(string messageUser)
-    {
-        this.messageUser = messageUser;
-    }
-
-    public string getMessageTime()
-    {
-        return messageTime;
-    }
-
-    public void setMessageTime(string messageTime)
-    {
-        this.messageTime = messageTime;
+        ChatManager chatManager = new ChatManager();
+        Debug.Log("Begin chatMessage");
+        this.username = username;
+        this.to = to;
+        this.text = text;
+        this.date = System.DateTime.UtcNow.ToString();
+        Debug.Log("Einde chatMessage");
     }
 }
+
+
