@@ -14,7 +14,7 @@ public class chatTest : MonoBehaviour
     public int chatroomID;
     public List<string> recieved = new List<string>();
 
-    public float refreshRate = 1f; // 1 seconde
+    public float refreshRate = 2f; // 2 seconden
     public bool updateLock = false;
 
 
@@ -45,7 +45,7 @@ public class chatTest : MonoBehaviour
             updateLock = true;
 
             getMessages();
-            refreshRate = 1f;
+            refreshRate = 2f;
             Debug.Log("Update check om: " + System.DateTime.UtcNow.ToString());
 
             updateLock = false;
