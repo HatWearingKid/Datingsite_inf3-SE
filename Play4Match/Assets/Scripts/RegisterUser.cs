@@ -14,13 +14,19 @@ public class RegisterUser : MonoBehaviour {
 	Firebase.Auth.FirebaseUser user;
 	DatabaseReference reference;
 	Toast toast = new Toast();
+	// Initialise player to insert into the DB
 	Player player = new Player();
+	Liked liked = new Liked();
+	LikedBy likedBy = new LikedBy();
+	Preferences preferences = new Preferences();
+	Chatrooms chatrooms = new Chatrooms();
 
     void Start() {
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 		// Get the root reference location of the database.
 		reference = FirebaseDatabase.DefaultInstance.RootReference;
+
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 	}
@@ -84,11 +90,16 @@ public class RegisterUser : MonoBehaviour {
 	}
 
     public void AddUser(string userId) {
-		string json = JsonUtility.ToJson(player);
+		string jsonPlayer = JsonUtility.ToJson(player);
+		string jsonLiked = JsonUtility.ToJson(liked);
+		string jsonLikedBy = JsonUtility.ToJson(likedBy);
+		string jsonPreferences = JsonUtility.ToJson(preferences);
+		string jsonChatrooms = JsonUtility.ToJson(chatrooms);
 
-        //reference.Child("Gebruikers").Push().SetRawJsonValueAsync(json);
-        reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
-        
-		Debug.Log (json + "------" + player + "------" + userId);
+		reference.Child("Gebruikers").Child(userId).SetRawJsonValueAsync(jsonPlayer);
+		reference.Child("Gebruikers").Child(userId).Child("Liked").SetRawJsonValueAsync(jsonLiked);
+		reference.Child("Gebruikers").Child(userId).Child("LikedBy").SetRawJsonValueAsync(jsonLikedBy);
+		reference.Child("Gebruikers").Child(userId).Child("Preferences").SetRawJsonValueAsync(jsonPreferences);
+		reference.Child("Gebruikers").Child(userId).Child("Chatrooms").SetRawJsonValueAsync(jsonChatrooms);
 	}
 }
