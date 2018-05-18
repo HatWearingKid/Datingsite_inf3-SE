@@ -9,18 +9,19 @@ public class chatTest : MonoBehaviour {
 
     public DatabaseReference reference;
     public string userID;
+    public int chatroomID;
 
     void Start () {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        userID = auth.CurrentUser.UserId;
 
-        Debug.Log("Start");
+        // Deze moeten we later ophalen
+        userID = "123456"; // auth.CurrentUser.UserId;
+        chatroomID = 1; // Hier een chatroomID gebruiken, deze staan bij de user tabel, staat deze chatroomID bij de gebruiker zodat hij niet zomaar 1 opend?
+
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        Debug.Log("Voor sendMessage aanroepen");
-        sendMessage(userID, "987654","Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
-        Debug.Log("Na sendMessage aanroepen");
+        sendMessage(userID,"Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
     }
 
     // Update is called once per frame
@@ -28,39 +29,26 @@ public class chatTest : MonoBehaviour {
 		
 	}
 
-    void sendMessage(string from, string to, string content)
+    void sendMessage(string from, string content)
     {
-        Debug.Log("Begin sendMessage");
-        chatMessage Message = new chatMessage(from, to, content);
+        chatMessage Message = new chatMessage(from, content);
         string json = JsonUtility.ToJson(Message);
-
-        Debug.Log(json);
-
-        string key = reference.Child("Chat").Push().Key;
-
-
-        reference.Child("Chat").Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
-        Debug.Log("Einde sendMessage");
-        
+        string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
+        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
     }
 
-    
 }
 
 public class chatMessage
 {
     public string from;
-    public string to;
     public string content;
     public string date;
 
-    public chatMessage(string from, string to, string content)
+    public chatMessage(string from, string content)
     {
-        Debug.Log("Begin chatMessage");
         this.from = from;
-        this.to = to;
         this.content = content;
         this.date = System.DateTime.UtcNow.ToString();
-        Debug.Log("Einde chatMessage");
     }
 }
