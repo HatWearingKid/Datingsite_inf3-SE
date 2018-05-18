@@ -22,6 +22,8 @@ public class chatTest : MonoBehaviour {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         sendMessage(userID,"Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+
+        getMessages();
     }
 
     // Update is called once per frame
@@ -35,6 +37,31 @@ public class chatTest : MonoBehaviour {
         string json = JsonUtility.ToJson(Message);
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
+    }
+
+    void getMessages()
+    {
+        FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString()).GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+                
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                            var content = childSnapshot.Child("content").Value.ToString();
+                            var date = childSnapshot.Child("date").Value.ToString();
+                            var user = childSnapshot.Child("user").Value.ToString();
+
+                            Debug.Log(date + " - " + user + " - " + content);
+                        }
+
+                    }
+            });
     }
 
 }
