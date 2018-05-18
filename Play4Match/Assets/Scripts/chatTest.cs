@@ -32,7 +32,10 @@ public class chatTest : MonoBehaviour {
 
         Debug.Log(json);
 
-        reference.Child("Chat").Child("userID").SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
+        string key = reference.Child("Chat").Child("userID").Push().Key;
+
+
+        reference.Child("Chat").Child("userID").Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
         Debug.Log("Einde sendMessage");
         
     }
