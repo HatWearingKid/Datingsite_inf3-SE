@@ -41,13 +41,13 @@ public class chatTest : MonoBehaviour {
 
 public class chatMessage
 {
-    public string from;
+    public string user;
     public string content;
     public string date;
 
     public chatMessage(string from, string content)
     {
-        this.from = from;
+        this.user = from;
         this.content = content;
         this.date = System.DateTime.UtcNow.ToString();
     }
