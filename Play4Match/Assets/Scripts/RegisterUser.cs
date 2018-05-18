@@ -14,18 +14,15 @@ public class RegisterUser : MonoBehaviour {
 	Firebase.Auth.FirebaseUser user;
 	DatabaseReference reference;
 	Toast toast = new Toast();
-	PlayerState pState = new PlayerState();
+	Player player = new Player();
 
-	void Start() {
+    void Start() {
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 		// Get the root reference location of the database.
 		reference = FirebaseDatabase.DefaultInstance.RootReference;
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
-		pState.playerName = "Piet";
-		pState.lives = 3;
-		pState.health = 0.8f;
 	}
 		
     public void setEmail(string _email)
@@ -64,7 +61,6 @@ public class RegisterUser : MonoBehaviour {
 			});
 		} else {
 			toast.MyShowToastMethod ("The passwords do not match.");
-			Debug.Log ("The passwords do not match.");
 		}
     }
 
@@ -87,11 +83,12 @@ public class RegisterUser : MonoBehaviour {
 		}
 	}
 
-	public void AddUser(string userId) {
-		//newUser = new User(userId);
-		string json = JsonUtility.ToJson(pState);
+    public void AddUser(string userId) {
+		string json = JsonUtility.ToJson(player);
 
-		reference.Child("Gebruikers").Child("Test").Child("Name").SetRawJsonValueAsync(json);
-		Debug.Log (json + "------" + pState + "------" + userId);
+        //reference.Child("Gebruikers").Push().SetRawJsonValueAsync(json);
+        reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
+        
+		Debug.Log (json + "------" + player + "------" + userId);
 	}
 }
