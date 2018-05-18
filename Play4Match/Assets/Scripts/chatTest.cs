@@ -8,14 +8,18 @@ using Firebase.Unity.Editor;
 public class chatTest : MonoBehaviour {
 
     public DatabaseReference reference;
+    public string userID;
 
     void Start () {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        userID = auth.CurrentUser.UserId;
+
         Debug.Log("Start");
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         Debug.Log("Voor sendMessage aanroepen");
-        sendMessage("123456","987654","Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+        sendMessage(userID, "987654","Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
         Debug.Log("Na sendMessage aanroepen");
     }
 
@@ -60,4 +64,3 @@ public class chatMessage
         Debug.Log("Einde chatMessage");
     }
 }
-
