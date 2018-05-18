@@ -100,9 +100,9 @@ function compareAnswers($user, $users)
 		//Save $tempUser in $result
 		$result[$userId] = $tempUser;
 		
-		$sameAnsweredQuestions = 0;
-		$points = 0;
-			
+		$result[$userId]['UsedAnswers'] = 0;
+		$result[$userId]['points'] = 0;
+		
 		foreach($user['Answered'] as $questionIndex => $array)
 		{
 			// Only evaluate the answer if $user && $tempUser has it answered and it's not null
@@ -111,18 +111,18 @@ function compareAnswers($user, $users)
 				isset($tempUser['Answered'][$questionIndex]) &&
 				$tempUser['Answered'][$questionIndex] !== null)
 			{
-				$sameAnsweredQuestions++;
+				$result[$userId]['UsedAnswers']++;
 				
 				// The answer of $tempUser does not have to match $user
 				if($array['Value'] == 0)
 				{
 					if($array['Answer'] == $tempUser['Answered'][$questionIndex]['Answer'])
 					{
-						$points += 100;
+						$result[$userId]['points'] += 50;
 					}
 					else
 					{
-						$points += 50;
+						$result[$userId]['points'] += 50;
 					}
 				}
 				// The answer of $tempUser can or can't match
@@ -130,11 +130,11 @@ function compareAnswers($user, $users)
 				{
 					if($array['Answer'] == $tempUser['Answered'][$questionIndex]['Answer'])
 					{
-						$points += 75;
+						$result[$userId]['points'] += 75;
 					}
 					else
 					{
-						$points += 25;
+						$result[$userId]['points'] += 25;
 					}
 				}
 				// The answer of $tempUser has to match $user
@@ -142,19 +142,19 @@ function compareAnswers($user, $users)
 				{
 					if($array['Answer'] == $tempUser['Answered'][$questionIndex]['Answer'])
 					{
-						$points += 100;
+						$result[$userId]['points'] += 100;
 					}
 					else
 					{
-						$points += 0;
+						$result[$userId]['points'] += 0;
 					}
 				}
 			}
 		}
 		
 		// Let's calculate the match percentage
-		$result[$userId]['MatchRate'] = ($points / $sameAnsweredQuestions);
-		
+		$result[$userId]['MatchRate'] = ($result[$userId]['points'] / $result[$userId]['UsedAnswers']);
+
 		// Unset some unneeded data
 		unset($result[$userId]['Answered']);
 		unset($result[$userId]['Preferences']);
