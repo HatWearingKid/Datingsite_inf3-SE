@@ -4,14 +4,18 @@ using UnityEngine;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
+using UnityEditor;
 
-public class chatTest : MonoBehaviour {
+public class chatTest : MonoBehaviour
+{
 
     public DatabaseReference reference;
     public string userID;
     public int chatroomID;
+    public List<string> recieved = new List<string>();
 
-    void Start () {
+    void Start()
+    {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
         // Deze moeten we later ophalen
@@ -21,19 +25,20 @@ public class chatTest : MonoBehaviour {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        sendMessage(userID,"Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+        sendMessage(userID, "Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
 
-        getMessages();
+        //getMessages();
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update()
+    {
+        getMessages();
+    }
 
     void sendMessage(string from, string content)
     {
-        chatMessage Message = new chatMessage(from, content);
+        chatMessage2 Message = new chatMessage2(from, content);
         string json = JsonUtility.ToJson(Message);
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
@@ -45,7 +50,7 @@ public class chatTest : MonoBehaviour {
                 task => {
                     if (task.IsFaulted)
                     {
-                
+
                     }
                     else if (task.IsCompleted)
                     {
@@ -53,26 +58,31 @@ public class chatTest : MonoBehaviour {
 
                         foreach (var childSnapshot in snapshot.Children)
                         {
-                            var content = childSnapshot.Child("content").Value.ToString();
-                            var date = childSnapshot.Child("date").Value.ToString();
-                            var user = childSnapshot.Child("user").Value.ToString();
+                            if (!recieved.Contains(childSnapshot.Key))
+                            {
+                                Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
+                                var content = childSnapshot.Child("content").Value.ToString();
+                                var date = childSnapshot.Child("date").Value.ToString();
+                                var user = childSnapshot.Child("user").Value.ToString();
 
-                            Debug.Log(date + " - " + user + " - " + content);
+                                Debug.Log(date + " - " + user + " - " + content);
+                                recieved.Add(childSnapshot.Key);
+                            }
                         }
 
                     }
-            });
+                });
     }
 
 }
 
-public class chatMessage
+public class chatMessage2
 {
     public string user;
     public string content;
     public string date;
 
-    public chatMessage(string from, string content)
+    public chatMessage2(string from, string content)
     {
         this.user = from;
         this.content = content;
