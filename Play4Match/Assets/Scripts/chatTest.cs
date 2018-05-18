@@ -14,6 +14,10 @@ public class chatTest : MonoBehaviour
     public int chatroomID;
     public List<string> recieved = new List<string>();
 
+    public float refreshRate = 1f; // 1 seconde
+    public bool updateLock = false;
+
+
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -28,12 +32,24 @@ public class chatTest : MonoBehaviour
         sendMessage(userID, "Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
 
         //getMessages();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        getMessages();
+
+        refreshRate -= Time.deltaTime;
+        if (refreshRate <= 0 && updateLock == false)
+        {
+            updateLock = true;
+
+            getMessages();
+            refreshRate = 1f;
+            Debug.Log("Update check om: " + System.DateTime.UtcNow.ToString());
+
+            updateLock = false;
+        }
     }
 
     void sendMessage(string from, string content)
