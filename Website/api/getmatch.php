@@ -23,13 +23,13 @@ if($id !== false && $id !== '')
 		$users = $dataArray['Users'];
 		
 		// Filter based on user's preferences
-		$matches = filterUsersByUserPref($user, $users);
+		$users = filterUsersByUserPref($user, $users);
 		
-		// Filter more based on the other users preferences
-		$matches = filterUsersByOthersPref($user, $matches);
+		// Filter based on the other users preferences
+		$users = filterUsersByOthersPref($user, $users);
 		
 		// Compare $user answers given with the $matches answers
-		$matches = compareAnswers($user, $matches);
+		$matches = compareAnswers($user, $users);
 		
 		// Return matches
 		echo(json_encode($matches));
@@ -50,14 +50,14 @@ function filterUsersByUserPref($user, $users)
 {
 	$result = [];
 	
-	foreach($users as $key => $tempUser)
+	foreach($users as $userId => $tempUser)
 	{
 		if(	$tempUser['Age'] >= $user['Preferences']['Age_min'] &&
 			$tempUser['Age'] <= $user['Preferences']['Age_max'] &&
 			$tempUser['Gender'] == $user['Preferences']['Gender'])
 		{
 			// $tempUser meets specifications for $user, add to $result
-			$result[$key] = $tempUser;
+			$result[$userId] = $tempUser;
 		}
 		else
 		{
@@ -68,11 +68,11 @@ function filterUsersByUserPref($user, $users)
 	return $result;
 }
 
-function filterUsersByOthersPref($user, $matches)
+function filterUsersByOthersPref($user, $users)
 {
 	$result = [];
 	
-	foreach($matches as $key => $tempUser)
+	foreach($users as $userId => $tempUser)
 	{
 
 		if(	$tempUser['Preferences']['Age_min'] <= $user['Age'] &&
@@ -80,7 +80,7 @@ function filterUsersByOthersPref($user, $matches)
 			$tempUser['Preferences']['Gender'] == $user['Gender'] )
 		{
 			// $user meets specifications for $tempUser, add to $result
-			$result[$key] = $tempUser;
+			$result[$userId] = $tempUser;
 		}
 		else
 		{
@@ -91,9 +91,76 @@ function filterUsersByOthersPref($user, $matches)
 	return $result;
 }
 
-function compareAnswers($user1, $user2)
+function compareAnswers($user, $users)
 {
+	$result = [];
 	
+	foreach($users as $userId => $tempUser)
+	{
+		//Save $tempUser in $result
+		$result[$userId] = $tempUser;
+		
+		$result[$userId]['UsedAnswers'] = 0;
+		$result[$userId]['points'] = 0;
+		
+		foreach($user['Answered'] as $questionIndex => $array)
+		{
+			// Only evaluate the answer if $user && $tempUser has it answered and it's not null
+			if(	isset($user['Answered'][$questionIndex]) &&
+				$user['Answered'][$questionIndex] !== null &&
+				isset($tempUser['Answered'][$questionIndex]) &&
+				$tempUser['Answered'][$questionIndex] !== null)
+			{
+				$result[$userId]['UsedAnswers']++;
+				
+				// The answer of $tempUser does not have to match $user
+				if($array['Value'] == 0)
+				{
+					if($array['Answer'] == $tempUser['Answered'][$questionIndex]['Answer'])
+					{
+						$result[$userId]['points'] += 50;
+					}
+					else
+					{
+						$result[$userId]['points'] += 50;
+					}
+				}
+				// The answer of $tempUser can or can't match
+				elseif($array['Value'] == 1)
+				{
+					if($array['Answer'] == $tempUser['Answered'][$questionIndex]['Answer'])
+					{
+						$result[$userId]['points'] += 75;
+					}
+					else
+					{
+						$result[$userId]['points'] += 25;
+					}
+				}
+				// The answer of $tempUser has to match $user
+				elseif($array['Value'] == 2)
+				{
+					if($array['Answer'] == $tempUser['Answered'][$questionIndex]['Answer'])
+					{
+						$result[$userId]['points'] += 100;
+					}
+					else
+					{
+						$result[$userId]['points'] += 0;
+					}
+				}
+			}
+		}
+		
+		// Let's calculate the match percentage
+		$result[$userId]['MatchRate'] = ($result[$userId]['points'] / $result[$userId]['UsedAnswers']);
+
+		// Unset some unneeded data
+		unset($result[$userId]['Answered']);
+		unset($result[$userId]['Preferences']);
+	}
+	
+	return $result;
 }
 
 ?>
