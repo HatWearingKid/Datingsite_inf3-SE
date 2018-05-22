@@ -25,12 +25,12 @@ public class chatTest : MonoBehaviour
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
-        chatRef.ChildAdded += ChatChildAdded;
+        chatRef.ChildAdded += ChatChildAdded2;
 
-        createChatroom(userID, "AvPdwyvcvLYgs1YU6PTb6oWoVji2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
+        createChatroom2(userID, "AvPdwyvcvLYgs1YU6PTb6oWoVji2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
         // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan, deze maakt een room of haalt de oude room op)
 
-        getAllChatrooms(); // Ophalen van een lijst met alle chatrooms van de gebruiker
+        getAllChatrooms2(); // Ophalen van een lijst met alle chatrooms van de gebruiker
 
 
     }
@@ -41,7 +41,7 @@ public class chatTest : MonoBehaviour
 
     }
 
-    void sendMessage(string from, string content)
+    void sendMessage2(string from, string content)
     {
             chatMessage2 Message = new chatMessage2(from, content);
             string json = JsonUtility.ToJson(Message);
@@ -49,7 +49,7 @@ public class chatTest : MonoBehaviour
             reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
 
-    void ChatChildAdded(object sender, ChildChangedEventArgs args)
+    void ChatChildAdded2(object sender, ChildChangedEventArgs args)
     {
         if (args.DatabaseError == null)
         {
@@ -65,7 +65,7 @@ public class chatTest : MonoBehaviour
     }
 
 
-    void createChatroom(string user1, string user2)
+    void createChatroom2(string user1, string user2)
     {
         string users = user1 + "|" + user2;
         
@@ -104,7 +104,7 @@ public class chatTest : MonoBehaviour
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
 
-                            sendMessage(userID, "Chatroom aangemaakt test bericht"); // Tijdelijk
+                            sendMessage2(userID, "Chatroom aangemaakt test bericht"); // Tijdelijk
                         }
 
                     }
@@ -114,7 +114,7 @@ public class chatTest : MonoBehaviour
 
 
 
-    void getAllChatrooms()
+    void getAllChatrooms2()
     {
 
         FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
