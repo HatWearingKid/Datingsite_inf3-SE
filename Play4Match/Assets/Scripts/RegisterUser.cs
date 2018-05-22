@@ -116,7 +116,10 @@ public class RegisterUser : MonoBehaviour {
 		string jsonPreferences = JsonUtility.ToJson(preferences);
 		string jsonChatrooms = JsonUtility.ToJson(chatrooms);
 
+		// Insert the user's basic data into the database
 		reference.Child("Users").Child(userId).SetRawJsonValueAsync(jsonPlayer);
+
+		// Insert the nested nodes into the databse
 		reference.Child("Users").Child(userId).Child("Liked").SetRawJsonValueAsync(jsonLiked);
 		reference.Child("Users").Child(userId).Child("LikedBy").SetRawJsonValueAsync(jsonLikedBy);
 		reference.Child("Users").Child(userId).Child("Preferences").SetRawJsonValueAsync(jsonPreferences);

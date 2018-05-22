@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Toast. Class used to show toast messages on Android devices
 /// </summary>
-public class Toast : MonoBehaviour {
+public class Toast {
 	string toastString;
 	AndroidJavaObject currentActivity;
 
