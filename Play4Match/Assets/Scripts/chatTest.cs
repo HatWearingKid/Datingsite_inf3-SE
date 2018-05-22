@@ -27,7 +27,7 @@ public class chatTest : MonoBehaviour
         chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
         chatRef.ChildAdded += ChatChildAdded;
 
-        // createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
+        createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
         // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan, deze maakt een room of haalt de oude room op)
 
         getAllChatrooms(); // Ophalen van een lijst met alle chatrooms van de gebruiker
@@ -103,6 +103,8 @@ public class chatTest : MonoBehaviour
                             reference.Child("Gebruikers").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
+
+                            sendMessage(userID, "Chatroom aangemaakt test bericht"); // Tijdelijk
                         }
 
                     }
