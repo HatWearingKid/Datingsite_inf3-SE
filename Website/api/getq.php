@@ -28,6 +28,7 @@ if($id !== false && $id !== '' &&
 			if($dataArray['Users'][$id]['Answered'][$i] === NULL)
 			{
 				$newQuestions[$i] = $dataArray['Questions'][$i];
+				$newQuestions[$i]['Id'] = $i;
 			
 				$questionCount++;
 			}
@@ -39,7 +40,7 @@ if($id !== false && $id !== '' &&
 		}
 		
 		// Return questions
-		echo(json_encode($newQuestions));
+		echo(json_encode($newQuestions, JSON_FORCE_OBJECT));
 	}
 	else
 	{
