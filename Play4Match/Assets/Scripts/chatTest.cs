@@ -12,12 +12,7 @@ public class chatTest : MonoBehaviour
     public DatabaseReference reference;
     public string userID;
     public int chatroomID;
-    public List<string> recieved = new List<string>();
-
-    // update locking
-    public float refreshRate = 2f; // 2 seconden
-    public bool updateLock = false;
-
+    public DatabaseReference chatRef;
 
     void Start()
     {
@@ -32,30 +27,14 @@ public class chatTest : MonoBehaviour
 
         sendMessage(userID, "Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
 
-        //getMessages();
-
+        chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
+        chatRef.ChildAdded += ChatChildAdded;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        /*
-            Of gewoon kijken hoe we alleen data ophalen van na een bepaald tijdstip ?
-            Dat scheelt data, en hoef je geen locking te gebruiken
-        */
-        refreshRate -= Time.deltaTime;
-        if (refreshRate <= 0 && updateLock == false)
-        {
-            updateLock = true;
-
-            getMessages();
-            
-            Debug.Log("Update check om: " + System.DateTime.UtcNow.ToString());
-
-            refreshRate = 2f;
-            updateLock = false;
-        }
     }
 
     void sendMessage(string from, string content)
@@ -66,35 +45,20 @@ public class chatTest : MonoBehaviour
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
 
-    void getMessages()
+    void ChatChildAdded(object sender, ChildChangedEventArgs args)
     {
-        FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString()).GetValueAsync().ContinueWith(
-                task => {
-                    if (task.IsFaulted)
-                    {
+        if (args.DatabaseError == null)
+        {
+                Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
+                
+                var content = args.Snapshot.Child("content").Value.ToString();
+                var date = args.Snapshot.Child("date").Value.ToString();
+                var user = args.Snapshot.Child("user").Value.ToString();
 
-                    }
-                    else if (task.IsCompleted)
-                    {
-                        DataSnapshot snapshot = task.Result;
-
-                        foreach (var childSnapshot in snapshot.Children)
-                        {
-                            if (!recieved.Contains(childSnapshot.Key))
-                            {
-                                Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
-                                var content = childSnapshot.Child("content").Value.ToString();
-                                var date = childSnapshot.Child("date").Value.ToString();
-                                var user = childSnapshot.Child("user").Value.ToString();
-
-                                Debug.Log(date + " - " + user + " - " + content);
-                                recieved.Add(childSnapshot.Key);
-                            }
-                        }
-
-                    }
-                });
+                Debug.Log(date + " - " + user + " - " + content);
+        }
     }
+
 
 }
 
