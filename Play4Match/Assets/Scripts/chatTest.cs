@@ -137,9 +137,15 @@ public class chatTest : MonoBehaviour
                             {
                                 if (user != userID)
                                 {
-                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(user);
-                                    naam = chatGebruiker.Child("Name").ToString();
-                                    Debug.Log("Chat met " + naam + " onder Chatroom ID: " + childSnapshot.Key);
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child("AvPdwyvcvLYgs1YU6PTb6oWoVji2"); // user inplaats AvPdwyvcvLYgs1YU6PTb6oWoVji2
+                                    DataSnapshot snapshot2 = task.Result;
+
+                                    // Alleen de Name is hier nodig
+                                    Debug.Log("snapshot2: " + snapshot2.ToString());
+                                    Debug.Log(snapshot2.GetRawJsonValue());
+                                    //Debug.Log("chatGebruiker: " + chatGebruiker.ToString());
+                                    //naam = chatGebruiker.Child("Name");
+                                    //Debug.Log("Chat met " + naam + " onder Chatroom ID: " + childSnapshot.Key);
                                 }
                             }
 
