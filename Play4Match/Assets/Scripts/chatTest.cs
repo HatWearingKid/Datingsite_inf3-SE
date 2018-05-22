@@ -29,7 +29,10 @@ public class chatTest : MonoBehaviour
 
         // createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
         // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan, deze maakt een room of haalt de oude room op)
-        
+
+        getAllChatrooms(); // Ophalen van een lijst met alle chatrooms van de gebruiker
+
+
     }
 
     // Update is called once per frame
@@ -105,6 +108,44 @@ public class chatTest : MonoBehaviour
                     }
                 });
         
+    }
+
+
+
+    void getAllChatrooms()
+    {
+
+        FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                            var user2_db = childSnapshot.Child("users").Value.ToString();
+                            string naam;
+
+                            string[] users = user2_db.Split('|');
+                            foreach (string user in users)
+                            {
+                                if (user != userID)
+                                {
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(user);
+                                    naam = chatGebruiker.Child("Name").ToString();
+                                    Debug.Log("Chat met " + naam + " onder Chatroom ID: " + childSnapshot.Key);
+                                }
+                            }
+
+                        }
+
+                    }
+                });
+
     }
 
 
