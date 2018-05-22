@@ -14,8 +14,6 @@ public class chatTest : MonoBehaviour
     public string chatroomID;
     public DatabaseReference chatRef;
 
-    public bool message1 = false;
-
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -27,27 +25,17 @@ public class chatTest : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        //sendMessage(userID, "Bericht inhoud"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
-
         chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
         chatRef.ChildAdded += ChatChildAdded;
 
-        createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Hardcoded nog even de 2 users waar de chat tussen plaatsvind, er word nu standaard telkens een nieuwe room gemaakt
-        // Eigen user, andere user
+        // createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
+        // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan
 
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        // Tijdelijk
-        if (chatroomID != "1" && message1 == false)
-        {
-            message1 = true;
-            sendMessage(userID, "Bericht inhoud"); // Op basis van de chatroomID
-        }
 
     }
 
@@ -70,15 +58,13 @@ public class chatTest : MonoBehaviour
                 var user = args.Snapshot.Child("user").Value.ToString();
 
                 Debug.Log(date + " - " + user + " - " + content);
+                // Dit tonen in de GUI
         }
     }
 
 
     void createChatroom(string user1, string user2)
     {
-        // Een chat starten moet alleen mogelijk zijn als er nog geen chat is tussen beide users, anders hebben ze dubbele chatrooms met dezelfde user
-        // Een chatroom tussen de users bestaat als een bepaald ID bij beide users in de Chatrooms staat
-        
         string users = user1 + "|" + user2;
         
         bool chatBestaat = false;
