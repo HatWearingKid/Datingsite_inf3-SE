@@ -63,7 +63,7 @@ public class chatTest : MonoBehaviour
         chatMessage2 Message = new chatMessage2(from, content);
         string json = JsonUtility.ToJson(Message);
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
-        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json); // userID vervangen met het daadwerkelijke userID van de gebruiker
+        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
 
     void getMessages()
