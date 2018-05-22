@@ -1,27 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
-	public string displayName;
-	public string dateOfBirth;
-	public string gender;
+public class Player {
+	public string Name;
+	public string PhotoUrl;
+	public string DateOfBirth;
+	public string Dender;
+	public string Country;
 }
 
-public class Liked : MonoBehaviour {
+public class Liked {
 	public int ID;
 }
 
-public class LikedBy : MonoBehaviour {
+public class LikedBy {
 	public int ID;
 }
 
-public class Preferences : MonoBehaviour {
-	public int ageMax;
-	public int ageMix;
-	public string gender;
+public class Preferences {
+	public int AgeMax;
+	public int AgeMix;
+	public string Gender;
 }
 
-public class Chatrooms : MonoBehaviour {
+public class Chatrooms {
 	public string ID;
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using SimpleJSON;
 
 public class getMatch : MonoBehaviour
 {
     WWW www;
+    private JSONNode JsonData;
 
     // Use this for initialization
     void Start()
@@ -17,11 +19,31 @@ public class getMatch : MonoBehaviour
         string url = "http://play4match.com/api/getmatch.php?id=" + userid;
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
+
+        GameObject matchButton = GameObject.Find("MatchButton");
+
+        matchButton.GetComponent<CreateMatchPopup>().nameString = "Test";
+        matchButton.GetComponent<CreateMatchPopup>().ageString = "patat";
+        matchButton.GetComponent<CreateMatchPopup>().genderString = "vette";
+        matchButton.GetComponent<CreateMatchPopup>().matchRateString = "dikke";
+
+        GameObject matchButton2 = Instantiate(matchButton);
+
+        //matchButton2.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        matchButton2.GetComponent<CreateMatchPopup>().objName = "Matchbutton2";
+        matchButton2.GetComponent<CreateMatchPopup>().nameString = "Dit";
+        matchButton2.GetComponent<CreateMatchPopup>().ageString = "IS";
+        matchButton2.GetComponent<CreateMatchPopup>().genderString = "WAT";
+        matchButton2.GetComponent<CreateMatchPopup>().matchRateString = "ANDERS!";
     }
 
     IEnumerator WaitForRequest(WWW www)
     {
         yield return www;
+
+        //parse json to variable
+        JsonData = JSON.Parse(www.text);
 
         // check for errors
         if (www.error == null)

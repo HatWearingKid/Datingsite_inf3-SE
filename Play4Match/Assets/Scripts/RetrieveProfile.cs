@@ -15,15 +15,29 @@ public class RetrieveProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseUser user;
 	string userID;
 	IDictionary dictUser;
-	Toast toast = new Toast();
+	Toast toast;
 	WWW www;
+	float timer;
 
 	void Start () {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
-		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
+		toast = new Toast ();
+		timer = Time.fixedTime + 3.0f;
+		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl ("https://play4matc.firebaseio.com/");
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-		GetProfile ();
+
+		if (user.PhotoUrl != null) {
+			www = new WWW (user.PhotoUrl.ToString ());
+			StartCoroutine (GetImage (www));
+		}
+	}
+
+	void FixedUpdate() {
+		if (Time.fixedTime >= timer) {
+			GetProfile ();
+			timer = Time.fixedTime + 3.0f;
+		}
 	}
 
 	public void SetName(InputField input){
@@ -31,11 +45,11 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetAge(InputField input){
-		input.text = dictUser["dateOfBirth"].ToString();
+		input.text = dictUser["DateOfBirth"].ToString();
 	}
 
 	public void SetGender(InputField input){
-		input.text = dictUser["gender"].ToString();
+		input.text = dictUser["Gender"].ToString();
 	}
 
 	public void SetCountry(InputField input){
@@ -43,17 +57,11 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetImage(Button button){
-		if(user.PhotoUrl != null){
-			GetImage ();
-			button.image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
-		}
+		button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
 	}
 
-	public IEnumerator GetImage(){
-		if(user.PhotoUrl != null){
-			www = new WWW(user.PhotoUrl.ToString());
-			yield return www;
-		}
+	public IEnumerator GetImage(WWW www){
+		yield return www;
 	}
 
 	// Method to retrieve the user data
