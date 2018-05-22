@@ -585,9 +585,9 @@ MonoBehaviour:
   m_ChildAlignment: 6
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
 --- !u!114 &319120328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,7 +1132,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 919641769}
   m_HandleRect: {fileID: 919641768}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1204,8 +1204,11 @@ MonoBehaviour:
   chatPanel: {fileID: 319120325}
   textObject: {fileID: 1837449695557512, guid: 3361d551629acde4f8c533f0a9f2f509, type: 2}
   chatBox: {fileID: 1860524791}
-  userMessage: {r: 0, g: 0, b: 0, a: 0}
-  info: {r: 0, g: 0, b: 0, a: 0}
+  userID: 
+  chatroomID: 
+  content: 
+  date: 
+  user: 
   messagelist: []
 --- !u!4 &1565018611
 Transform:

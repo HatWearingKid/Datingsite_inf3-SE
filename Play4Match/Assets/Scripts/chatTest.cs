@@ -125,12 +125,12 @@ public class chatMessage2
     }
 }
 
-public class createChatroom
+public class createChatroom2
 {
     public string key;
     public string users;
 
-    public createChatroom(string key, string users)
+    public createChatroom2(string key, string users)
     {
         this.key = key;
         this.users = users;
