@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using SimpleJSON;
+using Firebase;
+using Firebase.Database;
 
 public class getQuestions : MonoBehaviour {
 
@@ -21,11 +23,12 @@ public class getQuestions : MonoBehaviour {
     public GameObject NoQuestion;
     private Text questiontext;
     private GameObject AantalAntwoorden;
+    private string userid;
 
     // Use this for initialization
     void Start () {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        string userid = "xh4S3DibGraTqCn8HascIIvdFR02";//auth.CurrentUser.UserId; //forceert nu eelco's account anders moet ik elke keer inloggen om te testen
+        userid = "xh4S3DibGraTqCn8HascIIvdFR02";//auth.CurrentUser.UserId; //forceert nu eelco's account anders moet ik elke keer inloggen om te testen
 
         string url = "http://play4match.com/api/getq.php?id=" + userid+ "&qamount=" + NumberOfQuestions;
         Debug.Log(url);
@@ -49,11 +52,7 @@ public class getQuestions : MonoBehaviour {
             //parse json to variable
             JasonData = JSON.Parse(www.text);
 
-            Debug.Log(JasonData);
-            for (int key = 0; key< JasonData.Count; key++)
-            {
-                Debug.Log(JasonData[key]["Q"].Value);
-            }  
+            //Debug.Log(JasonData); 
             
         }
         else
@@ -68,7 +67,7 @@ public class getQuestions : MonoBehaviour {
 
 	}
 
-    
+
     
     public void ShowQuestion(int QuestionNumber)
     {
@@ -78,7 +77,7 @@ public class getQuestions : MonoBehaviour {
         if (QuestionNumber >= JasonData.Count)
         {
 
-            Debug.Log("there are no more questions to be asked");
+            //Debug.Log("there are no more questions to be asked");
             //put in pop-up
             TempCanvas = NoQuestion.transform.Find("Question");
             questiontext = TempCanvas.GetComponent<Text>();
@@ -87,6 +86,8 @@ public class getQuestions : MonoBehaviour {
         }
         else
         {
+            GameObject temp;
+            
             //selecteerd op basis van antwoordnummers welk popup moet komen.
             if (JasonData[QuestionNumber]["Answers"].Count == 3)
             {
@@ -96,7 +97,14 @@ public class getQuestions : MonoBehaviour {
 
                 //importeerd antwoorden vanuit jsondata naar de antwoord slider
 
+                temp = vragenQuestion3.transform.Find("Antwoord").Find("Text1").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][0];
 
+                temp = vragenQuestion3.transform.Find("Antwoord").Find("Text2").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][1];
+
+                temp = vragenQuestion3.transform.Find("Antwoord").Find("Text3").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][2];
 
                 //zet de correcte canvas in een variabele zodat deze later gebruikt kan worden om de canvas te hiden
                 AantalAntwoorden = vragenQuestion3;
@@ -111,6 +119,19 @@ public class getQuestions : MonoBehaviour {
             {
                 TempCanvas = vragenQuestion4.transform.Find("Question");
                 TempCanvas.GetComponent<Text>().text = JasonData[QuestionNumber]["Q"];
+
+                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text1").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][0];
+
+                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text2").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][1];
+
+                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text3").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][2];
+
+                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text4").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][3];
+
                 AantalAntwoorden = vragenQuestion4;
                 vragenQuestion4.SetActive(true);
             }
@@ -118,6 +139,22 @@ public class getQuestions : MonoBehaviour {
             {
                 TempCanvas = vragenQuestion5.transform.Find("Question");
                 TempCanvas.GetComponent<Text>().text = JasonData[QuestionNumber]["Q"];
+
+                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text1").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][0];
+
+                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text2").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][1];
+
+                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text3").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][2];
+
+                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text4").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][3];
+
+                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text5").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][4];
+
                 AantalAntwoorden = vragenQuestion5;
                 vragenQuestion5.SetActive(true);
             }
@@ -125,31 +162,76 @@ public class getQuestions : MonoBehaviour {
             {
                 TempCanvas = vragenQuestion6.transform.Find("Question");
                 TempCanvas.GetComponent<Text>().text = JasonData[QuestionNumber]["Q"];
+                
+                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text1").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][0];
 
+                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text2").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][1];
+
+                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text3").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][2];
+
+                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text4").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][3];
+
+                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text5").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][4];
+
+                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text6").gameObject;
+                temp.GetComponent<Text>().text = JasonData[QuestionNumber]["Answers"][5];
+
+                
                 AantalAntwoorden = vragenQuestion6;
                 vragenQuestion6.SetActive(true);
             }
-            currentQuestionNumber = QuestionNumber;
+            currentQuestionNumber = JasonData[QuestionNumber]["Id"];
 
 
         }
         
     }
-    public void ChangeAnswer(int answer)
+    public void ChangeAnswer(float answer)
     {
-        answerNumber = answer;
+        answerNumber = (int)answer;
+        Debug.Log(answerNumber);
+
     }
 
-    public void ChangeWeight(int Weight)
+    public void ChangeWeight(float Weight)
     {
-        weightNumber = Weight;
-    }
+        weightNumber = (int)Weight;
 
+    }
+    private DatabaseReference _DB;
     public void SendAnswer()
     {
         //send currentQuestionNumber, answerNumber and weightNumber
-        Debug.Log("ik verzend nu vraagnummer: " + currentQuestionNumber + " met antwoordnummer: " + answerNumber + " met het gewicht van: " + weightNumber);
-        //sendToOtherScript();
+        Debug.Log(userid+" ik verzend nu vraagnummer: " + currentQuestionNumber + " met antwoordnummer: " + answerNumber + " met het gewicht van: " + weightNumber);
+       
+        //send to firebase
+        _DB = FirebaseDatabase.DefaultInstance.GetReferenceFromUrl("https://play4matc.firebaseio.com/");
+        Answers answer = new Answers(currentQuestionNumber, answerNumber, weightNumber);
+        string json = JsonUtility.ToJson(answer);
+        _DB.Child("Users").Child(userid).SetRawJsonValueAsync(json);
+
+
+        //deactivate de panel waar antwoorden moeten worden gegeven
         AantalAntwoorden.SetActive(false);
     }
+}
+
+public class Answers {
+    int id;
+    int answer;
+    int weight;
+
+    public Answer(int id, int answer, int weight)
+    {
+        this.id = id;
+        this.answer = answer;
+        this.weight = weight;
+
+    }
+
 }
