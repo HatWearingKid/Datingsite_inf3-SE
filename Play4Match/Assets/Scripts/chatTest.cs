@@ -30,7 +30,7 @@ public class chatTest : MonoBehaviour
 
         // createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
         // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan
-
+        
     }
 
     // Update is called once per frame
@@ -41,10 +41,10 @@ public class chatTest : MonoBehaviour
 
     void sendMessage(string from, string content)
     {
-        chatMessage2 Message = new chatMessage2(from, content);
-        string json = JsonUtility.ToJson(Message);
-        string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
-        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
+            chatMessage2 Message = new chatMessage2(from, content);
+            string json = JsonUtility.ToJson(Message);
+            string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
+            reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
 
     void ChatChildAdded(object sender, ChildChangedEventArgs args)
