@@ -18,9 +18,8 @@ public class chatTest : MonoBehaviour
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
-        // Deze moeten we later ophalen
         userID = "T2us9Y1uRnPfT0EoM4KMmQdMzvj2"; // auth.CurrentUser.UserId;
-        chatroomID = "1"; // Hier een chatroomID gebruiken, deze staan bij de user tabel, staat deze chatroomID bij de gebruiker zodat hij niet zomaar 1 opend?
+        chatroomID = "1"; // word overschreven na aanroepen van createChatroom
 
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -28,9 +27,12 @@ public class chatTest : MonoBehaviour
         chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
         chatRef.ChildAdded += ChatChildAdded;
 
-        // createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
-        // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan
-        
+        createChatroom(userID, "AvPdwyvcvLYgs1YU6PTb6oWoVji2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
+        // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan, deze maakt een room of haalt de oude room op)
+
+        getAllChatrooms(); // Ophalen van een lijst met alle chatrooms van de gebruiker
+
+
     }
 
     // Update is called once per frame
@@ -101,11 +103,57 @@ public class chatTest : MonoBehaviour
                             reference.Child("Gebruikers").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
+
+                            sendMessage(userID, "Chatroom aangemaakt test bericht"); // Tijdelijk
                         }
 
                     }
                 });
         
+    }
+
+
+
+    void getAllChatrooms()
+    {
+
+        FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                            var user2_db = childSnapshot.Child("users").Value.ToString();
+                            string naam;
+
+                            string[] users = user2_db.Split('|');
+                            foreach (string user in users)
+                            {
+                                if (user != userID)
+                                {
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child("AvPdwyvcvLYgs1YU6PTb6oWoVji2"); // user inplaats AvPdwyvcvLYgs1YU6PTb6oWoVji2
+                                    DataSnapshot snapshot2 = task.Result;
+
+                                    // Alleen de Name is hier nodig
+                                    Debug.Log("snapshot2: " + snapshot2.ToString());
+                                    Debug.Log(snapshot2.GetRawJsonValue());
+                                    //Debug.Log("chatGebruiker: " + chatGebruiker.ToString());
+                                    //naam = chatGebruiker.Child("Name");
+                                    //Debug.Log("Chat met " + naam + " onder Chatroom ID: " + childSnapshot.Key);
+                                }
+                            }
+
+                        }
+
+                    }
+                });
+
     }
 
 
