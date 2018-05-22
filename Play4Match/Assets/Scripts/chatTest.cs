@@ -14,6 +14,7 @@ public class chatTest : MonoBehaviour
     public string chatroomID;
     public DatabaseReference chatRef;
 
+
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -30,7 +31,8 @@ public class chatTest : MonoBehaviour
         chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
         chatRef.ChildAdded += ChatChildAdded;
 
-        createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Hardcoded nog even de 2 users waar de chat tussen plaatsvind
+        createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Hardcoded nog even de 2 users waar de chat tussen plaatsvind, er word nu standaard telkens een nieuwe room gemaakt
+        // Eigen user, andere user
 
         sendMessage(userID, "Bericht inhoud"); // Op basis van de chatroomID
     }
@@ -66,16 +68,49 @@ public class chatTest : MonoBehaviour
 
     void createChatroom(string user1, string user2)
     {
-        // Een chat starten moet alleen mogelijk zijn als er nog geen chat is tussen beide users
+        // Een chat starten moet alleen mogelijk zijn als er nog geen chat is tussen beide users, anders hebben ze dubbele chatrooms met dezelfde user
         // Een chatroom tussen de users bestaat als een bepaald ID bij beide users in de Chatrooms staat
+
         string key = reference.Child("Chat").Push().Key;
-        createChatroom createChatroom = new createChatroom(key, user1, user2);
+        chatroomID = key; // Zet gelijk de nieuwe chatroomID
+        string users = user1 + "|" + user2;
+        createChatroom createChatroom = new createChatroom(key, users);
 
         string json = JsonUtility.ToJson(createChatroom);
+        bool chatBestaat = false;
 
-        reference.Child("Gebruikers").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-        reference.Child("Gebruikers").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-        chatroomID = key; // Zet gelijk de nieuwe chatroomID
+        FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                                var user2_db = childSnapshot.Child("users").Value.ToString();
+                                if ((user2_db == user1+"|"+user2) || (user2_db == user2 + "|" + user1))
+                                {
+                                    chatBestaat = true;
+                                    chatroomID = childSnapshot.Key; // Zet de oude chatroomID weer terug
+                                    break;
+                                }
+                        }
+
+                    }
+                });
+
+
+        if(chatBestaat == false)
+        {
+            reference.Child("Gebruikers").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+            reference.Child("Gebruikers").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+            chatroomID = key; // Zet de nieuwe chatroomID
+        }
+        
     }
 
 
@@ -98,14 +133,12 @@ public class chatMessage2
 public class createChatroom
 {
     public string key;
-    public string user1;
-    public string user2;
+    public string users;
 
-    public createChatroom(string key, string user1, string user2)
+    public createChatroom(string key, string users)
     {
         this.key = key;
-        this.user1 = user1;
-        this.user2 = user2;
+        this.users = users;
 
     }
 }
