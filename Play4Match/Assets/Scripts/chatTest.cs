@@ -130,22 +130,16 @@ public class chatTest : MonoBehaviour
                         foreach (var childSnapshot in snapshot.Children)
                         {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
-                            string naam;
 
                             string[] users = user2_db.Split('|');
                             foreach (string user in users)
                             {
                                 if (user != userID)
                                 {
-                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child("AvPdwyvcvLYgs1YU6PTb6oWoVji2"); // user inplaats AvPdwyvcvLYgs1YU6PTb6oWoVji2
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID);
                                     DataSnapshot snapshot2 = task.Result;
 
-                                    // Alleen de Name is hier nodig
-                                    Debug.Log("snapshot2: " + snapshot2.ToString());
-                                    Debug.Log(snapshot2.GetRawJsonValue());
-                                    //Debug.Log("chatGebruiker: " + chatGebruiker.ToString());
-                                    //naam = chatGebruiker.Child("Name");
-                                    //Debug.Log("Chat met " + naam + " onder Chatroom ID: " + childSnapshot.Key);
+                                    Debug.Log("Chat met " + snapshot2.Child("Name").Value.ToString() + " onder Chatroom ID: " + childSnapshot.Key);
                                 }
                             }
 
