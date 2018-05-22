@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	public string displayName;
-	public string dateOfBirth;
-	public string gender;
+	public string DateOfBirth;
+	public string Dender;
+	public string Country;
 }
 
 public class Liked : MonoBehaviour {
@@ -17,9 +17,9 @@ public class LikedBy : MonoBehaviour {
 }
 
 public class Preferences : MonoBehaviour {
-	public int ageMax;
-	public int ageMix;
-	public string gender;
+	public int AgeMax;
+	public int AgeMix;
+	public string Gender;
 }
 
 public class Chatrooms : MonoBehaviour {
