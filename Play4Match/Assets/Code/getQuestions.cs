@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using SimpleJSON;
 using Firebase;
 using Firebase.Database;
+using Firebase.Unity.Editor;
+using UnityEditor;
 
 public class getQuestions : MonoBehaviour {
 
@@ -24,11 +26,20 @@ public class getQuestions : MonoBehaviour {
     private Text questiontext;
     private GameObject AantalAntwoorden;
     private string userid;
+    private DatabaseReference chatRef;
+    private DatabaseReference reference;
 
     // Use this for initialization
     void Start () {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         userid = "xh4S3DibGraTqCn8HascIIvdFR02";//auth.CurrentUser.UserId; //forceert nu eelco's account anders moet ik elke keer inloggen om te testen
+
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+        chatRef = FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userid).Child("Answered");
+        //chatRef.ChildAdded += ChatChildAdded2;
+
 
         string url = "http://play4match.com/api/getq.php?id=" + userid+ "&qamount=" + NumberOfQuestions;
         Debug.Log(url);
@@ -226,7 +237,7 @@ public class Answers {
     int answer;
     int weight;
 
-    public Answer(int id, int answer, int weight)
+    public Answers(int id, int answer, int weight)
     {
         this.id = id;
         this.answer = answer;
