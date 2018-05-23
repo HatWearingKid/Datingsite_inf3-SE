@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -326,8 +326,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.6799927, y: 3}
-  m_SizeDelta: {x: -14.64, y: -6}
+  m_AnchoredPosition: {x: -5, y: 3}
+  m_SizeDelta: {x: -10, y: -6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &198446340
 MonoBehaviour:
@@ -563,7 +563,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.000024795532, y: 256.69998}
+  m_AnchoredPosition: {x: 0.000024795532, y: 1104.6}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &319120327
@@ -703,6 +703,8 @@ MonoBehaviour:
   content: 
   date: 
   user: 
+  chatroomFound: 0
+  andereUser: 
   messagelist: []
 --- !u!1 &487911720
 GameObject:
@@ -740,8 +742,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.49500003, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.6, y: 18.5}
-  m_SizeDelta: {x: 222.6, y: 236}
+  m_AnchoredPosition: {x: 1.9965, y: 87.68}
+  m_SizeDelta: {x: 796, y: 1104.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &487911722
 MonoBehaviour:
@@ -906,8 +908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.5}
-  m_SizeDelta: {x: -20, y: -13}
+  m_AnchoredPosition: {x: -5, y: 3}
+  m_SizeDelta: {x: -10, y: -6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1011791628
 MonoBehaviour:
@@ -1045,7 +1047,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 22.3, y: -0.000015259}
+  m_SizeDelta: {x: 78.7, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1425554233
 MonoBehaviour:
@@ -1085,8 +1087,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1425554234}
   m_HandleRect: {fileID: 0}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1161,8 +1163,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34250003, y: 0}
   m_AnchorMax: {x: 0.62625, y: 0.13700001}
-  m_AnchoredPosition: {x: -1.098999, y: 365}
-  m_SizeDelta: {x: -0.3999939, y: 0.035999298}
+  m_AnchoredPosition: {x: 12.498, y: 0.0050049}
+  m_SizeDelta: {x: 573, y: -0.01001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1860524791
 MonoBehaviour:
@@ -1294,8 +1296,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000076293945}
-  m_SizeDelta: {x: -17, y: 20.7}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1952541589
 MonoBehaviour:
