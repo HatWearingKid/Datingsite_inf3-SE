@@ -226,7 +226,7 @@ public class Answers {
     int answer;
     int weight;
 
-    public Answer(int id, int answer, int weight)
+    public Answers(int id, int answer, int weight)
     {
         this.id = id;
         this.answer = answer;
