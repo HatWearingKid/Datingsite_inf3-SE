@@ -20,19 +20,9 @@ public class CreateMatchPopup : MonoBehaviour {
     public string genderString;
     public string matchRateString;
 
-
-    float speed = 100f;
-    float startX;
-    float startZ;
-
-    bool moving = false;
-    Vector3 oldPosition;
-    Vector3 newPosition;
-
     // Use this for initialization
     void Start () {
-        startX = transform.position.x;
-        startZ = transform.position.z;
+
     }
 	
 	// Update is called once per frame
