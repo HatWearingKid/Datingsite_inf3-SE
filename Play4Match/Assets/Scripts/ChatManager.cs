@@ -177,6 +177,8 @@ public class ChatManager : MonoBehaviour {
                         {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
 
+                            Debug.Log("Chatroom tussen users: " + user2_db);
+
                             string[] users = user2_db.Split('|');
                             foreach (string user in users)
                             {
