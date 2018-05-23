@@ -232,9 +232,7 @@ public class getQuestions : MonoBehaviour {
 
 public class Answers {
 
-<<<<<<< HEAD
-    public Answers(int id, int answer, int weight)
-=======
+
     public int Answer;
     public int Value;
 
@@ -244,7 +242,6 @@ public class Answers {
     /// <param name="answer">give answer int</param>
     /// <param name="weight">the weight of the answer</param>
     public Answers(int answer, int weight)
->>>>>>> origin/master
     {
         this.Answer = answer;
         this.Value = weight;
