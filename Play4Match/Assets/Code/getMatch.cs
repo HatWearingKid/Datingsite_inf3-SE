@@ -10,6 +10,8 @@ public class getMatch : MonoBehaviour
     WWW www;
     private JSONNode JsonData;
 
+    public GameObject matchButton;
+
     // Use this for initialization
     void Start()
     {
@@ -19,36 +21,24 @@ public class getMatch : MonoBehaviour
         string url = "http://play4match.com/api/getmatch.php?id=" + userid;
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
-
-        GameObject matchButton = GameObject.Find("MatchButton");
-
-        matchButton.GetComponent<CreateMatchPopup>().nameString = "Test";
-        matchButton.GetComponent<CreateMatchPopup>().ageString = "patat";
-        matchButton.GetComponent<CreateMatchPopup>().genderString = "vette";
-        matchButton.GetComponent<CreateMatchPopup>().matchRateString = "dikke";
-
-        GameObject matchButton2 = Instantiate(matchButton);
-
-        //matchButton2.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-
-        matchButton2.GetComponent<CreateMatchPopup>().objName = "Matchbutton2";
-        matchButton2.GetComponent<CreateMatchPopup>().nameString = "Dit";
-        matchButton2.GetComponent<CreateMatchPopup>().ageString = "IS";
-        matchButton2.GetComponent<CreateMatchPopup>().genderString = "WAT";
-        matchButton2.GetComponent<CreateMatchPopup>().matchRateString = "ANDERS!";
     }
 
     IEnumerator WaitForRequest(WWW www)
     {
         yield return www;
 
-        //parse json to variable
-        JsonData = JSON.Parse(www.text);
+        if (www.isDone == true)
+        {
+            //parse json to variable
+            JsonData = JSON.Parse(www.text);
+
+            CreateMatchButtons();
+        }
 
         // check for errors
         if (www.error == null)
         {
-            Debug.Log("WWW Ok!: " + www.text);
+            //Debug.Log("WWW Ok!: " + www.text);
         }
         else
         {
@@ -60,5 +50,26 @@ public class getMatch : MonoBehaviour
     void Update()
     {
 
+    }
+
+    void CreateMatchButtons()
+    {
+        for (int i = 0; i < JsonData.Count; i++)
+        {
+            GameObject matchButtonNew = Instantiate(matchButton);
+            matchButtonNew.name = "MatchButton" + i;
+
+            float newX = Random.Range(345f, 830f);
+            float newZ = Random.Range(100f, 700f);
+
+            matchButtonNew.transform.position = new Vector3(newX, matchButton.transform.position.y, newZ);
+
+            matchButtonNew.GetComponent<CreateMatchPopup>().buttonName = "MatchButton" + i;
+            matchButtonNew.GetComponent<CreateMatchPopup>().nameString = JsonData[i]["Name"];
+            matchButtonNew.GetComponent<CreateMatchPopup>().ageString = JsonData[i]["Age"];
+            matchButtonNew.GetComponent<CreateMatchPopup>().genderString = JsonData[i]["Gender"];
+            matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"];
+            matchButtonNew.SetActive(true);
+        }
     }
 }

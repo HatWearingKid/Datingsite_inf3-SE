@@ -99,7 +99,7 @@ function compareAnswers($user, $users)
 	{
 		//Save $tempUser in $result
 		$result[$userId] = $tempUser;
-		
+		$result[$userId]['Id'] = $userId;
 		$result[$userId]['UsedAnswers'] = 0;
 		$result[$userId]['points'] = 0;
 		

@@ -4,7 +4,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : false;
 $qAmount = isset($_GET['qamount']) ? $_GET['qamount'] : false;
 
 if($id !== false && $id !== '' &&
-	$qAmount !== false && $qAmount !== '' && $qAmount !== 0)
+	$qAmount !== false && $qAmount !== '' && $qAmount !== '0')
 {
 	//firebase
 	$ch = curl_init(); 

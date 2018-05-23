@@ -608,7 +608,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeAnswer
         m_Mode: 3
         m_Arguments:
@@ -850,7 +850,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeWeight
         m_Mode: 3
         m_Arguments:
@@ -1376,7 +1376,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeWeight
         m_Mode: 3
         m_Arguments:
@@ -1990,7 +1990,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: SendAnswer
         m_Mode: 1
         m_Arguments:
@@ -2892,7 +2892,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeAnswer
         m_Mode: 3
         m_Arguments:
@@ -4993,7 +4993,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeWeight
         m_Mode: 3
         m_Arguments:
@@ -5187,13 +5187,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 963607091}
-  m_LocalRotation: {x: 0.40879622, y: 0, z: -0, w: 0.91262573}
-  m_LocalPosition: {x: 608, y: 1481, z: -122}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 608, y: 1481, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 48.258003, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &963607097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5222,6 +5222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ea9ac46a053074bbc8ed3aec594083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  matchButton: {fileID: 2139848950}
 --- !u!1 &969770759
 GameObject:
   m_ObjectHideFlags: 0
@@ -6022,7 +6023,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1099874323
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6380,7 +6381,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeAnswer
         m_Mode: 3
         m_Arguments:
@@ -6504,7 +6505,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ada10812dff18b94e9e301555d71f4e7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6f26cde4ee6ef684caf84d91540eff68, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7188,7 +7189,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeWeight
         m_Mode: 3
         m_Arguments:
@@ -7610,7 +7611,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: SendAnswer
         m_Mode: 1
         m_Arguments:
@@ -8036,7 +8037,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeAnswer
         m_Mode: 3
         m_Arguments:
@@ -8455,7 +8456,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1588883689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.21725464, y: 0.7936816, z: 8.6386175}
+  m_LocalPosition: {x: 0, y: 0, z: 2589}
   m_LocalScale: {x: 400, y: 400, z: 400}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11046,7 +11047,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: SendAnswer
         m_Mode: 1
         m_Arguments:
@@ -11236,7 +11237,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963607097}
+      - m_Target: {fileID: 0}
         m_MethodName: SendAnswer
         m_Mode: 1
         m_Arguments:
@@ -11363,11 +11364,11 @@ GameObject:
   - component: {fileID: 2139848951}
   m_Layer: 0
   m_Name: MatchButton
-  m_TagString: MatchButton
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2139848951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11385,7 +11386,7 @@ MonoBehaviour:
   genderObj: {fileID: 1333944630}
   matchRateObj: {fileID: 1369553547}
   closeButtonObj: {fileID: 1191449701}
-  objName: MatchButton
+  buttonName: 
   nameString: 
   ageString: 
   genderString: 
@@ -11441,13 +11442,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2139848950}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 365, y: 1039, z: 208}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 831, y: 1039, z: 100}
   m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!136 &2139848954
 CapsuleCollider:
   m_ObjectHideFlags: 0
