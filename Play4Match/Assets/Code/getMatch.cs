@@ -16,7 +16,7 @@ public class getMatch : MonoBehaviour
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        string userid = "xh4S3DibGraTqCn8HascIIvdFR02";//auth.CurrentUser.UserId; //forceert nu eelco's account anders moet ik elke keer inloggen om te testen
+        string userid = auth.CurrentUser.UserId; //"xh4S3DibGraTqCn8HascIIvdFR02";
 
         string url = "http://play4match.com/api/getmatch.php?id=" + userid;
         www = new WWW(url);
