@@ -8,24 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/main.unity
     guid: f77f0c015faca3341adedd49b6a7b795
-  - enabled: 1
-    path: Assets/Chat.unity
-    guid: f0c06a7d225faa9408f8ae490fc02f6b
-  - enabled: 1
-    path: Assets/scene0.unity
-    guid: a5a866c1eb3a6354d92a8031a5efeaf2
-  - enabled: 1
-    path: Assets/scene1.unity
-    guid: 7f7b0c7d31e3d034ba58aa7347a2407a
-  - enabled: 1
-<<<<<<< HEAD
-    path: Assets/Chat.unity
-    guid: f0c06a7d225faa9408f8ae490fc02f6b
-=======
-    path: Assets/scene_match.unity
-    guid: ebbe96d3cb3947b46bea96ee7e2e4209
-  - enabled: 1
-    path: Assets/scene0_Jesse.unity
-    guid: 843bfe05d4e7cb14ca35efd4e99ebe04
->>>>>>> c11d72d823ed7b726394a8f5f1d8b39b1aa041fb
   m_configObjects: {}
