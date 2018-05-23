@@ -20,6 +20,7 @@ public class ChatManager : MonoBehaviour {
     public string date;
     public string user;
     public bool chatroomFound = false;
+    private TouchScreenKeyboard keyboard;
 
     public string andereUser;
 
@@ -42,6 +43,8 @@ public class ChatManager : MonoBehaviour {
 
         getAllChatrooms(); // Alle chatRooms van user ophalen [test]
 
+        keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
+
     }
 
     void Update() {
@@ -49,7 +52,7 @@ public class ChatManager : MonoBehaviour {
         if (chatBox.text != "")
         {
 
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done))
             {
                 if (chatroomFound == true)
                 {
