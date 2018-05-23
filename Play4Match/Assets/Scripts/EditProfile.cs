@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
@@ -25,20 +26,34 @@ public class EditProfile : MonoBehaviour {
 		user = auth.CurrentUser;
 	}
 
-	// Setter method for the emial
-	public void SetName(string _name)
-	{
+	public void SetName(string _name){
 		name = _name;
 	}
-
-	// Setter method for the password
-	public void SetGender(string _gender)
+		
+	public void GetName(InputField input)
 	{
+		name = input.text;
+	}
+		
+	public void GetGender(InputField input)
+	{
+		gender = input.text;
+	}
+
+	public void SetGender(string _gender){
 		gender = _gender;
 	}
 
-	public void SetDateOfBirth(string _dateOfBirth){
-		dateOfBirth = _dateOfBirth;
+	public void GetDateOfBirth(InputField input){
+		dateOfBirth = input.text;
+	}
+
+	public void SetDateOfBirth(string _dateofbirth){
+		dateOfBirth = _dateofbirth;
+	}
+
+	public void GetCountry(InputField input){
+		country = input.text;
 	}
 
 	public void SetCountry(string _country){
