@@ -612,6 +612,7 @@ GameObject:
   - component: {fileID: 404855923}
   - component: {fileID: 404855922}
   - component: {fileID: 404855921}
+  - component: {fileID: 404855925}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -682,6 +683,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &404855925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404855920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba355c07beef9340ae9649b608879f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: 
+  chatPanel: {fileID: 0}
+  textObject: {fileID: 0}
+  chatBox: {fileID: 0}
+  userID: 
+  chatroomID: 
+  content: 
+  date: 
+  user: 
+  messagelist: []
 --- !u!1 &487911720
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,7 +1134,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1565018611}
-  - component: {fileID: 1565018610}
   - component: {fileID: 1565018612}
   m_Layer: 0
   m_Name: ChatManager
@@ -1121,17 +1142,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1565018610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1565018609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c821ab17d83661e4d83ffc77cc383500, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1565018611
 Transform:
   m_ObjectHideFlags: 0
