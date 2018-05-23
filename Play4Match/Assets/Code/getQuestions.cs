@@ -44,7 +44,7 @@ public class getQuestions : MonoBehaviour {
         if (www.error == null)
         {
 
-            Debug.Log("WWW Ok!: " + www.text);
+            //Debug.Log("WWW Ok!: " + www.text);
             //remove brackets and split on comma
             string temp = www.text.Trim(new System.Char[] {'[', ']'});
             questionArray = temp.Split(',');

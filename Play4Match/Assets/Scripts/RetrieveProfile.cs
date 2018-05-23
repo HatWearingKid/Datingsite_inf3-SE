@@ -23,7 +23,6 @@ public class RetrieveProfile : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 		toast = new Toast ();
-		timer = Time.fixedTime + 3.0f;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl ("https://play4matc.firebaseio.com/");
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
 
@@ -31,12 +30,15 @@ public class RetrieveProfile : MonoBehaviour {
 			www = new WWW (user.PhotoUrl.ToString ());
 			StartCoroutine (GetImage (www));
 		}
+
+		timer = Time.fixedTime + 2.0f;
+		GetProfile ();
 	}
 
 	void FixedUpdate() {
 		if (Time.fixedTime >= timer) {
 			GetProfile ();
-			timer = Time.fixedTime + 3.0f;
+			timer = Time.fixedTime + 2.0f;
 		}
 	}
 
@@ -93,6 +95,7 @@ public class RetrieveProfile : MonoBehaviour {
 						// Check if user equals to the logged in user to retrieve correct data
 						if(userID.Equals(user.Key)){
 							dictUser = (IDictionary)user.Value;
+							Debug.Log(dictUser.Count);
 						}
 					}
 				}

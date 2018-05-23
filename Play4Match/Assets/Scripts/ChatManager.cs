@@ -31,6 +31,7 @@ public class ChatManager : MonoBehaviour {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
+        // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
         andereUser = "T2us9Y1uRnPfT0EoM4KMmQdMzvj2"; // Hardcoded user waarmee we chatten
         userID = "testUser"; // auth.CurrentUser.UserId
 
@@ -48,12 +49,14 @@ public class ChatManager : MonoBehaviour {
     }
 
     void Update() {
-        
         if (chatBox.text != "")
         {
-
+            //if (keyboard.status.Equals("Done"))
+            //{
+            //    sendMessage(username, "Keyboard status: Done"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+            //}
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done))
-            {
+            { // TouchScreenKeyboard.Status.Done
                 if (chatroomFound == true)
                 {
                     sendMessage(username, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
