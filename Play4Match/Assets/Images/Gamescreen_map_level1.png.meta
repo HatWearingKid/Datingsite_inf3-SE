@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: fcd6d4ddd5652524da607f8ecb1810ba
-=======
-guid: 2b0b54a1e280a1b41a4af2f21c7b0d1c
->>>>>>> 1348963d532ed9e8d4690d8bdf0ad74e7106b3ba
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -83,7 +79,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-<<<<<<< HEAD
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -95,8 +90,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-=======
->>>>>>> 1348963d532ed9e8d4690d8bdf0ad74e7106b3ba
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
