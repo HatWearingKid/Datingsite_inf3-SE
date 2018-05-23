@@ -29,6 +29,7 @@ public class ChatManager : MonoBehaviour {
     void Start() {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
+        // Deze settings later ophalen van de Auth en welke match je aanklikt
         andereUser = "T2us9Y1uRnPfT0EoM4KMmQdMzvj2"; // Hardcoded user waarmee we chatten
         userID = "testUser"; // auth.CurrentUser.UserId
 
@@ -150,7 +151,7 @@ public class ChatManager : MonoBehaviour {
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
 
-                            sendMessage(userID, "Chatroom aangemaakt test bericht"); // Tijdelijk
+                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
                         }
 
                     }
