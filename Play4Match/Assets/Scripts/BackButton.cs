@@ -4,32 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BackButton : MonoBehaviour {
-
-	Toast toast = new Toast();
-	private GameObject mainPanel;
-	private GameObject registerPanel;
-	private GameObject loginPanel;
-	private GameObject resetPassPanel;
-	private GameObject instructionsPanel;
+	public GameObject main;
+	public GameObject register;
+	public GameObject login;
+	public GameObject resetPwd;
+	public GameObject instructions;
 
 	void Start () {
-		mainPanel = GameObject.Find("MainPanel");
-		registerPanel = GameObject.Find("RegisterPanel");
-		loginPanel = GameObject.Find("LoginPanel");
-		resetPassPanel = GameObject.Find("ResetPwPannel");
-		instructionsPanel = GameObject.Find("Instructions-panel");
+		///
 	}
 	
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Escape)) 
-		{ 
-			toast.MyShowToastMethod ("Back to main menu");
-			mainPanel.SetActive(true);
-			registerPanel.SetActive(false);
-			loginPanel.SetActive(false);
-			resetPassPanel.SetActive(false);
-			instructionsPanel.SetActive(false);
-		}
+		if(Input.GetKeyDown(KeyCode.Escape) ||	Input.GetMouseButton(1))
+		{
+			if(register.active)
+			{
+				register.SetActive(false);
+				main.SetActive(true);
+			}
+			else if(login.active)
+			{
+				login.SetActive(false);
+				main.SetActive(true);
+			}
+			else if(resetPwd.active)
+			{
+				resetPwd.SetActive(false);
+				main.SetActive(true);
+			}
+			else if(instructions.active)
+			{
+				instructions.SetActive(false);
+				main.SetActive(true);
+			}
+		}		
 	}
-
 }
