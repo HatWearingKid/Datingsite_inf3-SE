@@ -31,7 +31,7 @@ public class chatTest : MonoBehaviour
         // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan, deze maakt een room of haalt de oude room op)
 
         getAllChatrooms2(); // Ophalen van een lijst met alle chatrooms van de gebruiker
-
+        
 
     }
 
