@@ -5056,7 +5056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfQuestions: 0
+  NumberOfQuestions: 7
   vragenQuestion3: {fileID: 1101876762}
   vragenQuestion4: {fileID: 766257906}
   vragenQuestion5: {fileID: 1780092780}
