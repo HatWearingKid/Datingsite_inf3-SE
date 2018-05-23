@@ -28,7 +28,7 @@ public class getQuestions : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        userid = "xh4S3DibGraTqCn8HascIIvdFR02";//auth.CurrentUser.UserId; //forceert nu eelco's account anders moet ik elke keer inloggen om te testen
+        userid = auth.CurrentUser.UserId; //"xh4S3DibGraTqCn8HascIIvdFR02";
 
         string url = "http://play4match.com/api/getq.php?id=" + userid+ "&qamount=" + NumberOfQuestions;
         Debug.Log(url);
