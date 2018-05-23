@@ -19,6 +19,9 @@ public class ChatManager : MonoBehaviour {
     public string content;
     public string date;
     public string user;
+    public bool chatroomFound = false;
+
+    public string andereUser;
 
     [SerializeField]
     List<Message> messagelist = new List<Message>();
@@ -26,39 +29,43 @@ public class ChatManager : MonoBehaviour {
     void Start() {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
-        // Deze moeten we later ophalen
-        userID = "T2us9Y1uRnPfT0EoM4KMmQdMzvj2"; // auth.CurrentUser.UserId;
-        chatroomID = "1"; // Hier een chatroomID gebruiken, deze staan bij de user tabel, staat deze chatroomID bij de gebruiker zodat hij niet zomaar 1 opend?
+        andereUser = "T2us9Y1uRnPfT0EoM4KMmQdMzvj2"; // Hardcoded user waarmee we chatten
+        userID = "testUser"; // auth.CurrentUser.UserId
+
+        createChatroom(userID, andereUser); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
 
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
-        chatRef.ChildAdded += ChatChildAdded;
-
-        // createChatroom("T2us9Y1uRnPfT0EoM4KMmQdMzvj2", "uUCL98DeyubpwlGgZfS6CCgNynJ2"); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
         // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan
+
+        getAllChatrooms(); // Alle chatRooms van user ophalen [test]
 
     }
 
     void Update() {
+        
         if (chatBox.text != "")
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                sendMessage(username, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
-                chatBox.text = "";
-
-
+                if (chatroomFound == true)
+                {
+                    sendMessage(username, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+                    chatBox.text = "";
+                }
+                
                
             }
         }
-        if (!chatBox.isFocused)
+
+        if (chatroomID.ToString() != "" && chatroomFound == false)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SendMessageToChat("You pressed space");
-            }
+            chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
+            chatRef.ChildAdded += ChatChildAdded;
+            chatroomFound = true;
+            Debug.Log("ChatroomID gevonden, dus we kunnen nu berichten versturen");
         }
     }
 
@@ -88,9 +95,11 @@ public class ChatManager : MonoBehaviour {
 
     void ChatChildAdded(object sender, ChildChangedEventArgs args)
     {
+        
         if (args.DatabaseError == null)
         {
             Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
+            Debug.Log(args.Snapshot);
 
              content = args.Snapshot.Child("content").Value.ToString();
              date = args.Snapshot.Child("date").Value.ToString();
