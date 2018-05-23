@@ -59,8 +59,8 @@ public class getMatch : MonoBehaviour
             GameObject matchButtonNew = Instantiate(matchButton);
             matchButtonNew.name = "MatchButton" + i;
 
-            float newX = Random.Range(345f, 830f);
-            float newZ = Random.Range(100f, 700f);
+            float newX = Random.Range(-250f, 1400f);
+            float newZ = Random.Range(600f, 2200f);
 
             matchButtonNew.transform.position = new Vector3(newX, matchButton.transform.position.y, newZ);
 
