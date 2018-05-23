@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1425554234}
   m_HandleRect: {fileID: 0}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1113,6 +1113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1565018611}
   - component: {fileID: 1565018610}
+  - component: {fileID: 1565018612}
   m_Layer: 0
   m_Name: ChatManager
   m_TagString: Untagged
@@ -1131,16 +1132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c821ab17d83661e4d83ffc77cc383500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: Manuel
-  chatPanel: {fileID: 319120325}
-  textObject: {fileID: 1837449695557512, guid: 3361d551629acde4f8c533f0a9f2f509, type: 2}
-  chatBox: {fileID: 1860524791}
-  userID: 
-  chatroomID: 
-  content: 
-  date: 
-  user: 
-  messagelist: []
 --- !u!4 &1565018611
 Transform:
   m_ObjectHideFlags: 0
@@ -1154,6 +1145,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1565018612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1565018609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba355c07beef9340ae9649b608879f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: 
+  chatPanel: {fileID: 0}
+  textObject: {fileID: 0}
+  chatBox: {fileID: 0}
+  userID: 
+  chatroomID: 
+  content: 
+  date: 
+  user: 
+  messagelist: []
 --- !u!1 &1860524789
 GameObject:
   m_ObjectHideFlags: 0
