@@ -140,6 +140,45 @@ public class ChatManager : MonoBehaviour {
                             reference.Child("Gebruikers").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
+
+                            sendMessage(userID, "Chatroom aangemaakt test bericht"); // Tijdelijk
+                        }
+
+                    }
+                });
+
+    }
+
+
+    void getAllChatrooms()
+    {
+
+        FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                            var user2_db = childSnapshot.Child("users").Value.ToString();
+
+                            string[] users = user2_db.Split('|');
+                            foreach (string user in users)
+                            {
+                                if (user != userID)
+                                {
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID);
+                                    DataSnapshot snapshot2 = task.Result;
+
+                                    Debug.Log("Chat met " + snapshot2.Child("Name").Value.ToString() + " onder Chatroom ID: " + childSnapshot.Key);
+                                }
+                            }
+
                         }
 
                     }
@@ -196,4 +235,18 @@ public class createChatroom
     }
 }
 
+
+public class chatMessage2
+{
+    public string user;
+    public string content;
+    public string date;
+
+    public chatMessage2(string from, string content)
+    {
+        this.user = from;
+        this.content = content;
+        this.date = System.DateTime.UtcNow.ToString();
+    }
+}
 
