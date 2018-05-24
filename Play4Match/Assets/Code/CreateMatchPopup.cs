@@ -8,16 +8,16 @@ public class CreateMatchPopup : MonoBehaviour {
     private Image image;
 
     public GameObject nameObj;
-    public GameObject ageObj;
-    public GameObject genderObj;
     public GameObject matchRateObj;
     public GameObject closeButtonObj;
+    public GameObject crushButtonObj;
+
+    public int speed;
 
     public string buttonName;
 
+    public string userId;
     public string nameString;
-    public string ageString;
-    public string genderString;
     public string matchRateString;
 
     // Use this for initialization
@@ -36,14 +36,16 @@ public class CreateMatchPopup : MonoBehaviour {
 
                 if (matchPanel.active == false && hit.transform.gameObject.name == buttonName)
                 {
-                        nameObj.GetComponent<Text>().text = nameString;
-                        ageObj.GetComponent<Text>().text = ageString;
-                        genderObj.GetComponent<Text>().text = genderString;
-                        matchRateObj.GetComponent<Text>().text = matchRateString;
+                    nameObj.GetComponent<Text>().text = nameString;
+                    matchRateObj.GetComponent<Text>().text = matchRateString;
+                    crushButtonObj.GetComponent<Crush>().matchButton = GameObject.Find(buttonName);
 
-                        matchPanel.SetActive(true);
+                    matchPanel.SetActive(true);
                 }
             }
         }
+
+        Vector3 newPos = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
     }
 }

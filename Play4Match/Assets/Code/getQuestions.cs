@@ -34,7 +34,7 @@ public class getQuestions : MonoBehaviour
     {
         //connect to firebase and get userid
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        userid = auth.CurrentUser.UserId; //"xh4S3DibGraTqCn8HascIIvdFR02";
+        userid = "xh4S3DibGraTqCn8HascIIvdFR02";
 
         //set reference to firebase database
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -42,7 +42,7 @@ public class getQuestions : MonoBehaviour
 
         //get json from api
         string url = "http://play4match.com/api/getq.php?id=" + userid + "&qamount=" + NumberOfQuestions;
-        Debug.Log(url);
+
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
     }
