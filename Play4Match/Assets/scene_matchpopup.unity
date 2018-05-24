@@ -1622,8 +1622,8 @@ MonoBehaviour:
   crushButtonObj: {fileID: 1820690447}
   particles: {fileID: 1815017336}
   impact: {fileID: 1233058201}
-  speed: 1500
-  fadeOutTime: 1.5
+  speed: 1250
+  fadeOutTime: 1.25
   buttonName: 
   userId: 
   nameString: 
