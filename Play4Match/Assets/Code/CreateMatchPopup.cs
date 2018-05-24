@@ -17,6 +17,7 @@ public class CreateMatchPopup : MonoBehaviour {
 
 	bool landed = false;
 	public int speed;
+	float stopCounter = 0;
 
 	SpriteRenderer sr;
 	public float fadeOutTime;
@@ -61,15 +62,16 @@ public class CreateMatchPopup : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
 
 			// Stop moving
-			if (transform.position == newPos)
+			if(transform.position == newPos)
 			{
-				if (particles != null)
+				stopCounter += Time.deltaTime * 5;
+
+				if (particles != null && stopCounter >= 2)
 				{
 					particles.Stop();
 				}
 
 				impact.SetActive(true);
-
 				impact.transform.localScale = Vector3.Lerp(impact.transform.localScale, new Vector3(1, 1, 1), Time.deltaTime / 5);
 
 				if (impact.transform.localScale.x >= 0.3 && fadeOutTime > 0)
@@ -79,16 +81,16 @@ public class CreateMatchPopup : MonoBehaviour {
 					Color tmpColor = sr.color;
 					tmpColor.a = alpha;
 					sr.color = tmpColor;
-					
+
 					// Decreasing time
 					fadeOutTime -= Time.deltaTime;
 				}
 
-				if(impact.transform.localScale.x > 0.5 && fadeOutTime == 0)
+				if (impact.transform.localScale.x > 0.5 && fadeOutTime == 0)
 				{
 					landed = true;
 				}
-			}
+			}			
 		}
 	}
 }
