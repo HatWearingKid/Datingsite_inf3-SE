@@ -32,8 +32,8 @@ public class ChatManager : MonoBehaviour {
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
         // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        andereUser = "T2us9Y1uRnPfT0EoM4KMmQdMzvj2"; // Hardcoded user waarmee we chatten
-        userID = "testUser"; // auth.CurrentUser.UserId
+        andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji2"; // Hardcoded user waarmee we chatten
+        userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
 
         createChatroom(userID, andereUser); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
 

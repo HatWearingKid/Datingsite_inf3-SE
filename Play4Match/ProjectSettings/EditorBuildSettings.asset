@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/scene0_Jesse.unity
     guid: 843bfe05d4e7cb14ca35efd4e99ebe04
+<<<<<<< HEAD
+=======
+  - enabled: 1
+    path: Assets/Chat.unity
+    guid: f0c06a7d225faa9408f8ae490fc02f6b
+>>>>>>> 397cbad8aba8c3e955db155d709ff4b739845d43
   m_configObjects: {}
