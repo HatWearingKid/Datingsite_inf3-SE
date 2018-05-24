@@ -16,7 +16,8 @@ public class getMatch : MonoBehaviour
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        string userid = auth.CurrentUser.UserId; //"xh4S3DibGraTqCn8HascIIvdFR02";
+        string userid = "xh4S3DibGraTqCn8HascIIvdFR02";
+        //string userid = auth.CurrentUser.UserId;
 
         string url = "http://play4match.com/api/getmatch.php?id=" + userid;
         www = new WWW(url);
@@ -65,10 +66,11 @@ public class getMatch : MonoBehaviour
             matchButtonNew.transform.position = new Vector3(newX, matchButton.transform.position.y, newZ);
 
             matchButtonNew.GetComponent<CreateMatchPopup>().buttonName = "MatchButton" + i;
-            matchButtonNew.GetComponent<CreateMatchPopup>().nameString = JsonData[i]["Name"];
-            matchButtonNew.GetComponent<CreateMatchPopup>().ageString = JsonData[i]["Age"];
-            matchButtonNew.GetComponent<CreateMatchPopup>().genderString = JsonData[i]["Gender"];
-            matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"];
+
+            matchButtonNew.GetComponent<CreateMatchPopup>().userId = JsonData[i]["Id"];
+
+            matchButtonNew.GetComponent<CreateMatchPopup>().nameString = JsonData[i]["Name"] + " (" + JsonData[i]["Age"] + ")";
+            matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"] + "%";
             matchButtonNew.SetActive(true);
         }
     }

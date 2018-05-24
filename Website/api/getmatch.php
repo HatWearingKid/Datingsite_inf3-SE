@@ -155,7 +155,7 @@ function compareAnswers($user, $users)
 		// Let's calculate the match percentage
 		if($result[$userId]['points'] != 0 && $result[$userId]['UsedAnswers']!= 0)
 		{
-			$result[$userId]['MatchRate'] = ($result[$userId]['points'] / $result[$userId]['UsedAnswers']);
+			$result[$userId]['MatchRate'] = round($result[$userId]['points'] / $result[$userId]['UsedAnswers']);
 		}
 		else
 		{
