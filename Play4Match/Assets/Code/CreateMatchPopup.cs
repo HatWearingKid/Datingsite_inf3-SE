@@ -11,10 +11,18 @@ public class CreateMatchPopup : MonoBehaviour {
     public GameObject matchRateObj;
     public GameObject closeButtonObj;
     public GameObject crushButtonObj;
+    public ParticleSystem particles;
 
-    public int speed;
+	public GameObject impact;
 
-    public string buttonName;
+	bool landed = false;
+	public int speed;
+
+	SpriteRenderer sr;
+	public float fadeOutTime;
+	private float startingTime;
+
+	public string buttonName;
 
     public string userId;
     public string nameString;
@@ -22,8 +30,9 @@ public class CreateMatchPopup : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
-    }
+		sr = impact.GetComponent<SpriteRenderer>();
+		startingTime = fadeOutTime;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -45,7 +54,41 @@ public class CreateMatchPopup : MonoBehaviour {
             }
         }
 
-        Vector3 newPos = new Vector3(transform.position.x, 0, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
-    }
+        // If not arrived keep moving
+        if(!landed)
+        {
+            Vector3 newPos = new Vector3(transform.position.x, 5, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
+
+			// Stop moving
+			if (transform.position == newPos)
+			{
+				if (particles != null)
+				{
+					particles.Stop();
+				}
+
+				impact.SetActive(true);
+
+				impact.transform.localScale = Vector3.Lerp(impact.transform.localScale, new Vector3(1, 1, 1), Time.deltaTime / 5);
+
+				if (impact.transform.localScale.x >= 0.3 && fadeOutTime > 0)
+				{
+					float alpha = 1 / startingTime * fadeOutTime;
+
+					Color tmpColor = sr.color;
+					tmpColor.a = alpha;
+					sr.color = tmpColor;
+					
+					// Decreasing time
+					fadeOutTime -= Time.deltaTime;
+				}
+
+				if(impact.transform.localScale.x > 0.5 && fadeOutTime == 0)
+				{
+					landed = true;
+				}
+			}
+		}
+	}
 }
