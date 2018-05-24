@@ -124,7 +124,7 @@ public class ChatManager : MonoBehaviour {
 
         bool chatBestaat = false;
 
-        FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
                     if (task.IsFaulted)
                     {
@@ -152,8 +152,8 @@ public class ChatManager : MonoBehaviour {
                             createChatroom createChatroom = new createChatroom(key, users);
                             string json = JsonUtility.ToJson(createChatroom);
 
-                            reference.Child("Gebruikers").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-                            reference.Child("Gebruikers").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            reference.Child("Users").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
 
@@ -169,7 +169,7 @@ public class ChatManager : MonoBehaviour {
     void getAllChatrooms()
     {
 
-        FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
                     if (task.IsFaulted)
                     {
@@ -190,7 +190,7 @@ public class ChatManager : MonoBehaviour {
                             {
                                 if (user != userID)
                                 {
-                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Gebruikers").Child(userID);
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID);
                                     DataSnapshot snapshot2 = task.Result;
 
                                     Debug.Log("Chat met " + snapshot2.Child("Name").Value.ToString() + " onder Chatroom ID: " + childSnapshot.Key);
