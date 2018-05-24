@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Firebase;
 using Firebase.Unity.Editor;
 using Firebase.Database;
+using System;
 
 public class ChatManager : MonoBehaviour {
 
@@ -21,6 +22,8 @@ public class ChatManager : MonoBehaviour {
     public string user;
     public bool chatroomFound = false;
     private TouchScreenKeyboard keyboard;
+
+    private string usersTabel = "Gebruikers"; // Na het testen "Users" gebruiken
 
     public string andereUser;
 
@@ -49,6 +52,14 @@ public class ChatManager : MonoBehaviour {
     }
 
     void Update() {
+        if (chatroomID.ToString() != "" && chatroomFound == false)
+        {
+            chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
+            chatRef.ChildAdded += ChatChildAdded;
+            chatroomFound = true;
+            Debug.Log("ChatroomID gevonden, dus we kunnen nu berichten versturen");
+        }
+
         if (chatBox.text != "")
         {
             //if (keyboard.status.Equals("Done"))
@@ -59,21 +70,18 @@ public class ChatManager : MonoBehaviour {
             { // TouchScreenKeyboard.Status.Done
                 if (chatroomFound == true)
                 {
-                    sendMessage(username, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+                    sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
                     chatBox.text = "";
+                } else
+                {
+                    chatBox.text = "Nog geen chatroomID gevonden";
                 }
                 
                
             }
         }
 
-        if (chatroomID.ToString() != "" && chatroomFound == false)
-        {
-            chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
-            chatRef.ChildAdded += ChatChildAdded;
-            chatroomFound = true;
-            Debug.Log("ChatroomID gevonden, dus we kunnen nu berichten versturen");
-        }
+        
     }
 
 
@@ -106,13 +114,22 @@ public class ChatManager : MonoBehaviour {
         if (args.DatabaseError == null)
         {
             Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
+            
             Debug.Log(args.Snapshot);
 
              content = args.Snapshot.Child("content").Value.ToString();
              date = args.Snapshot.Child("date").Value.ToString();
              user = args.Snapshot.Child("user").Value.ToString();
 
-            SendMessageToChat(date + " - " + user + " - " + content);
+            if (user == userID)
+            {
+                user = "Jij stuurde ";
+            } else
+            {
+                user = "Je chatpartner stuurde "; // Hier de naam later ophalen?
+            }
+
+            SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
             // Dit tonen in de GUI
         }
     }
@@ -124,7 +141,7 @@ public class ChatManager : MonoBehaviour {
 
         bool chatBestaat = false;
 
-        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
+        FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
                     if (task.IsFaulted)
                     {
@@ -152,8 +169,8 @@ public class ChatManager : MonoBehaviour {
                             createChatroom createChatroom = new createChatroom(key, users);
                             string json = JsonUtility.ToJson(createChatroom);
 
-                            reference.Child("Users").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-                            reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            reference.Child(usersTabel).Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            reference.Child(usersTabel).Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key; // Zet de nieuwe chatroomID
                             Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
 
@@ -165,11 +182,51 @@ public class ChatManager : MonoBehaviour {
 
     }
 
+    public string tijdVerschil(int tijd)
+    {
+        int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        int tijdVerschil = huidigeTijd - tijd;
+        string result = "";
+
+        if (tijdVerschil >= 18144000)
+        {
+            result = Mathf.Floor(tijdVerschil / 217728000) + " jaar geleden";
+        }
+
+        if (tijdVerschil < 18144000)
+        {
+            result = Mathf.Floor(tijdVerschil / 18144000) + " maand geleden";
+        }
+
+        if (tijdVerschil < 604800)
+        {
+            result = Mathf.Floor(tijdVerschil / 604800) + " dagen geleden";
+        }
+
+        if (tijdVerschil < 86400)
+        {
+            result = Mathf.Floor(tijdVerschil / 3600) + " uur geleden";
+        }
+
+        if (tijdVerschil < 3600)
+        {
+            result = Mathf.Floor(tijdVerschil / 60) + " minuten geleden";
+        }
+
+        if (tijdVerschil < 60)
+        {
+            result = tijdVerschil + " seconden geleden";
+        }
+
+        return result;
+       
+    }
+
 
     void getAllChatrooms()
     {
 
-        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+        FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
                     if (task.IsFaulted)
                     {
@@ -190,7 +247,7 @@ public class ChatManager : MonoBehaviour {
                             {
                                 if (user != userID)
                                 {
-                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID);
+                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID);
                                     DataSnapshot snapshot2 = task.Result;
 
                                     Debug.Log("Chat met " + snapshot2.Child("Name").Value.ToString() + " onder Chatroom ID: " + childSnapshot.Key);
@@ -226,7 +283,7 @@ public class chatMessage
     public string username;
     public string to;
     public string text;
-    public string date;
+    public Int32 date;
 
     public chatMessage(string username, string to, string text)
     {
@@ -235,7 +292,7 @@ public class chatMessage
         this.username = username;
         this.to = to;
         this.text = text;
-        this.date = System.DateTime.UtcNow.ToString();
+        this.date = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds; // System.DateTime.UtcNow.ToString();
         Debug.Log("Einde chatMessage");
     }
 }
@@ -258,13 +315,13 @@ public class chatMessage2
 {
     public string user;
     public string content;
-    public string date;
+    public Int32 date;
 
     public chatMessage2(string from, string content)
     {
         this.user = from;
         this.content = content;
-        this.date = System.DateTime.UtcNow.ToString();
+        this.date = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds; // System.DateTime.UtcNow.ToString();
     }
 }
 
