@@ -18,8 +18,14 @@ if($id !== false && $id !== '')
 		// Save user
 		$user = $dataArray['Users'][$id];
 		
-		// Create users array excluding $user
+		// Create users array excluding $user and any already liked users
 		unset($dataArray['Users'][$id]);
+
+		foreach($user['Liked'] as $likedId => $value)
+		{
+			unset($dataArray['Users'][$likedId]);
+		}
+		
 		$users = $dataArray['Users'];
 		
 		// Filter based on user's preferences
@@ -93,7 +99,7 @@ function filterUsersByOthersPref($user, $users)
 
 function compareAnswers($user, $users)
 {
-	$result = [];
+	$result = false;
 	
 	foreach($users as $userId => $tempUser)
 	{

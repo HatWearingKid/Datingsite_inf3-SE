@@ -12,8 +12,10 @@ public class getMatch : MonoBehaviour
 
     public GameObject matchButton;
 
-    // Use this for initialization
-    void Start()
+	public GameObject matchButtonSpawns;
+
+	// Use this for initialization
+	void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         string userid = "xh4S3DibGraTqCn8HascIIvdFR02";
@@ -55,23 +57,45 @@ public class getMatch : MonoBehaviour
 
     void CreateMatchButtons()
     {
-        for (int i = 0; i < JsonData.Count; i++)
+		// Count the number of spawn points there are
+		int maxSpawns = matchButtonSpawns.transform.childCount;
+
+		string[] spawnArray = new string[maxSpawns];
+		for(int i = 0; i < maxSpawns; i++)
+		{
+			spawnArray[i] = (i + 1).ToString();
+		}
+
+		List<string> spawnArraylist = new List<string>(spawnArray);
+		spawnArray = null;
+
+		for (int i = 0; i < JsonData.Count; i++)
         {
-            GameObject matchButtonNew = Instantiate(matchButton);
-            matchButtonNew.name = "MatchButton" + i;
+			int randomIndex = Random.Range(0, spawnArraylist.Count);
 
-            float newX = Random.Range(-250f, 1400f);
-            float newZ = Random.Range(600f, 2200f);
+			if (spawnArraylist.Count > randomIndex && spawnArraylist[randomIndex] != null)
+			{
+				GameObject spawnObj = matchButtonSpawns.transform.Find(spawnArraylist[randomIndex]).gameObject;
 
-            matchButtonNew.transform.position = new Vector3(newX, matchButton.transform.position.y, newZ);
+				// Remove index from list to avoid spawning a matchbutton in that spot agian
+				spawnArraylist.RemoveAt(randomIndex);
 
-            matchButtonNew.GetComponent<CreateMatchPopup>().buttonName = "MatchButton" + i;
+				// Set new X and Z values from the spawnObj
+				float newX = spawnObj.transform.position.x;
+				float newZ = spawnObj.transform.position.z;
 
-            matchButtonNew.GetComponent<CreateMatchPopup>().userId = JsonData[i]["Id"];
+				// Create new matchbutton and fill it with values
+				GameObject matchButtonNew = Instantiate(matchButton);
+				matchButtonNew.name = "MatchButton" + i;
 
-            matchButtonNew.GetComponent<CreateMatchPopup>().nameString = JsonData[i]["Name"] + " (" + JsonData[i]["Age"] + ")";
-            matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"] + "%";
-            matchButtonNew.SetActive(true);
+				matchButtonNew.transform.position = new Vector3(newX, matchButton.transform.position.y, newZ);
+				matchButtonNew.GetComponent<CreateMatchPopup>().buttonName = "MatchButton" + i;
+				matchButtonNew.GetComponent<CreateMatchPopup>().userId = JsonData[i]["Id"];
+				matchButtonNew.GetComponent<CreateMatchPopup>().nameString = JsonData[i]["Name"] + " (" + JsonData[i]["Age"] + ")";
+				matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"] + "%";
+				matchButtonNew.GetComponent<CreateMatchPopup>().descriptionString = JsonData[i]["Description"];
+				matchButtonNew.SetActive(true);
+			}
         }
     }
 }

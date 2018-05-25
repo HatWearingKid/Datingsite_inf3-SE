@@ -9,11 +9,15 @@ public class CreateMatchPopup : MonoBehaviour {
 
     public GameObject nameObj;
     public GameObject matchRateObj;
-    public GameObject closeButtonObj;
+	public GameObject descriptionObj;
+	public GameObject closeButtonObj;
     public GameObject crushButtonObj;
     public ParticleSystem particles;
 
 	public GameObject impact;
+
+	public GameObject RedHeart;
+	public GameObject WhiteHeart;
 
 	bool landed = false;
 	public int speed;
@@ -28,9 +32,10 @@ public class CreateMatchPopup : MonoBehaviour {
     public string userId;
     public string nameString;
     public string matchRateString;
+	public string descriptionString;
 
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
 		sr = impact.GetComponent<SpriteRenderer>();
 		startingTime = fadeOutTime;
 	}
@@ -48,7 +53,8 @@ public class CreateMatchPopup : MonoBehaviour {
                 {
                     nameObj.GetComponent<Text>().text = nameString;
                     matchRateObj.GetComponent<Text>().text = matchRateString;
-                    crushButtonObj.GetComponent<Crush>().matchButton = GameObject.Find(buttonName);
+					descriptionObj.GetComponent<Text>().text = descriptionString;
+					crushButtonObj.GetComponent<Crush>().matchButton = GameObject.Find(buttonName);
 
                     matchPanel.SetActive(true);
                 }
@@ -66,7 +72,7 @@ public class CreateMatchPopup : MonoBehaviour {
 			{
 				stopCounter += Time.deltaTime * 5;
 
-				if (particles != null && stopCounter >= 2)
+				if (particles != null && stopCounter >= 1)
 				{
 					particles.Stop();
 				}
@@ -92,5 +98,40 @@ public class CreateMatchPopup : MonoBehaviour {
 				}
 			}			
 		}
+	}
+
+	public void OnCrush()
+	{
+		float currentX = transform.position.x;
+		float currentY = transform.position.y;
+		float currentZ = transform.position.z;
+	
+		int maxHearts = Random.Range(10, 20);
+
+		// Destroy matchbutton after spawning some lovely hearts
+		for (int i = 0; i < maxHearts; i++)
+		{
+			GameObject heart = Instantiate(RedHeart);
+
+			if (Random.Range(0, 2) == 1)
+			{
+				heart = Instantiate(WhiteHeart);
+			}
+
+			// Set new X and Z values from the heart
+			float newX = Random.Range(currentX - 125f, currentX + 125f);
+			float newY = Random.Range(currentY, currentY + 125f);
+			float newZ = Random.Range(currentZ - 100f, currentZ + 100f);
+
+			int heartSize = Random.Range(50,200);
+
+			heart.transform.position = new Vector3(newX, newY, newZ);
+			heart.transform.localScale = new Vector3(heartSize, heartSize, 1);
+
+			heart.SetActive(true);
+		}
+
+		Destroy(this.gameObject);
+		
 	}
 }
