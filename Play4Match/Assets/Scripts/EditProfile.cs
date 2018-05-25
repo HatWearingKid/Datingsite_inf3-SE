@@ -9,21 +9,29 @@ using Firebase.Unity.Editor;
 public class EditProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
-	DatabaseReference reference;
+	DatabaseReference userRef;
+	DatabaseReference prefRef;
 
 	private string name;
 	private string gender;
 	private string dateOfBirth;
 	private string country;
 
+	private string genderPref;
+	private string minAge;
+	private string maxAge;
+
 	void Start() {
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
-		// Get the root reference location of the database.
-		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
+
+		// Get the reference to the Users root node of the database.
+		userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
+		// Get the reference to the Preference root node of the database.
+		prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
 	}
 
 	public void SetName(string _name){
@@ -60,10 +68,40 @@ public class EditProfile : MonoBehaviour {
 		country = _country;
 	}
 
+	public void GetGenderPref(InputField input){
+		genderPref = input.text;
+	}
+
+	public void SetGenderPref(string _genderPref){
+		genderPref = _genderPref;
+	}
+
+	public void GetMinAge(InputField input){
+		minAge = input.text;
+	}
+
+	public void SetMinAge(string _minAge){
+		minAge = _minAge;
+	}
+
+	public void GetMaxAge(InputField input){
+		maxAge = input.text;
+	}
+
+	public void SetMaxAge(string _maxAge){
+		maxAge = _maxAge;
+	}
+
 	public void UpdateUser(){	
-		reference.Child ("Users").Child (user.UserId).Child("Name").SetValueAsync(name);
-		reference.Child ("Users").Child (user.UserId).Child("Country").SetValueAsync(country);
-		reference.Child ("Users").Child (user.UserId).Child("Gender").SetValueAsync(gender);
-		reference.Child ("Users").Child (user.UserId).Child("DateOfBirth").SetValueAsync(dateOfBirth);
+		// Update data in the Users root
+		userRef.Child("Name").SetValueAsync(name);
+		userRef.Child("Country").SetValueAsync(country);
+		userRef.Child("Gender").SetValueAsync(gender);
+		userRef.Child("DateOfBirth").SetValueAsync(dateOfBirth);
+
+		// Update data in the Preferences root
+		prefRef.Child("Gender").SetValueAsync(genderPref);
+		prefRef.Child("AgeMin").SetValueAsync(minAge);
+		prefRef.Child("AgeMax").SetValueAsync(maxAge);
 	}
 }

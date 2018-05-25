@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene_Semih.unity
+    guid: db0da622b3c42344e80aa94d2eb91382
+  - enabled: 1
+    path: Assets/main.unity
+    guid: f77f0c015faca3341adedd49b6a7b795
   m_configObjects: {}

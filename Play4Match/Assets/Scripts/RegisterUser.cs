@@ -21,7 +21,6 @@ public class RegisterUser : MonoBehaviour {
 	// Initialise player to insert into the DB
 	Player player = new Player();
 	Liked liked = new Liked();
-	LikedBy likedBy = new LikedBy();
 	Preferences preferences = new Preferences();
 	Chatrooms chatrooms = new Chatrooms();
 
@@ -112,7 +111,6 @@ public class RegisterUser : MonoBehaviour {
     public void AddUser(string userId) {
 		string jsonPlayer = JsonUtility.ToJson(player);
 		string jsonLiked = JsonUtility.ToJson(liked);
-		string jsonLikedBy = JsonUtility.ToJson(likedBy);
 		string jsonPreferences = JsonUtility.ToJson(preferences);
 		string jsonChatrooms = JsonUtility.ToJson(chatrooms);
 
@@ -121,7 +119,6 @@ public class RegisterUser : MonoBehaviour {
 
 		// Insert the nested nodes into the databse
 		reference.Child("Users").Child(userId).Child("Liked").SetRawJsonValueAsync(jsonLiked);
-		reference.Child("Users").Child(userId).Child("LikedBy").SetRawJsonValueAsync(jsonLikedBy);
 		reference.Child("Users").Child(userId).Child("Preferences").SetRawJsonValueAsync(jsonPreferences);
 		reference.Child("Users").Child(userId).Child("Chatrooms").SetRawJsonValueAsync(jsonChatrooms);
 	}

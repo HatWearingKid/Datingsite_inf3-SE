@@ -13,10 +13,6 @@ public class Liked {
 	public int ID;
 }
 
-public class LikedBy {
-	public int ID;
-}
-
 public class Preferences {
 	public int AgeMax;
 	public int AgeMix;
