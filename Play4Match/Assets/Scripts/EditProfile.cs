@@ -15,7 +15,6 @@ public class EditProfile : MonoBehaviour {
 	private string name;
 	private string gender;
 	private string dateOfBirth;
-	private string country;
 
 	private string genderPref;
 	private string minAge;
@@ -43,13 +42,9 @@ public class EditProfile : MonoBehaviour {
 		name = input.text;
 	}
 		
-	public void GetGender(InputField input)
+	public void GetGender(Dropdown dropdown)
 	{
-		gender = input.text;
-	}
-
-	public void SetGender(string _gender){
-		gender = _gender;
+		gender = dropdown.options[dropdown.value].text;
 	}
 
 	public void GetDateOfBirth(InputField input){
@@ -60,46 +55,28 @@ public class EditProfile : MonoBehaviour {
 		dateOfBirth = _dateofbirth;
 	}
 
-	public void GetCountry(InputField input){
-		country = input.text;
+	public void GetGenderPref(Dropdown dropdown)
+	{
+		genderPref = dropdown.options[dropdown.value].text;
 	}
 
-	public void SetCountry(string _country){
-		country = _country;
+	public void GetMinAge(Dropdown dropdown)
+	{
+		minAge = dropdown.options[dropdown.value].text;
 	}
 
-	public void GetGenderPref(InputField input){
-		genderPref = input.text;
-	}
-
-	public void SetGenderPref(string _genderPref){
-		genderPref = _genderPref;
-	}
-
-	public void GetMinAge(InputField input){
-		minAge = input.text;
-	}
-
-	public void SetMinAge(string _minAge){
-		minAge = _minAge;
-	}
-
-	public void GetMaxAge(InputField input){
-		maxAge = input.text;
-	}
-
-	public void SetMaxAge(string _maxAge){
-		maxAge = _maxAge;
+	public void GetMaxAge(Dropdown dropdown)
+	{
+		maxAge = dropdown.options[dropdown.value].text;
 	}
 
 	public void UpdateUser(){	
 		// Update data in the Users root
 		userRef.Child("Name").SetValueAsync(name);
-		userRef.Child("Country").SetValueAsync(country);
 		userRef.Child("Gender").SetValueAsync(gender);
 		userRef.Child("DateOfBirth").SetValueAsync(dateOfBirth);
 
-		// Update data in the Preferences root
+		//Update data in the Preferences root
 		prefRef.Child("Gender").SetValueAsync(genderPref);
 		prefRef.Child("AgeMin").SetValueAsync(minAge);
 		prefRef.Child("AgeMax").SetValueAsync(maxAge);

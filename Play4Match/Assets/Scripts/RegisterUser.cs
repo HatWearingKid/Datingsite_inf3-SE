@@ -20,9 +20,6 @@ public class RegisterUser : MonoBehaviour {
 
 	// Initialise player to insert into the DB
 	Player player = new Player();
-	Liked liked = new Liked();
-	Preferences preferences = new Preferences();
-	Chatrooms chatrooms = new Chatrooms();
 
     void Start() {
 		// Set up the Editor before calling into the realtime database.
@@ -110,16 +107,8 @@ public class RegisterUser : MonoBehaviour {
 	// Method to add a user to the database
     public void AddUser(string userId) {
 		string jsonPlayer = JsonUtility.ToJson(player);
-		string jsonLiked = JsonUtility.ToJson(liked);
-		string jsonPreferences = JsonUtility.ToJson(preferences);
-		string jsonChatrooms = JsonUtility.ToJson(chatrooms);
 
 		// Insert the user's basic data into the database
 		reference.Child("Users").Child(userId).SetRawJsonValueAsync(jsonPlayer);
-
-		// Insert the nested nodes into the databse
-		reference.Child("Users").Child(userId).Child("Liked").SetRawJsonValueAsync(jsonLiked);
-		reference.Child("Users").Child(userId).Child("Preferences").SetRawJsonValueAsync(jsonPreferences);
-		reference.Child("Users").Child(userId).Child("Chatrooms").SetRawJsonValueAsync(jsonChatrooms);
 	}
 }
