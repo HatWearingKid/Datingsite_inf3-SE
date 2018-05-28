@@ -23,6 +23,8 @@ public class ChatManager : MonoBehaviour {
     public bool chatroomFound = false;
     private TouchScreenKeyboard keyboard;
     public string lastMessage;
+    public string lastMessageTime;
+    List<ChatRoomBericht> ChatRoomBerichten = new List<ChatRoomBericht>();
 
     private string usersTabel = "Gebruikers"; // Na het testen "Users" gebruiken
 
@@ -36,7 +38,7 @@ public class ChatManager : MonoBehaviour {
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
         // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji2"; // Hardcoded user waarmee we chatten
+        andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji3"; // Hardcoded user waarmee we chatten
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
 
         createChatroom(userID, andereUser); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
@@ -225,7 +227,7 @@ public class ChatManager : MonoBehaviour {
 
 
     void getAllChatrooms() {
-        
+
         FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
                     if (task.IsCompleted) {
@@ -251,33 +253,69 @@ public class ChatManager : MonoBehaviour {
 
                                                         DataSnapshot snapshot3 = task3.Result;
 
-                                                        foreach (var childSnapshot3 in snapshot3.Children) {                                                      
+                                                        foreach (var childSnapshot3 in snapshot3.Children) {
                                                             lastMessage = childSnapshot3.Child("content").Value.ToString();
+                                                            lastMessageTime = childSnapshot3.Child("date").Value.ToString();
                                                         }
 
-                                                        Debug.Log("Er is een chat met '" + dictUser["Name"] + "' onder Chatroom ID '" + childSnapshot.Key + "', Het laatste bericht in deze chat was '" + lastMessage + "'");
+                                                        ChatRoomBerichten.Add(
+                                                            new ChatRoomBericht(
+                                                                lastMessageTime, 
+                                                                lastMessage, 
+                                                                dictUser["Name"].ToString(), 
+                                                                childSnapshot.Key.ToString() 
+                                                            )
+                                                        );
 
+                                                        if (ChatRoomBerichten.Count == snapshot.ChildrenCount)
+                                                        {
+                                                            ChatRoomBerichten.Sort((s1, s2) => s2.date.CompareTo(s1.date));
+                                                            buildChatroom();
+                                                        }
+                                                        
                                                     }
 
 
                                                 });
-
                                         }
-
-
                                     });
-                                    
                                 }
                             }
-
                         }
-
                     }
                 });
 
     }
 
+    public void buildChatroom()
+    {
+        // Hier later alles in de GUI laden
+        for (int i = 0; i < ChatRoomBerichten.Count; i++)
+        {
+            Debug.Log("ChatroomID: " + ChatRoomBerichten[i].chatroomID.ToString() + "\n" +
+                "Date: " + ChatRoomBerichten[i].date.ToString() + "\n" +
+                "name: " + ChatRoomBerichten[i].name.ToString() + "\n" +
+                "message: " + ChatRoomBerichten[i].message.ToString()
+            );
+        }
 
+
+    }
+}
+
+public class ChatRoomBericht
+{
+    public string date;
+    public string message;
+    public string name;
+    public string chatroomID;
+    public ChatRoomBericht(string date, string message, string name, string chatroomID)
+    {
+        this.date = date;
+        this.message = message;
+        this.name = name;
+        this.chatroomID = chatroomID;
+    }
 }
 
 
