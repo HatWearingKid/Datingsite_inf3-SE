@@ -298,8 +298,13 @@ public class ChatManager : MonoBehaviour {
                 "message: " + ChatRoomBerichten[i].message.ToString()
             );
         }
+    }
 
-
+    void addChatReport()
+    {
+        report reportChat = new report(userID);
+        string json = JsonUtility.ToJson(reportChat);
+        reference.Child("chatReport").Child(chatroomID.ToString()).Child(userID).SetRawJsonValueAsync(json);
     }
 }
 
@@ -315,6 +320,15 @@ public class ChatRoomBericht
         this.message = message;
         this.name = name;
         this.chatroomID = chatroomID;
+    }
+}
+
+public class report
+{
+    public string by;
+    public report(string by)
+    {
+        this.by = by;
     }
 }
 
