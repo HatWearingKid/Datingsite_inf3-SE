@@ -704,6 +704,8 @@ MonoBehaviour:
   date: 
   user: 
   chatroomFound: 0
+  lastMessage: 
+  lastMessageTime: 
   andereUser: 
   messagelist: []
 --- !u!1 &487911720

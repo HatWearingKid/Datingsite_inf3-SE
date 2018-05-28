@@ -26,7 +26,7 @@ public class ChatManager : MonoBehaviour {
     public string lastMessageTime;
     List<ChatRoomBericht> ChatRoomBerichten = new List<ChatRoomBericht>();
 
-    private string usersTabel = "Gebruikers"; // Na het testen "Users" gebruiken
+    private string usersTabel = "Users"; // Na het testen "Users" gebruiken
 
     public string andereUser;
 
@@ -46,11 +46,11 @@ public class ChatManager : MonoBehaviour {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        // sendMessage(userID, "Bericht inhoud"); // userID, bericht (Roep altijd eerst createChatroom aan
-
-        getAllChatrooms(); // Alle chatRooms van user ophalen [test]
-
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
+
+        getAllChatrooms(); // Alle chatRooms van user ophalen
+
+        //addChatReport();
 
     }
 
@@ -60,17 +60,12 @@ public class ChatManager : MonoBehaviour {
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
-            //Debug.Log("ChatroomID gevonden, dus we kunnen nu berichten versturen");
         }
 
         if (chatBox.text != "")
         {
-            //if (keyboard.status.Equals("Done"))
-            //{
-            //    sendMessage(username, "Keyboard status: Done"); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
-            //}
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done))
-            { // TouchScreenKeyboard.Status.Done
+            {
                 if (chatroomFound == true)
                 {
                     sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
