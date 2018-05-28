@@ -116,10 +116,6 @@ public class ChatManager : MonoBehaviour {
         
         if (args.DatabaseError == null)
         {
-            //Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
-            
-            //Debug.Log(args.Snapshot);
-
              content = args.Snapshot.Child("content").Value.ToString();
              date = args.Snapshot.Child("date").Value.ToString();
              user = args.Snapshot.Child("user").Value.ToString();
@@ -160,8 +156,7 @@ public class ChatManager : MonoBehaviour {
                             if ((user2_db == user1 + "|" + user2) || (user2_db == user2 + "|" + user1))
                             {
                                 chatBestaat = true;
-                                chatroomID = childSnapshot.Key; // Zet de oude chatroomID weer terug
-                                //Debug.Log("Gebruik oude chatroomID weer: " + chatroomID);
+                                chatroomID = childSnapshot.Key;
                                 break;
                             }
                         }
@@ -174,8 +169,7 @@ public class ChatManager : MonoBehaviour {
 
                             reference.Child(usersTabel).Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             reference.Child(usersTabel).Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-                            chatroomID = key; // Zet de nieuwe chatroomID
-                            //Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
+                            chatroomID = key;
 
                             sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
                         }
@@ -305,6 +299,7 @@ public class ChatManager : MonoBehaviour {
         report reportChat = new report(userID);
         string json = JsonUtility.ToJson(reportChat);
         reference.Child("chatReport").Child(chatroomID.ToString()).Child(userID).SetRawJsonValueAsync(json);
+        // Melding geven dat de chat is gereport
     }
 }
 
