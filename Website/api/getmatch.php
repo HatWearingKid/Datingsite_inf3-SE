@@ -165,7 +165,8 @@ function compareAnswers($user, $users)
 		}
 		else
 		{
-			$result[$userId]['MatchRate'] = 0;
+			// Remove match from result
+			unset($result[$userId]);
 		}
 
 		// Unset some unneeded data
