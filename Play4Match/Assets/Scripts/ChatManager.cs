@@ -70,9 +70,6 @@ public class ChatManager : MonoBehaviour {
                 {
                     sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
                     chatBox.text = "";
-                } else
-                {
-                    chatBox.text = "Nog geen chatroomID gevonden";
                 }
                 
                
