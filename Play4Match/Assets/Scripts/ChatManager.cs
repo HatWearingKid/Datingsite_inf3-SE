@@ -245,7 +245,6 @@ public class ChatManager : MonoBehaviour {
                                             DataSnapshot snapshot2 = task2.Result;
                                             IDictionary dictUser = (IDictionary)snapshot2.Value;
 
-
                                             FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
                                                 task3 => {
                                                     if (task3.IsCompleted) {
@@ -304,7 +303,7 @@ public class chatMessage
 
     public chatMessage(string username, string to, string text)
     {
-        ChatManager chatManager = new ChatManager();
+        //ChatManager chatManager = new ChatManager();
         Debug.Log("Begin chatMessage");
         this.username = username;
         this.to = to;
