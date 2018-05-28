@@ -22,6 +22,7 @@ public class ChatManager : MonoBehaviour {
     public string user;
     public bool chatroomFound = false;
     private TouchScreenKeyboard keyboard;
+    public string lastMessage;
 
     private string usersTabel = "Gebruikers"; // Na het testen "Users" gebruiken
 
@@ -57,7 +58,7 @@ public class ChatManager : MonoBehaviour {
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
-            Debug.Log("ChatroomID gevonden, dus we kunnen nu berichten versturen");
+            //Debug.Log("ChatroomID gevonden, dus we kunnen nu berichten versturen");
         }
 
         if (chatBox.text != "")
@@ -113,9 +114,9 @@ public class ChatManager : MonoBehaviour {
         
         if (args.DatabaseError == null)
         {
-            Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
+            //Debug.Log("Nieuw bericht gevonden om: " + System.DateTime.UtcNow.ToString());
             
-            Debug.Log(args.Snapshot);
+            //Debug.Log(args.Snapshot);
 
              content = args.Snapshot.Child("content").Value.ToString();
              date = args.Snapshot.Child("date").Value.ToString();
@@ -123,10 +124,10 @@ public class ChatManager : MonoBehaviour {
 
             if (user == userID)
             {
-                user = "Jij stuurde ";
+                user = "Jij stuurde "; // Tekst rechts uitlijnen
             } else
             {
-                user = "Je chatpartner stuurde "; // Hier de naam later ophalen?
+                user = "Je chatpartner stuurde "; // Tekst rechts uitlijnen
             }
 
             SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
@@ -158,7 +159,7 @@ public class ChatManager : MonoBehaviour {
                             {
                                 chatBestaat = true;
                                 chatroomID = childSnapshot.Key; // Zet de oude chatroomID weer terug
-                                Debug.Log("Gebruik oude chatroomID weer: " + chatroomID);
+                                //Debug.Log("Gebruik oude chatroomID weer: " + chatroomID);
                                 break;
                             }
                         }
@@ -172,7 +173,7 @@ public class ChatManager : MonoBehaviour {
                             reference.Child(usersTabel).Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             reference.Child(usersTabel).Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key; // Zet de nieuwe chatroomID
-                            Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
+                            //Debug.Log("Nieuwe chatroom aangemaakt: " + chatroomID);
 
                             sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
                         }
@@ -223,34 +224,50 @@ public class ChatManager : MonoBehaviour {
     }
 
 
-    void getAllChatrooms()
-    {
-
+    void getAllChatrooms() {
+        
         FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
-                    if (task.IsFaulted)
-                    {
-
-                    }
-                    else if (task.IsCompleted)
-                    {
+                    if (task.IsCompleted) {
                         DataSnapshot snapshot = task.Result;
 
-                        foreach (var childSnapshot in snapshot.Children)
-                        {
+                        foreach (var childSnapshot in snapshot.Children) {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
 
-                            Debug.Log("Chatroom tussen users: " + user2_db);
-
                             string[] users = user2_db.Split('|');
-                            foreach (string user in users)
-                            {
-                                if (user != userID)
-                                {
-                                    DatabaseReference chatGebruiker = FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID);
-                                    DataSnapshot snapshot2 = task.Result;
+                            foreach (string user in users) {
+                                if (user != userID) {
 
-                                    Debug.Log("Chat met " + snapshot2.Child("Name").Value.ToString() + " onder Chatroom ID: " + childSnapshot.Key);
+                                    FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
+                                    task2 => {
+                                        if (task2.IsCompleted) {
+
+                                            DataSnapshot snapshot2 = task2.Result;
+                                            IDictionary dictUser = (IDictionary)snapshot2.Value;
+
+
+                                            FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
+                                                task3 => {
+                                                    if (task3.IsCompleted) {
+
+                                                        DataSnapshot snapshot3 = task3.Result;
+
+                                                        foreach (var childSnapshot3 in snapshot3.Children) {                                                      
+                                                            lastMessage = childSnapshot3.Child("content").Value.ToString();
+                                                        }
+
+                                                        Debug.Log("Er is een chat met '" + dictUser["Name"] + "' onder Chatroom ID '" + childSnapshot.Key + "', Het laatste bericht in deze chat was '" + lastMessage + "'");
+
+                                                    }
+
+
+                                                });
+
+                                        }
+
+
+                                    });
+                                    
                                 }
                             }
 
