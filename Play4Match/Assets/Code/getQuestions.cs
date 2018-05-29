@@ -11,6 +11,7 @@ using UnityEditor;
 
 public class getQuestions : MonoBehaviour
 {
+	public GameObject loadingScreen;
 
     string[] questionArray;
     WWW www;
@@ -49,6 +50,8 @@ public class getQuestions : MonoBehaviour
         //get json from api
         string url = "http://play4match.com/api/getq.php?id=" + userid + "&qamount=" + NumberOfQuestions;
 
+		loadingScreen.SetActive(true);
+
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
     }
@@ -68,7 +71,9 @@ public class getQuestions : MonoBehaviour
                 //parse json to variable
                 JsonData = JSON.Parse(www.text);
 
-            }
+				loadingScreen.SetActive(false);
+
+			}
             else
             {
                 Debug.Log("WWW Error: " + www.error);
