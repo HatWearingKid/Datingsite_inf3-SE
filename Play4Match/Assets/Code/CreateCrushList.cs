@@ -100,11 +100,11 @@ public class CreateCrushList : MonoBehaviour {
 		{
 			if (ts.Hours == 1)
 			{
-				result = ts.Days + " Hour ago";
+				result = ts.Hours + " Hour ago";
 			}
 			else
 			{
-				result = ts.Days + " Hours ago";
+				result = ts.Hours + " Hours ago";
 			}
 		}
 		else if (ts.Minutes > 0)
