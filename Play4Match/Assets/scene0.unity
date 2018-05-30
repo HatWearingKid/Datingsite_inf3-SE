@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.28301302, g: 0.49497885, b: 0.5679852, a: 1}
+  m_IndirectSpecularColor: {r: 0.3446168, g: 0.7808964, b: 0.9268206, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 19402220}
   - component: {fileID: 19402219}
   m_Layer: 5
-  m_Name: Profile-Picture
+  m_Name: ProfilePicture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2443,7 +2443,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 630323637}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999998
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7893,7 +7893,7 @@ GameObject:
   - component: {fileID: 424757177}
   - component: {fileID: 424757176}
   m_Layer: 5
-  m_Name: Menu-Button
+  m_Name: MenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8284,7 +8284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000097992}
+  m_AnchoredPosition: {x: 0, y: -0.000065441396}
   m_SizeDelta: {x: 17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &437599715
@@ -8814,7 +8814,7 @@ GameObject:
   - component: {fileID: 508489579}
   - component: {fileID: 508489578}
   m_Layer: 5
-  m_Name: Name
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9629,7 +9629,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 0.9999998}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10502,7 +10502,7 @@ Prefab:
     - target: {fileID: 224473940480208862, guid: a225a6ccc43ef9d468bf1dab215d54be,
         type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 224473940480208862, guid: a225a6ccc43ef9d468bf1dab215d54be,
         type: 2}
@@ -11359,7 +11359,7 @@ RectTransform:
   - {fileID: 224621153}
   - {fileID: 366568066}
   m_Father: {fileID: 1251325237}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12377,7 +12377,7 @@ GameObject:
   - component: {fileID: 942227767}
   - component: {fileID: 942227766}
   m_Layer: 5
-  m_Name: Menu-Panel
+  m_Name: MenuPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14626,9 +14626,9 @@ RectTransform:
   - {fileID: 459554311}
   - {fileID: 1108368302}
   - {fileID: 1875904898}
-  - {fileID: 853187570}
   - {fileID: 1538278460}
   - {fileID: 1664960136}
+  - {fileID: 853187570}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14672,8 +14672,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPanel: {fileID: 942227764}
   menuButton: {fileID: 424757176}
-  name: {fileID: 508489578}
-  score: {fileID: 1632582709}
+  nameText: {fileID: 508489578}
+  answeredText: {fileID: 1632582709}
 --- !u!114 &1251325241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16654,7 +16654,7 @@ RectTransform:
   m_Children:
   - {fileID: 1650431635}
   m_Father: {fileID: 1251325237}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -17324,7 +17324,7 @@ GameObject:
   - component: {fileID: 1632582710}
   - component: {fileID: 1632582709}
   m_Layer: 5
-  m_Name: Score
+  m_Name: AnsweredText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17380,7 +17380,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Score: 0'
+  m_Text: 'Answered: 0'
 --- !u!222 &1632582710
 CanvasRenderer:
   m_ObjectHideFlags: 0

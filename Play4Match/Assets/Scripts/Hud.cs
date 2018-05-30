@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using SimpleJSON;
+using Firebase;
+using Firebase.Unity.Editor;
+using Firebase.Database;
 
 public class Hud : MonoBehaviour {
 	
@@ -12,8 +15,8 @@ public class Hud : MonoBehaviour {
 	
 	public GameObject menuPanel;
 	public Button menuButton;
-	public Text name;
-	public Text score;
+	public Text nameText;
+	public Text answeredText;
 
 	// Use this for initialization
 	void Start () {
@@ -21,47 +24,48 @@ public class Hud : MonoBehaviour {
 		menuButton.onClick.AddListener(buttonClicked);
 		
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        string userid = "xh4S3DibGraTqCn8HascIIvdFR02";
-        //string userid = auth.CurrentUser.UserId;
+		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
-        string url = "http://play4match.com/api/getProfile.php?id=" + userid;
-        www = new WWW(url);
-        StartCoroutine(WaitForRequest(www));
+		string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		//string userId = auth.CurrentUser.UserId;
+
+		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId).GetValueAsync().ContinueWith(
+		task => {
+			if (task.IsCompleted)
+			{
+				DataSnapshot snapshot = task.Result;
+
+				foreach (var childSnapshot in snapshot.Children)
+				{
+					if(childSnapshot.Key.ToString() == "Name")
+					{
+						nameText.text = childSnapshot.Value.ToString();
+					}
+
+					if (childSnapshot.Key.ToString() == "Answered")
+					{
+						IList collection = (IList)childSnapshot.Value;
+
+						int answeredCount = 0;
+
+						foreach(var bla in collection)
+						{
+							if(bla != null)
+							{
+								answeredCount++;
+							}
+						}
+
+						answeredText.text = "Answered: " + answeredCount.ToString();
+					}
+				}
+			}
+		});
 	}
-	
-	IEnumerator WaitForRequest(WWW www)
-    {
-        yield return www;
-
-        if (www.isDone == true)
-        {
-            //parse json to variable
-            JsonData = JSON.Parse(www.text);
-
-            fillData();
-        }
-
-        // check for errors
-        if (www.error == null)
-        {
-            //Debug.Log("WWW Ok!: " + www.text);
-        }
-        else
-        {
-            Debug.Log("WWW Error: " + www.error);
-        }
-    }
 	
 	// Update is called once per frame
 	void Update () {
 		
-	}
-	
-	void fillData()
-	{
-		name.text = JsonData[0];
-		score.text = "Score: " + JsonData[4];
-
 	}
 	
 	void buttonClicked()

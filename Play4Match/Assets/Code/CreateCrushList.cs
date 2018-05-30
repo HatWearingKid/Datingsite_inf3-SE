@@ -8,19 +8,17 @@ using Firebase.Database;
 using System;
 
 public class CreateCrushList : MonoBehaviour {
-
-	public DatabaseReference reference;
 	public GameObject prefab; // This is our prefab object that will be exposed in the inspector
 
 	void Start()
 	{
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
-		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-		string userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
+		string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		//string userId = auth.CurrentUser.UserId;
 
-		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Liked").GetValueAsync().ContinueWith(
+		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId).Child("Liked").GetValueAsync().ContinueWith(
 		task => {
 			if (task.IsCompleted)
 			{
@@ -33,9 +31,8 @@ public class CreateCrushList : MonoBehaviour {
 
 					string dateText = getDateAgo(timestamp);
 
-					if (crushId != userID)
+					if (crushId != userId)
 					{
-
 						FirebaseDatabase.DefaultInstance.GetReference("Users").Child(crushId).GetValueAsync().ContinueWith(
 						task2 => {
 							if (task2.IsCompleted)
