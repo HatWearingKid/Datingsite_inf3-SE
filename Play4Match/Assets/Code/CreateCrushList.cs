@@ -8,7 +8,9 @@ using Firebase.Database;
 using System;
 
 public class CreateCrushList : MonoBehaviour {
-	public GameObject prefab; // This is our prefab object that will be exposed in the inspector
+	public GameObject prefab;
+
+	public GameObject CrushList;
 
 	void Start()
 	{
@@ -73,7 +75,10 @@ public class CreateCrushList : MonoBehaviour {
 
 	void Update()
 	{
-
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButton(1))
+		{
+			CrushList.SetActive(false);
+		}
 	}
 
 	string getDateAgo(long timestamp)
