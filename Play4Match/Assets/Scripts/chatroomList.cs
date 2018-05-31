@@ -133,7 +133,7 @@ public class chatroomList : MonoBehaviour
                                                         
                                                         DataSnapshot snapshot3 = task3.Result;
 
-                                                        foreach (var childSnapshot3 in snapshot3.Children)
+                                                        foreach (var childSnapshot3 in snapshot3.Children) 
                                                         {
                                                             lastMessage = childSnapshot3.Child("content").Value.ToString();
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
