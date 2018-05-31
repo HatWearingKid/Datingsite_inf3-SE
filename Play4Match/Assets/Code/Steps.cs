@@ -17,9 +17,20 @@ public class Steps : MonoBehaviour {
     private bool QuestionLock;
     public getQuestions getQuestions;
     private Vector3 cameraStand;
-    
+    public SplineController splineController;
+    private bool next;
+    private bool StepLock;
+    private bool stop;
+
+    private Touch initTouch = new Touch();
+    private float movZ = 0f;
+    public float moveSpeed = 50F;
+    public float direction = 1f;
+    private bool movecamera = false;
+
     // Use this for initialization
     void Start () {
+
         //get posities and sort by name
         Positions = GameObject.FindGameObjectsWithTag("positie").OrderBy(go => go.name).ToArray();
 
@@ -37,13 +48,37 @@ public class Steps : MonoBehaviour {
 
     Ray ray;
     private string nextlocation;
+
     // Update is called once per frame
     void Update () {
-        pawn.transform.position = Vector3.Lerp(startPoint, Pawnpositions[stepNumber], (Time.time - startTime) / duration);
-        cameraPos.transform.position = Vector3.Lerp(startPointCamera, cameraStand, (Time.time - startTime) / duration);
+        //pawn.transform.position = Vector3.Lerp(startPoint, Pawnpositions[stepNumber], (Time.time - startTime) / duration);
+        //pawn.transform.position = Vector3.
+        if (movecamera)
+        {
+            cameraPos.transform.position = Vector3.Lerp(startPointCamera, cameraStand, (Time.time - startTime) / duration);
+            if (cameraPos.transform.position.Equals(cameraStand))
+            {
+                movecamera = false;
+            }
+        }
+        
+        //Debug.Log(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position));
 
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 7)
+        {
+            splineController.mSplineInterp.mState = "Stopped";
+            stop = false;
+            if (stepNumber > 0)
+            {
+                StepLock = false;
+                next = true;
+            }
+        } else
+        {
+            pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
+        }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0)&& !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
@@ -52,40 +87,84 @@ public class Steps : MonoBehaviour {
                 if (hit.transform.gameObject.tag == "positie")
                 {
                     nextlocation = hit.collider.gameObject.ToString();
-  
-                    if(stepNumber+1 <Positions.Length && Positions[stepNumber + 1].ToString().Equals(nextlocation))
+                    if (!StepLock && stepNumber + 1 < Positions.Length && Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
-                        Step();
+                        StepLock = true;
+                        Step();                          
                     }
-                    
                 }
+                
+            }
+        }
+        getQuestion();
+
+        //see if screen is touched
+        foreach(Touch touch in Input.touches)
+        {
+            //see if touch just began
+            if (touch.phase == TouchPhase.Began)
+            {
+                Debug.Log("touch started");
+                initTouch = touch;
+            }
+            //if the touch is moving
+            else if(touch.phase == TouchPhase.Moved)
+            {
+                //if there is no popup over the level or if the camera is not locked
+                if (!movecamera && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                {
+                    //move camera according to finger movement
+                    float deltaZ = initTouch.position.y - touch.position.y;
+                    movZ = deltaZ * Time.deltaTime * moveSpeed * direction;
+                    movZ = movZ + cameraPos.transform.position.z;
+                    cameraPos.transform.position = new Vector3(608, 1481, movZ);
+                }
+            }
+            //if touch ends , reset variables
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                Debug.Log("touch ended");
+                initTouch = new Touch();
+                movZ = 0;
             }
         }
 
-        if (pawn.transform.position.x.Equals(Positions[stepNumber].transform.position.x) && pawn.transform.position.z.Equals(Positions[stepNumber].transform.position.z) && !QuestionLock)
-            {
-
-                //show question
-                getQuestions.ShowQuestion(stepNumber);
-                QuestionLock = true;
-            }
-
     }
-    
+    private int position = 1;
     //put pawn on next place
+
+    public void getQuestion()
+    {
+        if (!QuestionLock && (stepNumber > 0) && next)
+        {
+            //show question
+            getQuestions.ShowQuestion(position);
+            QuestionLock = true;
+            next = false;
+        }
+    }
     public void Step ()
     {
+        movecamera = true;
+        QuestionLock = false;
         stepNumber += 1;
+        if (stepNumber > 1)
+        {
+            cameraStand.z = Pawnpositions[position].z - 553;
+            position += 1;
+        }
+        splineController.mSplineInterp.mState = "";
+        
         if (stepNumber >= Pawnpositions.Count)
         {
             stepNumber = 0;
         }
+
         startTime = Time.time;
         startPoint = pawn.transform.position;
-        QuestionLock = false;
 
         startPointCamera = cameraPos.transform.position;
-        cameraStand.z = Pawnpositions[stepNumber].z - 553;
+        
     }
 
     public void ChangeSpeed(float newSpeed)
