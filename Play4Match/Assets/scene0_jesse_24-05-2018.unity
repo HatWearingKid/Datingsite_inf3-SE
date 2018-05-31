@@ -2053,15 +2053,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchPanel: {fileID: 465369781}
   nameObj: {fileID: 1097741531}
-  ageObj: {fileID: 1208864892}
-  genderObj: {fileID: 2009229605}
   matchRateObj: {fileID: 523810333}
+  descriptionObj: {fileID: 0}
   closeButtonObj: {fileID: 294854449}
+  crushButtonObj: {fileID: 0}
+  particles: {fileID: 0}
+  impact: {fileID: 0}
+  RedHeart: {fileID: 0}
+  WhiteHeart: {fileID: 0}
+  speed: 0
+  fadeOutTime: 0
   buttonName: 
+  userId: 
   nameString: 
-  ageString: 
-  genderString: 
   matchRateString: 
+  descriptionString: 
 --- !u!136 &289959572
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6327,7 +6333,7 @@ MonoBehaviour:
   - {x: 669, y: 32, z: 2449}
   getQuestions: {fileID: 963607097}
   splineController: {fileID: 1588883694}
-  moveSpeed: 20
+  moveSpeed: 10
   direction: 1
 --- !u!81 &963607093
 AudioListener:
@@ -6403,11 +6409,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
   NumberOfQuestions: 7
-  vragenQuestion3: {fileID: 1101876762}
-  vragenQuestion4: {fileID: 766257906}
-  vragenQuestion5: {fileID: 1780092780}
-  vragenQuestion6: {fileID: 1483847421}
+  QuestionPanel: {fileID: 0}
+  QuestionText: {fileID: 0}
+  Answers3: {fileID: 0}
+  Answers4: {fileID: 0}
+  Answers5: {fileID: 0}
+  Answers6: {fileID: 0}
+  weightSlider: {fileID: 0}
   NoQuestion: {fileID: 138017028}
 --- !u!114 &963607098
 MonoBehaviour:
@@ -6421,6 +6431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchButton: {fileID: 289959570}
+  matchButtonSpawns: {fileID: 0}
 --- !u!114 &963607099
 MonoBehaviour:
   m_ObjectHideFlags: 0
