@@ -700,7 +700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00000002356045, y: -0.000010180572}
+  m_AnchoredPosition: {x: 0.0000076293945, y: -0.000010180572}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1789413905
@@ -735,8 +735,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 5, y: 5}
+  m_CellSize: {x: 700, y: 100}
+  m_Spacing: {x: 0, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &1789413907
@@ -815,7 +815,7 @@ Prefab:
     - target: {fileID: 224071897654977244, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224071897654977244, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
@@ -835,7 +835,7 @@ Prefab:
     - target: {fileID: 224071897654977244, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224071897654977244, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
@@ -845,7 +845,7 @@ Prefab:
     - target: {fileID: 224071897654977244, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224071897654977244, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
@@ -862,6 +862,21 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
+        type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: activateClickedChatroom
+      objectReference: {fileID: 0}
+    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
+        type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
+        type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1789413907}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f34d727f82f96cc44b526e17c9a5fd07, type: 2}
   m_IsPrefabParent: 0

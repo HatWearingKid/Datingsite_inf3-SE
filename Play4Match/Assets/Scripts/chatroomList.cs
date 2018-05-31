@@ -195,14 +195,21 @@ public class chatroomList : MonoBehaviour
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            newObj.SetActive(true);
             // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
-
+            
+            // .onClick.AddListener(delegate {activateClickedChatroom(ChatRoomBerichtenLijst[i].chatroomID.ToString()); });
 
         }
 
     }
+    public void activateClickedChatroom(string ID)
+    {
+        Debug.Log("Open chatroom met ID: " + ID);
+    }
 
 }
+
 
 public class ChatRoomBerichtList
 {
