@@ -181,11 +181,10 @@ public class chatroomList : MonoBehaviour
             //t.addComponent<RectTransform>().setParent(parent);
             //t.text = ChatRoomBerichtenLijst[i].message.ToString();
 
-
-
-            //GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            //newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + ChatRoomBerichtenLijst[i].date.ToString() + ")";
-            //newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            
+            GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ")";
+            newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
 
 
             //Message newMessage = new Message();
@@ -201,7 +200,7 @@ public class chatroomList : MonoBehaviour
                 "name: " + ChatRoomBerichtenLijst[i].name.ToString() + "\n" +
                 "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
                 "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
-            );
+            ); // Message in een textMeshPro Element ivm emoji's ?
 
         }
 
