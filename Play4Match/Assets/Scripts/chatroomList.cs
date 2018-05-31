@@ -102,7 +102,7 @@ public class chatroomList : MonoBehaviour
 
     void getAllChatrooms()
     {
-        Debug.Log("Get all chatrooms");
+        //Debug.Log("Get all chatrooms");
 
         FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
@@ -113,21 +113,24 @@ public class chatroomList : MonoBehaviour
                         foreach (var childSnapshot in snapshot.Children)
                         {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
-                            Debug.Log("users: " + user2_db);
+                            //Debug.Log("users: " + user2_db);
 
                             string[] users = user2_db.Split('|');
                             foreach (string user in users)
                             {
                                 if (user != userID)
                                 {
-                                    Debug.Log("Chat met user: " + user);
+                                    //Debug.Log("Chat met user: " + user);
                                     FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
                                     task2 => {
                                         if (task2.IsCompleted)
                                         {
-
+                                            
                                             DataSnapshot snapshot2 = task2.Result;
                                             IDictionary dictUser = (IDictionary)snapshot2.Value;
+
+                                            //Debug.Log("snapshot value: " + snapshot2.Value);
+                                            //Debug.Log("snapshot value string: " + snapshot2.Value.ToString());
 
                                             FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
                                                 task3 => {
@@ -135,7 +138,7 @@ public class chatroomList : MonoBehaviour
                                                     {
                                                         
                                                         DataSnapshot snapshot3 = task3.Result;
-                                                        Debug.Log("In het berichten gedeelte, er zijn " + snapshot3.ChildrenCount + " berichten in chatroomID " + childSnapshot.Key);
+                                                        //Debug.Log("In het berichten gedeelte, er zijn " + snapshot3.ChildrenCount + " berichten in chatroomID " + childSnapshot.Key);
 
                                                         foreach (var childSnapshot3 in snapshot3.Children)
                                                         {
@@ -143,16 +146,16 @@ public class chatroomList : MonoBehaviour
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
                                                         }
 
-                                                        Debug.Log("ChatRoomBerichtenLijst count voor de add: " + ChatRoomBerichtenLijst.Count);
-                                                        
+                                                        //Debug.Log("ChatRoomBerichtenLijst count voor de add: " + ChatRoomBerichtenLijst.Count);
+                                                        //Debug.Log("dictuser: " + dictUser["Name"].ToString());
                                                         ChatRoomBerichtenLijst.Add(
                                                             new ChatRoomBerichtList(
                                                                 lastMessageTime.ToString(),
                                                                 lastMessage.ToString(),
-                                                                "hardcodedUser",
+                                                                dictUser["Name"].ToString(),
                                                                 childSnapshot.Key.ToString()
                                                             )
-                                                        ); // dictUser["Name"].toString()
+                                                        );
 
 
                                                         /*
