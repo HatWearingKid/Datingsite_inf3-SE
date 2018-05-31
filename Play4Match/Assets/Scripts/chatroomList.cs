@@ -36,6 +36,9 @@ public class chatroomList : MonoBehaviour
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
+    public GameObject prefab;
+    public GameObject chatList;
+
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -204,6 +207,9 @@ public class chatroomList : MonoBehaviour
             //t.addComponent<RectTransform>().setParent(parent);
             //t.text = ChatRoomBerichtenLijst[i].message.ToString();
 
+            GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + ChatRoomBerichtenLijst[i].date.ToString() + ")";
+            newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
 
             Debug.Log("ChatroomID: " + ChatRoomBerichtenLijst[i].chatroomID.ToString() + "\n" +
                 "Date: " + ChatRoomBerichtenLijst[i].date.ToString() + "\n" +
