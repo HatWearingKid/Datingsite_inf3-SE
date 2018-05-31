@@ -183,8 +183,9 @@ public class chatroomList : MonoBehaviour
 
             
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ")";
+            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ":";
             newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
 
 
             //Message newMessage = new Message();
