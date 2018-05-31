@@ -16,7 +16,6 @@ public class RetrieveProfile : MonoBehaviour {
 	string userID;
 	IDictionary dictUser;
 	Toast toast;
-	WWW www;
 	float timer;
 
 	void Start () {
@@ -25,11 +24,6 @@ public class RetrieveProfile : MonoBehaviour {
 		toast = new Toast ();
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl ("https://play4matc.firebaseio.com/");
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-
-		if (user.PhotoUrl != null) {
-			www = new WWW (user.PhotoUrl.ToString ());
-			StartCoroutine (GetImage (www));
-		}
 
 		timer = Time.fixedTime + 2.0f;
 		GetProfile ();
@@ -46,7 +40,7 @@ public class RetrieveProfile : MonoBehaviour {
 		input.text = dictUser["Name"].ToString();
 	}
 
-	public void SetAge(InputField input){
+	public void SetDateOfBirth(InputField input){
 		input.text = dictUser["DateOfBirth"].ToString();
 	}
 
@@ -69,13 +63,6 @@ public class RetrieveProfile : MonoBehaviour {
 		string maxAge = dictUser["AgeMin"].ToString ();
 	}*/
 
-	public void SetImage(Button button){
-		//button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
-	}
-
-	public IEnumerator GetImage(WWW www){
-		yield return www;
-	}
 
 	// Method to retrieve the user data
 	public void GetProfile(){

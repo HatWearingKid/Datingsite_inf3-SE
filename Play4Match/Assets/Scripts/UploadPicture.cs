@@ -1,22 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase;
 using Firebase.Database;
 using Firebase.Storage;
 
-// Profiel foto ophalen uit de storage
-// Storage link voorbeeld: storageref/profilepictures/userid/picture.png
-// Map aanmaken bij het registreren van gebruiker
-
 public class UploadPicture : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
 	FirebaseStorage storage;
-	StorageReference profilePictureRef;
-	string imagePath = "";
+	StorageReference storageRef, profilePictureRef;
+	string imagePath;
+	Toast toast = new Toast();
+	WWW www;
+	public Button button;
 
 	void Start(){
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -26,37 +26,66 @@ public class UploadPicture : MonoBehaviour {
 		storage = FirebaseStorage.DefaultInstance;
 
 		// Create a storage reference from our storage service
-		profilePictureRef = storage.GetReferenceFromUrl("gs://play4matc.appspot.com/ProfilePictures");
+		storageRef = storage.GetReferenceFromUrl("gs://play4matc.appspot.com/");
+		profilePictureRef = storageRef.Child ("ProfilePictures/" + user.UserId + "/ProfilePicture.png");
+		
+		RetrievePicture ();
 	}
 
+	public void RetrievePicture(){
+		// Fetch the download URL
+		profilePictureRef.GetDownloadUrlAsync().ContinueWith((Task<Uri> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+				toast.MyShowToastMethod("Something wrent wrong with retrieving your profile picture.");
+			} else {
+				if(task.Result != null){
+					www = new WWW(task.Result.ToString());
+					StartCoroutine (GetImage (www));
+				}
+			}
+		});
+	}
+
+	public void SetImage(Button button){
+		this.button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
+	}
+
+	public IEnumerator GetImage(WWW www){
+		yield return www;
+	}
+
+	// Method to open the gallery on Android (with the asset)
 	public void PickImageFromGallery( int maxSize = 1024 )
 	{
 		NativeGallery.GetImageFromGallery( ( path ) =>
 			{
 				if( path != null )
-				{
+				{	
 					imagePath = path;
+
+					var bytes = System.IO.File.ReadAllBytes(imagePath);
+					var tex = new Texture2D(1, 1);
+					tex.LoadImage(bytes);
+
+					button.image.sprite = Sprite.Create(tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0, 0));
 				}
 			}, maxSize: maxSize );
-
-		Toast toast = new Toast ();
-		toast.MyShowToastMethod (imagePath);
 	}
 
+	// Firebase method to upload files to Firebase Cloud Storage
 	public void Upload(){
-		// Upload the file to the path "images/rivers.jpg"
-		profilePictureRef.PutFileAsync(imagePath)
-			.ContinueWith ((Task<StorageMetadata> task) => {
+		if (imagePath != null) {
+			// Upload the file to the path "images/rivers.jpg"
+			profilePictureRef.PutFileAsync("file://" + imagePath).ContinueWith ((Task<StorageMetadata> task) => {
 				if (task.IsFaulted || task.IsCanceled) {
-					Debug.Log(task.Exception.ToString());
-					// Uh-oh, an error occurred!
+					toast.MyShowToastMethod("Something wrent wrong, try again.");
 				} else {
 					// Metadata contains file metadata such as size, content-type, and download URL.
 					Firebase.Storage.StorageMetadata metadata = task.Result;
-					string download_url = metadata.DownloadUrl.ToString();
-					Debug.Log("Finished uploading...");
-					Debug.Log("download url = " + download_url);
+					toast.MyShowToastMethod("Upload success!");
+					imagePath = null;
 				}
 			});
+		}
 	}
 }
