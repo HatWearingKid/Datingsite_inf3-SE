@@ -32,6 +32,8 @@ public class chatroomList : MonoBehaviour
 
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
 
+    public Text testText;
+
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
@@ -182,9 +184,9 @@ public class chatroomList : MonoBehaviour
             //t.text = ChatRoomBerichtenLijst[i].message.ToString();
 
             
-            GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ":";
-            newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            //GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            //newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ":";
+            //newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
 
 
@@ -202,6 +204,10 @@ public class chatroomList : MonoBehaviour
                 "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
                 "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
             ); // Message in een textMeshPro Element ivm emoji's ?
+
+
+            testText = GetComponent<Text>();
+            testText.text = ChatRoomBerichtenLijst[i].message.ToString() + "\n\n";
 
         }
 
