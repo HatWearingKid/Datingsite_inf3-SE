@@ -51,8 +51,6 @@ public class Steps : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //pawn.transform.position = Vector3.Lerp(startPoint, Pawnpositions[stepNumber], (Time.time - startTime) / duration);
-        //pawn.transform.position = Vector3.
         if (movecamera)
         {
             cameraPos.transform.position = Vector3.Lerp(startPointCamera, cameraStand, (Time.time - startTime) / duration);
@@ -61,11 +59,11 @@ public class Steps : MonoBehaviour {
                 movecamera = false;
             }
         }
-        
-        //Debug.Log(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position));
 
+        //wanneer de pion bijna op positie is
         if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 7)
         {
+            //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
             stop = false;
             if (stepNumber > 0)
@@ -75,9 +73,11 @@ public class Steps : MonoBehaviour {
             }
         } else
         {
+            //anders follow curve
             pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
         }
 
+        //wanneer volgende stap wordt geselecteerd
         if (Input.GetMouseButtonDown(0)&& !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit;
@@ -89,6 +89,7 @@ public class Steps : MonoBehaviour {
                     nextlocation = hit.collider.gameObject.ToString();
                     if (!StepLock && stepNumber + 1 < Positions.Length && Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
+                        //zet stap
                         StepLock = true;
                         Step();                          
                     }
@@ -104,7 +105,6 @@ public class Steps : MonoBehaviour {
             //see if touch just began
             if (touch.phase == TouchPhase.Began)
             {
-                Debug.Log("touch started");
                 initTouch = touch;
             }
             //if the touch is moving
@@ -123,7 +123,6 @@ public class Steps : MonoBehaviour {
             //if touch ends , reset variables
             else if (touch.phase == TouchPhase.Ended)
             {
-                Debug.Log("touch ended");
                 initTouch = new Touch();
                 movZ = 0;
             }
@@ -145,14 +144,17 @@ public class Steps : MonoBehaviour {
     }
     public void Step ()
     {
+
         movecamera = true;
         QuestionLock = false;
         stepNumber += 1;
         if (stepNumber > 1)
         {
+            //camera naar volgende positie
             cameraStand.z = Pawnpositions[position].z - 553;
             position += 1;
         }
+        //set mState zodat pion lijn weer volgt
         splineController.mSplineInterp.mState = "";
         
         if (stepNumber >= Pawnpositions.Count)
