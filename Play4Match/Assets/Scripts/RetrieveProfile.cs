@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
+using SimpleJSON;
 
 /// <summary>
 /// Retrieve and edit profile. Class to retrieve data and edit data of a user
@@ -14,9 +15,9 @@ public class RetrieveProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
 	string userID;
-	IDictionary dictUser;
 	Toast toast;
 	float timer;
+	JSONNode node;
 
 	void Start () {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -37,15 +38,26 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetName(InputField input){
-		input.text = dictUser["Name"].ToString();
+		input.text = node["Name"];
 	}
 
 	public void SetDateOfBirth(InputField input){
-		input.text = dictUser["DateOfBirth"].ToString();
+		input.text = node["DateOfBirth"];
 	}
 
 	public void SetGender(Dropdown dropdown){
-		string gender = dictUser["Gender"].ToString ();
+		string gender = node["Gender"];
+		if (gender.Equals ("Male")) {
+			dropdown.value = 0;
+		} else if (gender.Equals ("Female")) {
+			dropdown.value = 1;
+		} else {
+			dropdown.value = 2;
+		}
+	}
+
+	public void SetGenderPref(Dropdown dropdown){
+		string gender = node["Gender"];
 		if (gender.Equals ("Male")) {
 			dropdown.value = 0;
 		} else if (gender.Equals ("Female")) {
@@ -56,12 +68,12 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetMinAge(Dropdown dropdown){
-		string minAge = dictUser["AgeMin"].ToString ();
+		string minAge = node["Preferences"]["AgeMin"];
 		dropdown.value = int.Parse (minAge) - 18;
 	}
 
 	public void SetMaxAge(Dropdown dropdown){
-		string maxAge = dictUser["AgeMax"].ToString ();
+		string maxAge = node["Preferences"]["AgeMax"];
 		dropdown.value = int.Parse (maxAge) - 18;
 	}
 
@@ -94,7 +106,8 @@ public class RetrieveProfile : MonoBehaviour {
 					{
 						// Check if user equals to the logged in user to retrieve correct data
 						if(userID.Equals(user.Key)){
-							dictUser = (IDictionary)user.Value;
+							node = JSON.Parse(user.GetRawJsonValue());
+							Debug.Log(user.GetRawJsonValue());
 						}
 					}
 				}
