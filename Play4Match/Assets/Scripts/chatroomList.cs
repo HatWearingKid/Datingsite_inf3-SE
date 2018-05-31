@@ -12,7 +12,6 @@ public class chatroomList : MonoBehaviour
 
     public string username;
 
-    public GameObject chatPanel, textObject;
     public InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
@@ -36,8 +35,7 @@ public class chatroomList : MonoBehaviour
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
-    public GameObject prefab;
-    public GameObject chatList;
+    public GameObject prefab, chatList, textObject;
 
     void Start()
     {
@@ -207,9 +205,20 @@ public class chatroomList : MonoBehaviour
             //t.addComponent<RectTransform>().setParent(parent);
             //t.text = ChatRoomBerichtenLijst[i].message.ToString();
 
-            GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + ChatRoomBerichtenLijst[i].date.ToString() + ")";
-            newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+
+
+            //GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            //newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + ChatRoomBerichtenLijst[i].date.ToString() + ")";
+            //newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+
+
+            //Message newMessage = new Message();
+            //newMessage.text = ChatRoomBerichtenLijst[i].message.ToString();
+            //GameObject newText = Instantiate(textObject, ScrollView_Chatlist.transform);
+            //newMessage.textObject = newText.GetComponent<Text>();
+            //newMessage.textObject.text = newMessage.text;
+            //messagelist.Add(newMessage);
+
 
             Debug.Log("ChatroomID: " + ChatRoomBerichtenLijst[i].chatroomID.ToString() + "\n" +
                 "Date: " + ChatRoomBerichtenLijst[i].date.ToString() + "\n" +
