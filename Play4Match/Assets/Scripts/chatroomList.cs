@@ -194,12 +194,16 @@ public class chatroomList : MonoBehaviour
     {
         Debug.Log("In buildChatroom, rooms: " + ChatRoomBerichtenLijst.Count);
         //RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
+
+        
+
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {
-            //GameObject g = new GameObject(ChatRoomBerichtenLijst[i].message);
+            //GameObject g = new GameObject(ChatRoomBerichtenLijst[i].message.ToString());
             //UnityEngine.UI.Text t = g.AddComponent<UnityEngine.UI.Text>();
             //t.addComponent<RectTransform>().setParent(parent);
             //t.text = ChatRoomBerichtenLijst[i].message.ToString();
+
 
             Debug.Log("ChatroomID: " + ChatRoomBerichtenLijst[i].chatroomID.ToString() + "\n" +
                 "Date: " + ChatRoomBerichtenLijst[i].date.ToString() + "\n" +
