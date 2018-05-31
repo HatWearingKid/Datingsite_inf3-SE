@@ -452,7 +452,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 1250}
+  m_SizeDelta: {x: 800, y: 1300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &976228484
 MonoBehaviour:
@@ -884,8 +884,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  chatPanel: {fileID: 0}
-  textObject: {fileID: 0}
   chatBox: {fileID: 0}
   userID: 
   chatroomID: 
@@ -898,6 +896,9 @@ MonoBehaviour:
   andereUser: 
   verticalLayoutGroup: {fileID: 0}
   messagelist: []
+  prefab: {fileID: 0}
+  chatList: {fileID: 0}
+  textObject: {fileID: 0}
 --- !u!1 &1914877142
 GameObject:
   m_ObjectHideFlags: 0
