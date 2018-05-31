@@ -153,9 +153,10 @@ public class chatroomList : MonoBehaviour
                                                                 lastMessageTime.ToString(),
                                                                 lastMessage.ToString(),
                                                                 dictUser["Name"].ToString(),
-                                                                childSnapshot.Key.ToString()
+                                                                childSnapshot.Key.ToString(),
+                                                                dictUser["PhotoUrl"].ToString()
                                                             )
-                                                        );
+                                                        ); // Het is belangrijk dat de velden er altijd zijn (Dit zou ook default moeten zijn), anders gaat hij stuk
 
 
                                                         /*
@@ -175,7 +176,7 @@ public class chatroomList : MonoBehaviour
 
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
-                                                            Debug.Log("Ga naar buildChatroom, er zijn " + snapshot.ChildrenCount + " children");
+                                                            //Debug.Log("Ga naar buildChatroom, er zijn " + snapshot.ChildrenCount + " children");
                                                             ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date));
                                                             buildChatroom();
                                                         }
@@ -226,7 +227,8 @@ public class chatroomList : MonoBehaviour
             Debug.Log("ChatroomID: " + ChatRoomBerichtenLijst[i].chatroomID.ToString() + "\n" +
                 "Date: " + ChatRoomBerichtenLijst[i].date.ToString() + "\n" +
                 "name: " + ChatRoomBerichtenLijst[i].name.ToString() + "\n" +
-                "message: " + ChatRoomBerichtenLijst[i].message.ToString()
+                "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
+                "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
             );
         }
 
@@ -240,12 +242,14 @@ public class ChatRoomBerichtList
     public string message;
     public string name;
     public string chatroomID;
-    public ChatRoomBerichtList(string date, string message, string name, string chatroomID)
+    public string PhotoUrl;
+    public ChatRoomBerichtList(string date, string message, string name, string chatroomID, string PhotoUrl)
     {
         this.date = date;
         this.message = message;
         this.name = name;
         this.chatroomID = chatroomID;
+        this.PhotoUrl = PhotoUrl;
     }
 }
 
