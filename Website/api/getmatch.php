@@ -18,8 +18,14 @@ if($id !== false && $id !== '')
 		// Save user
 		$user = $dataArray['Users'][$id];
 		
-		// Create users array excluding $user
+		// Create users array excluding $user and any already liked users
 		unset($dataArray['Users'][$id]);
+
+		foreach($user['Liked'] as $likedId => $value)
+		{
+			unset($dataArray['Users'][$likedId]);
+		}
+		
 		$users = $dataArray['Users'];
 		
 		// Filter based on user's preferences
@@ -93,7 +99,7 @@ function filterUsersByOthersPref($user, $users)
 
 function compareAnswers($user, $users)
 {
-	$result = [];
+	$result = false;
 	
 	foreach($users as $userId => $tempUser)
 	{
@@ -155,11 +161,12 @@ function compareAnswers($user, $users)
 		// Let's calculate the match percentage
 		if($result[$userId]['points'] != 0 && $result[$userId]['UsedAnswers']!= 0)
 		{
-			$result[$userId]['MatchRate'] = ($result[$userId]['points'] / $result[$userId]['UsedAnswers']);
+			$result[$userId]['MatchRate'] = round($result[$userId]['points'] / $result[$userId]['UsedAnswers']);
 		}
 		else
 		{
-			$result[$userId]['MatchRate'] = 0;
+			// Remove match from result
+			unset($result[$userId]);
 		}
 
 		// Unset some unneeded data

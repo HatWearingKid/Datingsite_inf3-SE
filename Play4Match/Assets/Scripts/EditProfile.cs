@@ -9,21 +9,28 @@ using Firebase.Unity.Editor;
 public class EditProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
-	DatabaseReference reference;
+	DatabaseReference userRef;
+	DatabaseReference prefRef;
 
 	private string name;
 	private string gender;
 	private string dateOfBirth;
-	private string country;
+
+	private string genderPref;
+	private string minAge;
+	private string maxAge;
 
 	void Start() {
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
-		// Get the root reference location of the database.
-		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
+
+		// Get the reference to the Users root node of the database.
+		userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
+		// Get the reference to the Preference root node of the database.
+		prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
 	}
 
 	public void SetName(string _name){
@@ -35,13 +42,9 @@ public class EditProfile : MonoBehaviour {
 		name = input.text;
 	}
 		
-	public void GetGender(InputField input)
+	public void GetGender(Dropdown dropdown)
 	{
-		gender = input.text;
-	}
-
-	public void SetGender(string _gender){
-		gender = _gender;
+		gender = dropdown.options[dropdown.value].text;
 	}
 
 	public void GetDateOfBirth(InputField input){
@@ -52,18 +55,30 @@ public class EditProfile : MonoBehaviour {
 		dateOfBirth = _dateofbirth;
 	}
 
-	public void GetCountry(InputField input){
-		country = input.text;
+	public void GetGenderPref(Dropdown dropdown)
+	{
+		genderPref = dropdown.options[dropdown.value].text;
 	}
 
-	public void SetCountry(string _country){
-		country = _country;
+	public void GetMinAge(Dropdown dropdown)
+	{
+		minAge = dropdown.options[dropdown.value].text;
+	}
+
+	public void GetMaxAge(Dropdown dropdown)
+	{
+		maxAge = dropdown.options[dropdown.value].text;
 	}
 
 	public void UpdateUser(){	
-		reference.Child ("Users").Child (user.UserId).Child("Name").SetValueAsync(name);
-		reference.Child ("Users").Child (user.UserId).Child("Country").SetValueAsync(country);
-		reference.Child ("Users").Child (user.UserId).Child("Gender").SetValueAsync(gender);
-		reference.Child ("Users").Child (user.UserId).Child("DateOfBirth").SetValueAsync(dateOfBirth);
+		// Update data in the Users root
+		userRef.Child("Name").SetValueAsync(name);
+		userRef.Child("Gender").SetValueAsync(gender);
+		userRef.Child("DateOfBirth").SetValueAsync(dateOfBirth);
+
+		//Update data in the Preferences root
+		prefRef.Child("Gender").SetValueAsync(genderPref);
+		prefRef.Child("AgeMin").SetValueAsync(minAge);
+		prefRef.Child("AgeMax").SetValueAsync(maxAge);
 	}
 }

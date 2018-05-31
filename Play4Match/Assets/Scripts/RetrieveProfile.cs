@@ -50,16 +50,27 @@ public class RetrieveProfile : MonoBehaviour {
 		input.text = dictUser["DateOfBirth"].ToString();
 	}
 
-	public void SetGender(InputField input){
-		input.text = dictUser["Gender"].ToString();
+	public void SetGender(Dropdown dropdown){
+		string gender = dictUser["Gender"].ToString ();
+		if (gender.Equals ("Male")) {
+			dropdown.value = 0;
+		} else if (gender.Equals ("Female")) {
+			dropdown.value = 1;
+		} else {
+			dropdown.value = 2;
+		}
 	}
 
-	public void SetCountry(InputField input){
-		input.text = dictUser["Country"].ToString();
+	/*public void SetMinAge(Dropdown dropdown){
+		string minAge = dictUser["AgeMin"].ToString ();
 	}
+
+	public void SetMaxAge(Dropdown dropdown){
+		string maxAge = dictUser["AgeMin"].ToString ();
+	}*/
 
 	public void SetImage(Button button){
-		button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
+		//button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
 	}
 
 	public IEnumerator GetImage(WWW www){
@@ -95,7 +106,6 @@ public class RetrieveProfile : MonoBehaviour {
 						// Check if user equals to the logged in user to retrieve correct data
 						if(userID.Equals(user.Key)){
 							dictUser = (IDictionary)user.Value;
-							Debug.Log(dictUser.Count);
 						}
 					}
 				}
