@@ -102,7 +102,6 @@ public class chatroomList : MonoBehaviour
 
     void getAllChatrooms()
     {
-        //Debug.Log("Get all chatrooms");
 
         FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
@@ -113,14 +112,12 @@ public class chatroomList : MonoBehaviour
                         foreach (var childSnapshot in snapshot.Children)
                         {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
-                            //Debug.Log("users: " + user2_db);
 
                             string[] users = user2_db.Split('|');
                             foreach (string user in users)
                             {
                                 if (user != userID)
                                 {
-                                    //Debug.Log("Chat met user: " + user);
                                     FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
                                     task2 => {
                                         if (task2.IsCompleted)
@@ -129,16 +126,12 @@ public class chatroomList : MonoBehaviour
                                             DataSnapshot snapshot2 = task2.Result;
                                             IDictionary dictUser = (IDictionary)snapshot2.Value;
 
-                                            //Debug.Log("snapshot value: " + snapshot2.Value);
-                                            //Debug.Log("snapshot value string: " + snapshot2.Value.ToString());
-
                                             FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
                                                 task3 => {
                                                     if (task3.IsCompleted)
                                                     {
                                                         
                                                         DataSnapshot snapshot3 = task3.Result;
-                                                        //Debug.Log("In het berichten gedeelte, er zijn " + snapshot3.ChildrenCount + " berichten in chatroomID " + childSnapshot.Key);
 
                                                         foreach (var childSnapshot3 in snapshot3.Children)
                                                         {
@@ -146,8 +139,6 @@ public class chatroomList : MonoBehaviour
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
                                                         }
 
-                                                        //Debug.Log("ChatRoomBerichtenLijst count voor de add: " + ChatRoomBerichtenLijst.Count);
-                                                        //Debug.Log("dictuser: " + dictUser["Name"].ToString());
                                                         ChatRoomBerichtenLijst.Add(
                                                             new ChatRoomBerichtList(
                                                                 lastMessageTime.ToString(),
@@ -158,25 +149,8 @@ public class chatroomList : MonoBehaviour
                                                             )
                                                         ); // Het is belangrijk dat de velden er altijd zijn (Dit zou ook default moeten zijn), anders gaat hij stuk
 
-
-                                                        /*
-                                                        Debug.Log("ChatroomID: " + childSnapshot.Key.ToString());
-                                                        Debug.Log("Date: " + lastMessageTime.ToString());
-                                                        Debug.Log("message: " + lastMessage.ToString());
-                                                        Debug.Log("name: " + dictUser["Name"]);
-                                                        
-
-                                                        ChatRoomBerichtenLijst.Add(new ChatRoomBerichtList(
-                                                                "123456",
-                                                                "lastMessage",
-                                                                "user",
-                                                                "chatroomID"));
-                                                        Debug.Log("ChatRoomBerichtenLijst count voor na add: " + ChatRoomBerichtenLijst.Count);
-                                                        */
-
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
-                                                            //Debug.Log("Ga naar buildChatroom, er zijn " + snapshot.ChildrenCount + " children");
                                                             ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date));
                                                             buildChatroom();
                                                         }
@@ -199,8 +173,6 @@ public class chatroomList : MonoBehaviour
     {
         Debug.Log("In buildChatroom, rooms: " + ChatRoomBerichtenLijst.Count);
         //RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
-
-        
 
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {
@@ -230,6 +202,7 @@ public class chatroomList : MonoBehaviour
                 "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
                 "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
             );
+
         }
 
     }
