@@ -55,13 +55,15 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	/*public void SetMinAge(Dropdown dropdown){
+	public void SetMinAge(Dropdown dropdown){
 		string minAge = dictUser["AgeMin"].ToString ();
+		dropdown.value = int.Parse (minAge) - 18;
 	}
 
 	public void SetMaxAge(Dropdown dropdown){
-		string maxAge = dictUser["AgeMin"].ToString ();
-	}*/
+		string maxAge = dictUser["AgeMax"].ToString ();
+		dropdown.value = int.Parse (maxAge) - 18;
+	}
 
 
 	// Method to retrieve the user data
