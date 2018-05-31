@@ -133,7 +133,7 @@ public class chatroomList : MonoBehaviour
                                                         
                                                         DataSnapshot snapshot3 = task3.Result;
 
-                                                        foreach (var childSnapshot3 in snapshot3.Children)
+                                                        foreach (var childSnapshot3 in snapshot3.Children) 
                                                         {
                                                             lastMessage = childSnapshot3.Child("content").Value.ToString();
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
@@ -181,11 +181,11 @@ public class chatroomList : MonoBehaviour
             //t.addComponent<RectTransform>().setParent(parent);
             //t.text = ChatRoomBerichtenLijst[i].message.ToString();
 
-
-
-            //GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            //newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " (" + ChatRoomBerichtenLijst[i].date.ToString() + ")";
-            //newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            
+            GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ":";
+            newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
 
 
             //Message newMessage = new Message();
@@ -201,7 +201,7 @@ public class chatroomList : MonoBehaviour
                 "name: " + ChatRoomBerichtenLijst[i].name.ToString() + "\n" +
                 "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
                 "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
-            );
+            ); // Message in een textMeshPro Element ivm emoji's ?
 
         }
 
