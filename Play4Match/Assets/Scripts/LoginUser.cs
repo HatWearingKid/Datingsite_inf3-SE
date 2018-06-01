@@ -32,8 +32,6 @@ public class LoginUser : MonoBehaviour {
 	public void LoginUserOnClick(){
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
-		loadingScreen.SetActive(true);
-
 		// A method from Firebase to login the user asynchrone
 		auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
 			if (task.IsCanceled) {
@@ -44,8 +42,6 @@ public class LoginUser : MonoBehaviour {
 				toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
 				return;
 			}
-
-			loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
 
 			// If the user is logged in switch the scene
 			Firebase.Auth.FirebaseUser newUser = task.Result;
