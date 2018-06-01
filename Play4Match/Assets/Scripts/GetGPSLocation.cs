@@ -11,7 +11,7 @@ public class GetGPSLocation : MonoBehaviour {
 	public Text textLat;
 	public Text textLong;
 
-	public void Method(){
+	public void StartGPS(){
 		StartCoroutine (GetLocation());
 	}
 

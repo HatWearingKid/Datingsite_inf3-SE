@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Player {
 	public string Name;
-	public string PhotoUrl;
 	public string DateOfBirth;
 	public string Gender;
 	public bool Location;

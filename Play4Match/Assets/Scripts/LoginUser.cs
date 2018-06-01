@@ -50,7 +50,7 @@ public class LoginUser : MonoBehaviour {
 			// If the user is logged in switch the scene
 			Firebase.Auth.FirebaseUser newUser = task.Result;
 			SwitchScene switschScene = new SwitchScene();
-			switschScene.ChangeScene("Scene_Semih");
+			switschScene.ChangeScene("scene0");
 		});
 	}
 

@@ -6916,6 +6916,9 @@ MonoBehaviour:
   - {x: 1042.1372, y: 32, z: 2182.931}
   - {x: 669, y: 32, z: 2449}
   getQuestions: {fileID: 963607097}
+  splineController: {fileID: 0}
+  moveSpeed: 50
+  direction: 1
 --- !u!81 &963607093
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6990,6 +6993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
   NumberOfQuestions: 7
   QuestionPanel: {fileID: 0}
   QuestionText: {fileID: 0}
@@ -11284,7 +11288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1448365830
 RectTransform:
   m_ObjectHideFlags: 0

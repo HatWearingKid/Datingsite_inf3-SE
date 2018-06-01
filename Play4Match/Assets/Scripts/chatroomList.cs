@@ -32,10 +32,11 @@ public class chatroomList : MonoBehaviour
 
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
 
+
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
-    public GameObject prefab, chatList, textObject;
+    public GameObject prefab, chatList;
 
     void Start()
     {
@@ -61,8 +62,10 @@ public class chatroomList : MonoBehaviour
 
     public string tijdVerschil(int tijd)
     {
+        Debug.Log("Tijd: " + tijd);
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
+        Debug.Log("Verschil: " + tijdVerschil);
         string result = "";
 
         if (tijdVerschil >= 18144000)
@@ -93,6 +96,11 @@ public class chatroomList : MonoBehaviour
         if (tijdVerschil < 60)
         {
             result = tijdVerschil + " seconden geleden";
+        }
+
+        if (tijdVerschil <= 0)
+        {
+            result = "test";
         }
 
         return result;
@@ -171,43 +179,37 @@ public class chatroomList : MonoBehaviour
 
     public void buildChatroom()
     {
-        Debug.Log("In buildChatroom, rooms: " + ChatRoomBerichtenLijst.Count);
-        //RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
+        //Debug.Log("In buildChatroom, rooms: " + ChatRoomBerichtenLijst.Count);
 
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {
-            //GameObject g = new GameObject(ChatRoomBerichtenLijst[i].message.ToString());
-            //UnityEngine.UI.Text t = g.AddComponent<UnityEngine.UI.Text>();
-            //t.addComponent<RectTransform>().setParent(parent);
-            //t.text = ChatRoomBerichtenLijst[i].message.ToString();
-
-            
-            GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            newObj.transform.Find("NameDate").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString())) + ":";
-            newObj.transform.Find("Message").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
-            // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
-
-
-            //Message newMessage = new Message();
-            //newMessage.text = ChatRoomBerichtenLijst[i].message.ToString();
-            //GameObject newText = Instantiate(textObject, ScrollView_Chatlist.transform);
-            //newMessage.textObject = newText.GetComponent<Text>();
-            //newMessage.textObject.text = newMessage.text;
-            //messagelist.Add(newMessage);
-
-
+            /*
             Debug.Log("ChatroomID: " + ChatRoomBerichtenLijst[i].chatroomID.ToString() + "\n" +
                 "Date: " + ChatRoomBerichtenLijst[i].date.ToString() + "\n" +
                 "name: " + ChatRoomBerichtenLijst[i].name.ToString() + "\n" +
                 "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
                 "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
-            ); // Message in een textMeshPro Element ivm emoji's ?
+            );
+            */
+            
+            GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+            newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+            newObj.SetActive(true);
+            // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
+            
+            // .onClick.AddListener(delegate {activateClickedChatroom(ChatRoomBerichtenLijst[i].chatroomID.ToString()); });
 
         }
 
     }
+    public void activateClickedChatroom(string ID)
+    {
+        Debug.Log("Open chatroom met ID: " + ID);
+    }
 
 }
+
 
 public class ChatRoomBerichtList
 {
