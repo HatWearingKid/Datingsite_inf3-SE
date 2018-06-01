@@ -27,6 +27,7 @@ public class Steps : MonoBehaviour {
     public float moveSpeed = 50F;
     public float direction = 1f;
     private bool movecamera = false;
+    public float maxCameraPlace = 2000;
 
     private System.DateTime timeClicked;
 
@@ -41,9 +42,9 @@ public class Steps : MonoBehaviour {
             Vector3 temp = new Vector3 { x = Positions[i].transform.position.x, y = Positions[i].transform.position.y, z = Positions[i].transform.position.z, };
             Pawnpositions.Add(temp);
         }
-        cameraStand.z = Pawnpositions[stepNumber].z - 553;
+        cameraStand.z = Pawnpositions[stepNumber].z - 453;
         cameraStand.y = 1481;
-        cameraStand.x = 608;
+        cameraStand.x = 690;
         cameraPos.transform.position = new Vector3 { x = cameraStand.x, z = cameraStand.z, y = cameraStand.y };
         startPointCamera = cameraPos.transform.position;
     }
@@ -122,7 +123,11 @@ public class Steps : MonoBehaviour {
                     float deltaZ = initTouch.position.y - touch.position.y;
                     movZ = deltaZ * Time.deltaTime * moveSpeed * direction;
                     movZ = movZ + cameraPos.transform.position.z;
-                    cameraPos.transform.position = new Vector3(608, 1481, movZ);
+                    if(movZ >= -44 && movZ <= maxCameraPlace)
+                    {
+                        cameraPos.transform.position = new Vector3(690, 1481, movZ);
+                    }
+                    
 
                 }
             }

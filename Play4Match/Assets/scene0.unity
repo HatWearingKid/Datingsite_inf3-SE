@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.29243386, g: 0.5675831, b: 0.6549906, a: 1}
+  m_IndirectSpecularColor: {r: 0.31811753, g: 0.71664155, b: 0.8426807, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14450,6 +14450,7 @@ MonoBehaviour:
   splineController: {fileID: 1588883694}
   moveSpeed: 10
   direction: 1
+  maxCameraPlace: 2000
 --- !u!81 &963607093
 AudioListener:
   m_ObjectHideFlags: 0
@@ -14507,7 +14508,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 963607091}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 608, y: 1481, z: -121.0691}
+  m_LocalPosition: {x: 690, y: 1481, z: -44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
