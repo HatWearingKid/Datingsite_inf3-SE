@@ -28,6 +28,8 @@ public class Steps : MonoBehaviour {
     public float direction = 1f;
     private bool movecamera = false;
 
+    private System.DateTime timeClicked;
+
     // Use this for initialization
     void Start () {
 
@@ -51,6 +53,7 @@ public class Steps : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        //camera alleen bewegen als de volgende stap is aangeklikt
         if (movecamera)
         {
             cameraPos.transform.position = Vector3.Lerp(startPointCamera, cameraStand, (Time.time - startTime) / duration);
@@ -74,6 +77,7 @@ public class Steps : MonoBehaviour {
         } else
         {
             //anders follow curve
+            next = false;
             pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
         }
 
@@ -89,6 +93,7 @@ public class Steps : MonoBehaviour {
                     nextlocation = hit.collider.gameObject.ToString();
                     if (!StepLock && stepNumber + 1 < Positions.Length && Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
+                        timeClicked = System.DateTime.Now;
                         //zet stap
                         StepLock = true;
                         Step();                          
@@ -118,6 +123,7 @@ public class Steps : MonoBehaviour {
                     movZ = deltaZ * Time.deltaTime * moveSpeed * direction;
                     movZ = movZ + cameraPos.transform.position.z;
                     cameraPos.transform.position = new Vector3(608, 1481, movZ);
+
                 }
             }
             //if touch ends , reset variables
@@ -131,15 +137,22 @@ public class Steps : MonoBehaviour {
     }
     private int position = 1;
     //put pawn on next place
-
+    
     public void getQuestion()
     {
+        System.DateTime timeNow = System.DateTime.Now;
         if (!QuestionLock && (stepNumber > 0) && next)
         {
-            //show question
-            getQuestions.ShowQuestion(position);
-            QuestionLock = true;
-            next = false;
+            var diffInSeconds = (timeNow - timeClicked).TotalSeconds;
+            Debug.Log(diffInSeconds);
+            if(diffInSeconds > 1)
+            {
+                //show question
+                getQuestions.ShowQuestion(position);
+                QuestionLock = true;
+                next = false;
+            }
+            
         }
     }
     public void Step ()
