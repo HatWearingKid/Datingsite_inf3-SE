@@ -45,7 +45,7 @@ public class LoginUser : MonoBehaviour {
 				return;
 			}
 
-			loadingScreen.SetActive(false);
+			loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
 
 			// If the user is logged in switch the scene
 			Firebase.Auth.FirebaseUser newUser = task.Result;
