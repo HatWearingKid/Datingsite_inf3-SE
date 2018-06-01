@@ -6,6 +6,7 @@ using Firebase;
 using Firebase.Unity.Editor;
 using Firebase.Database;
 using System;
+using UnityEngine.EventSystems;
 
 public class chatroomList : MonoBehaviour
 {
@@ -196,16 +197,26 @@ public class chatroomList : MonoBehaviour
             newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             newObj.SetActive(true);
+            //newObj.tag = ChatRoomBerichtenLijst[i].chatroomID.ToString();
+
+            newObj.name = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
-            
+
             // .onClick.AddListener(delegate {activateClickedChatroom(ChatRoomBerichtenLijst[i].chatroomID.ToString()); });
 
         }
 
     }
-    public void activateClickedChatroom(string ID)
+    public void activateClickedChatroom()// PointerEventData eventData
     {
-        Debug.Log("Open chatroom met ID: " + ID);
+        //Debug.Log(EventSystem.current.currentSelectedGameObject.tag);
+        Debug.Log(this.gameObject.name);
+        Debug.Log(this.name);
+        Debug.Log(this.gameObject.gameObject.name);
+        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        //Debug.Log(eventData.pointerId);
+
+
     }
 
 }
