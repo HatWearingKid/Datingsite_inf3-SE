@@ -149,7 +149,7 @@ public class Steps : MonoBehaviour {
         if (!QuestionLock && (stepNumber > 0) && next)
         {
             var diffInSeconds = (timeNow - timeClicked).TotalSeconds;
-            Debug.Log(diffInSeconds);
+            //Debug.Log(diffInSeconds);
             if(diffInSeconds > 1)
             {
                 //show question
