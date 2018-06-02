@@ -153,7 +153,7 @@ public class Steps : MonoBehaviour {
             if(diffInSeconds > 1)
             {
                 //show question
-                getQuestions.ShowQuestion(position);
+                getQuestions.ShowQuestion(position-1);
                 QuestionLock = true;
                 next = false;
             }
