@@ -31,12 +31,16 @@ public class EditProfile : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
-		// Get the reference to the Users root node of the database.
-		userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
-		// Get the reference to the Preference root node of the database.
-		prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
-		// Get the reference to the Location root node of the database.
-		locRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Location");
+		if(user != null)
+		{
+			// Get the reference to the Users root node of the database.
+			userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
+			// Get the reference to the Preference root node of the database.
+			prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
+			// Get the reference to the Location root node of the database.
+			locRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Location");
+		}
+
 	}
 
 	public void SetName(string _name){

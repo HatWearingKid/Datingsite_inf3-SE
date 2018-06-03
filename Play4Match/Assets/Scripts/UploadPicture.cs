@@ -22,32 +22,46 @@ public class UploadPicture : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
-		// Get a reference to the storage service, using the default Firebase App
-		storage = FirebaseStorage.DefaultInstance;
+		if (user != null)
+		{
+			// Get a reference to the storage service, using the default Firebase App
+			storage = FirebaseStorage.DefaultInstance;
 
-		// Create a storage reference from our storage service
-		storageRef = storage.GetReferenceFromUrl("gs://play4matc.appspot.com/");
-		profilePictureRef = storageRef.Child ("ProfilePictures/" + user.UserId + "/ProfilePicture.png");
-		
-		RetrievePicture ();
+			// Create a storage reference from our storage service
+			storageRef = storage.GetReferenceFromUrl("gs://play4matc.appspot.com/");
+			profilePictureRef = storageRef.Child("ProfilePictures/" + user.UserId + "/ProfilePicture.png");
+
+			RetrievePicture();
+		}
+
 	}
 
 	public void RetrievePicture(){
-		// Fetch the download URL
-		profilePictureRef.GetDownloadUrlAsync().ContinueWith((Task<Uri> task) => {
-			if (task.IsFaulted || task.IsCanceled) {
-				toast.MyShowToastMethod("Something wrent wrong with retrieving your profile picture.");
-			} else {
-				if(task.Result != null){
-					www = new WWW(task.Result.ToString());
-					StartCoroutine (GetImage (www));
+		if(profilePictureRef != null)
+		{
+			// Fetch the download URL
+			profilePictureRef.GetDownloadUrlAsync().ContinueWith((Task<Uri> task) => {
+				if (task.IsFaulted || task.IsCanceled)
+				{
+					toast.MyShowToastMethod("Something wrent wrong with retrieving your profile picture.");
 				}
-			}
-		});
+				else
+				{
+					if (task.Result != null)
+					{
+						www = new WWW(task.Result.ToString());
+						StartCoroutine(GetImage(www));
+					}
+				}
+			});
+		}
 	}
 
 	public void SetImage(Button button){
-		this.button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
+		if(www != null)
+		{
+			this.button.image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
+		}
 	}
 
 	public IEnumerator GetImage(WWW www){

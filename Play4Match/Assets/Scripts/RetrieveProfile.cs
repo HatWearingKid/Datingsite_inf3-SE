@@ -22,37 +22,53 @@ public class RetrieveProfile : MonoBehaviour {
 	void Start () {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
+
 		toast = new Toast ();
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl ("https://play4matc.firebaseio.com/");
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
 
 		timer = Time.fixedTime + 2.0f;
-		GetProfile ();
+		GetProfile();
 	}
 
-	void FixedUpdate() {
+	void Update() {
 		if (Time.fixedTime >= timer) {
-			GetProfile ();
+			GetProfile();
 			timer = Time.fixedTime + 2.0f;
 		}
 	}
 
 	public void SetName(InputField input){
-		input.text = node["Name"];
+		if(node != null)
+		{
+			input.text = node["Name"];
+		}
+		
 	}
 
 	public void SetDateOfBirth(InputField input){
-		input.text = node["DateOfBirth"];
+		if (node != null)
+		{
+			input.text = node["DateOfBirth"];
+		}
 	}
 
 	public void SetGender(Dropdown dropdown){
-		string gender = node["Gender"];
-		if (gender.Equals ("Male")) {
-			dropdown.value = 0;
-		} else if (gender.Equals ("Female")) {
-			dropdown.value = 1;
-		} else {
-			dropdown.value = 2;
+		if (node != null)
+		{
+			string gender = node["Gender"];
+			if (gender.Equals("Male"))
+			{
+				dropdown.value = 0;
+			}
+			else if (gender.Equals("Female"))
+			{
+				dropdown.value = 1;
+			}
+			else
+			{
+				dropdown.value = 2;
+			}
 		}
 	}
 
@@ -68,13 +84,19 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetMinAge(Dropdown dropdown){
-		string minAge = node["Preferences"]["AgeMin"];
-		dropdown.value = int.Parse (minAge) - 18;
+		if (node != null)
+		{
+			string minAge = node["Preferences"]["AgeMin"];
+			dropdown.value = int.Parse(minAge) - 18;
+		}
 	}
 
 	public void SetMaxAge(Dropdown dropdown){
-		string maxAge = node["Preferences"]["AgeMax"];
-		dropdown.value = int.Parse (maxAge) - 18;
+		if (node != null)
+		{
+			string maxAge = node["Preferences"]["AgeMax"];
+			dropdown.value = int.Parse(maxAge) - 18;
+		}
 	}
 
 
