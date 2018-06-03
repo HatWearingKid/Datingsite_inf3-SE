@@ -73,7 +73,6 @@ public class getQuestions : MonoBehaviour
                 JsonData = JSON.Parse(www.text);
 
 				loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
-
 			}
             else
             {

@@ -11,9 +11,16 @@ public class CreateCrushList : MonoBehaviour {
 	public GameObject prefab;
 
 	public GameObject CrushList;
+	
+	private bool initialStart = true;
+
+	public GameObject loadingScreen;
 
 	void Start()
 	{
+		loadingScreen.SetActive(true);
+
+
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
@@ -71,6 +78,23 @@ public class CreateCrushList : MonoBehaviour {
 				}
 			}
 		});
+
+		loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+		initialStart = false;
+	}
+
+	void OnEnable()
+	{
+		if (initialStart == false)
+		{
+			// Delete all crushes in the content object
+			foreach (Transform child in this.transform)
+			{
+				GameObject.Destroy(child.gameObject);
+			}
+
+			Start();
+		}
 	}
 
 	void Update()
