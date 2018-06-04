@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 using Firebase;
 using Firebase.Unity.Editor;
 using Firebase.Database;
 using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class ChatManager : MonoBehaviour {
 
     public string username;
 
-    public GameObject chatPanel, textObject;
-    public InputField chatBox;
+    public GameObject chatPanel;
+    public GameObject textPrefab;
+    public GameObject textPrefabUser;
+    public int paddingTop = 0;
+    Boolean firstChatMessage = true;
+
+    public TMP_Text textObject;
+    public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
     public string userID;
@@ -74,7 +82,7 @@ public class ChatManager : MonoBehaviour {
                     chatBox.text = "";
                 } else
                 {
-                    chatBox.text = "Nog geen chatroomID gevonden";
+                   // chatBox.text = "Nog geen chatroomID gevonden";
                 }
                 
                
@@ -87,17 +95,60 @@ public class ChatManager : MonoBehaviour {
 
     public void SendMessageToChat(string text)
     {
-        Message newMessage = new Message();
+        System.Random rnd = new System.Random();
+        if (rnd.Next(0, 2) == 1)
+        {
+            text = "kort bericht";
+            userID = "xh4S3DibGraTqCn8HascIIvdFR02";
 
-        newMessage.text = text;
+        }
+        else
+        {
+            text = "Een wat langer bericht met meer tekens";
+            userID = "Bob";
+        }
 
-        GameObject newText = Instantiate(textObject, chatPanel.transform);
+        string newText = "";
+        int charCount = 0;
 
-        newMessage.textObject = newText.GetComponent<Text>();
+        for(int i = 0; i < text.Length; i++)
+        {
+            string letter = text[i].ToString();
 
-        newMessage.textObject.text = newMessage.text;
+            charCount++;
 
-        messagelist.Add(newMessage);
+            if (charCount >= 35)
+            {
+                newText += "\n";
+                charCount = 0;
+            }
+
+            newText += text[i];
+        }
+
+        if (userID == "xh4S3DibGraTqCn8HascIIvdFR02")
+        {
+            GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
+
+            newObjUser.transform.Find("PanelHorizontal").Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = newText;
+        }
+        else
+        {
+            GameObject newObj = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+
+            newObj.transform.Find("PanelHorizontal").Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = newText;
+        }
+        //Message newMessage = new Message();
+
+        //newMessage.text = text;
+
+        //TMP_Text newText = Instantiate(textObject, chatPanel.transform);
+
+        //newMessage.textObject = newText.GetComponent<TMP_Text>();
+
+        //newMessage.textObject.text = newMessage.text;
+
+        //messagelist.Add(newMessage);
     }
 
     void sendMessage(string from, string content)
@@ -269,7 +320,7 @@ public class ChatManager : MonoBehaviour {
 public class Message
 {
     public string text;
-    public Text textObject;
+    public TMP_Text  textObject;
 
     public Message()
     {
