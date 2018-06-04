@@ -751,18 +751,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  chatBox: {fileID: 0}
   userID: 
-  chatroomID: 
   content: 
   date: 
   user: 
-  chatroomFound: 0
   lastMessage: 
   lastMessageTime: 
-  andereUser: 
   verticalLayoutGroup: {fileID: 0}
-  messagelist: []
   prefab: {fileID: 274816267}
   chatList: {fileID: 976228482}
 --- !u!1001 &1840779241
@@ -1032,18 +1027,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  chatBox: {fileID: 0}
   userID: 
-  chatroomID: 
   content: 
   date: 
   user: 
-  chatroomFound: 0
   lastMessage: 
   lastMessageTime: 
-  andereUser: 
   verticalLayoutGroup: {fileID: 0}
-  messagelist: []
   prefab: {fileID: 274816267}
   chatList: {fileID: 976228482}
 --- !u!1 &1914877142
