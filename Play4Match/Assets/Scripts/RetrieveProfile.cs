@@ -73,7 +73,7 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetGenderPref(Dropdown dropdown){
-		string gender = node["Gender"];
+		string gender = node["Preferences"]["Gender"];
 		if (gender.Equals ("Male")) {
 			dropdown.value = 0;
 		} else if (gender.Equals ("Female")) {
