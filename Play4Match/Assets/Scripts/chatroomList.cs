@@ -13,11 +13,8 @@ public class chatroomList : MonoBehaviour
 
     public DatabaseReference chatRef, reference;
     public string username, userID, content, date, user, lastMessage, lastMessageTime;
-    public bool chatroomFound = false;
-    private TouchScreenKeyboard keyboard;
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
-    List<Message> messagelist = new List<Message>();
     public GameObject prefab, chatList;
     public static string chatroomID; // ID meegeven aan de chat
 
