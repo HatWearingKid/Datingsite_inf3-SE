@@ -230,35 +230,3 @@ public class chatroomList : MonoBehaviour
     }
 
 }
-
-
-public class ChatRoomBerichtList
-{
-    public string date;
-    public string message;
-    public string name;
-    public string chatroomID;
-    public string PhotoUrl;
-    public ChatRoomBerichtList(string date, string message, string name, string chatroomID, string PhotoUrl)
-    {
-        this.date = date;
-        this.message = message;
-        this.name = name;
-        this.chatroomID = chatroomID;
-        this.PhotoUrl = PhotoUrl;
-    }
-}
-
-
-public class reportData
-{
-    public string who, by, data;
-    public reportData(string who, string by, string data)
-    {
-        this.who = who;
-        this.by = by;
-        this.data = data;
-    }
-}
-
-
