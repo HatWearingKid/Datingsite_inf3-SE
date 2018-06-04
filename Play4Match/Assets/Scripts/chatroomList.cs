@@ -164,6 +164,14 @@ public class chatroomList : MonoBehaviour
         Debug.Log("chatroomID gezet op: " + chatroomID);
     }
 
+    void addReport(string who, string type, string data = "")
+    {
+        reportData report = new reportData(who, userID, data);
+        string json = JsonUtility.ToJson(report);
+        reference.Child(type).Child(who).Child(userID).SetRawJsonValueAsync(json);
+        // Melding geven dat de chat is gereport
+    }
+
 }
 
 
@@ -185,3 +193,13 @@ public class ChatRoomBerichtList
 }
 
 
+public class reportData
+{
+    public string who, by, data;
+    public reportData(string who, string by, string data)
+    {
+        this.who = who;
+        this.by = by;
+        this.data = data;
+    }
+}
