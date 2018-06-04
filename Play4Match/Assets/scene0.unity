@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.311095, g: 0.6630859, b: 0.78229076, a: 1}
+  m_IndirectSpecularColor: {r: 0.29224256, g: 0.5674541, b: 0.6548628, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8951,7 +8951,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1251325239}
-        m_MethodName: GetMinAge
+        m_MethodName: GetMaxAge
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 359575218}
