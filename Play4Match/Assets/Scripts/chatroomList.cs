@@ -172,6 +172,63 @@ public class chatroomList : MonoBehaviour
         // Melding geven dat de chat is gereport
     }
 
+
+
+    // Maak een chatroom aan
+    void createChatroom(string user1, string user2)
+    {
+        string users = user1 + "|" + user2;
+
+        bool chatBestaat = false;
+
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                            var user2_db = childSnapshot.Child("users").Value.ToString();
+                            if ((user2_db == user1 + "|" + user2) || (user2_db == user2 + "|" + user1))
+                            {
+                                chatBestaat = true;
+                                chatroomID = childSnapshot.Key;
+                                break;
+                            }
+                        }
+
+                        if (chatBestaat == false)
+                        {
+                            string key = reference.Child("Chat").Push().Key;
+                            createChatroom createChatroom = new createChatroom(key, users);
+                            string json = JsonUtility.ToJson(createChatroom);
+
+                            reference.Child("Users").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            chatroomID = key;
+
+                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
+                        }
+
+                    }
+                });
+
+    }
+
+
+    void sendMessage(string from, string content)
+    {
+        chatMessage2 Message = new chatMessage2(from, content);
+        string json = JsonUtility.ToJson(Message);
+        string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
+        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
+    }
+
 }
 
 
@@ -203,3 +260,5 @@ public class reportData
         this.data = data;
     }
 }
+
+
