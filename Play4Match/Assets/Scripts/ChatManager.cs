@@ -404,31 +404,3 @@ public class chatMessage
     }
 }
 
-public class createChatroom
-{
-    public string key;
-    public string users;
-
-    public createChatroom(string key, string users)
-    {
-        this.key = key;
-        this.users = users;
-
-    }
-}
-
-
-public class chatMessage2
-{
-    public string user;
-    public string content;
-    public Int32 date;
-
-    public chatMessage2(string from, string content)
-    {
-        this.user = from;
-        this.content = content;
-        this.date = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds; // System.DateTime.UtcNow.ToString();
-    }
-}
-
