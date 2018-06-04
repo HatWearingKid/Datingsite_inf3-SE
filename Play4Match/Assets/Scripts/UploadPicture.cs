@@ -17,6 +17,7 @@ public class UploadPicture : MonoBehaviour {
 	Toast toast = new Toast();
 	WWW www;
 	public Button button;
+	public Image ProfilePicture;
 
 	void Start(){
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -57,10 +58,16 @@ public class UploadPicture : MonoBehaviour {
 		}
 	}
 
-	public void SetImage(Button button){
+	public void SetProfilePicture(){
+		if (www != null) {
+			ProfilePicture.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
+		}
+	}
+
+	public void SetImage(){
 		if(www != null)
 		{
-			this.button.image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
+			button.image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
 		}
 	}
 
