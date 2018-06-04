@@ -29,8 +29,8 @@ public class Crush : MonoBehaviour {
         // INSERT THE CRUSH INTO DB
         string crushId = matchButton.GetComponent<CreateMatchPopup>().userId;
 
-		//string key = reference.Child("Users").Child(id).Child("Liked").Push().Key;
-		//reference.Child("Users").Child(id).Child("Liked").Child(crushId).SetValueAsync(ServerValue.Timestamp);
+		string key = reference.Child("Users").Child(id).Child("Liked").Push().Key;
+		reference.Child("Users").Child(id).Child("Liked").Child(crushId).SetValueAsync(Firebase.Database.ServerValue.Timestamp);
 
 		// Deactivate popup and remove matchbutton
 		matchButton.GetComponent<CreateMatchPopup>().OnCrush();

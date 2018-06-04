@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
+using SimpleJSON;
 
 /// <summary>
 /// Retrieve and edit profile. Class to retrieve data and edit data of a user
@@ -14,44 +15,65 @@ public class RetrieveProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
 	string userID;
-	IDictionary dictUser;
 	Toast toast;
-	WWW www;
 	float timer;
+	JSONNode node;
 
 	void Start () {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
+
 		toast = new Toast ();
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl ("https://play4matc.firebaseio.com/");
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-		if (user.PhotoUrl != null) {
-			www = new WWW (user.PhotoUrl.ToString ());
-			StartCoroutine (GetImage (www));
-		}
-
 		timer = Time.fixedTime + 2.0f;
-		GetProfile ();
+		GetProfile();
 	}
 
-	void FixedUpdate() {
+	void Update() {
 		if (Time.fixedTime >= timer) {
-			GetProfile ();
+			GetProfile();
 			timer = Time.fixedTime + 2.0f;
 		}
 	}
 
 	public void SetName(InputField input){
-		input.text = dictUser["Name"].ToString();
+		if(node != null)
+		{
+			input.text = node["Name"];
+		}
+		
 	}
 
-	public void SetAge(InputField input){
-		input.text = dictUser["DateOfBirth"].ToString();
+	public void SetDateOfBirth(InputField input){
+		if (node != null)
+		{
+			input.text = node["DateOfBirth"];
+		}
 	}
 
 	public void SetGender(Dropdown dropdown){
-		string gender = dictUser["Gender"].ToString ();
+		if (node != null)
+		{
+			string gender = node["Gender"];
+			if (gender.Equals("Male"))
+			{
+				dropdown.value = 0;
+			}
+			else if (gender.Equals("Female"))
+			{
+				dropdown.value = 1;
+			}
+			else
+			{
+				dropdown.value = 2;
+			}
+		}
+	}
+
+	public void SetGenderPref(Dropdown dropdown){
+		string gender = node["Gender"];
 		if (gender.Equals ("Male")) {
 			dropdown.value = 0;
 		} else if (gender.Equals ("Female")) {
@@ -61,21 +83,22 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	/*public void SetMinAge(Dropdown dropdown){
-		string minAge = dictUser["AgeMin"].ToString ();
+	public void SetMinAge(Dropdown dropdown){
+		if (node != null)
+		{
+			string minAge = node["Preferences"]["AgeMin"];
+			dropdown.value = int.Parse(minAge) - 18;
+		}
 	}
 
 	public void SetMaxAge(Dropdown dropdown){
-		string maxAge = dictUser["AgeMin"].ToString ();
-	}*/
-
-	public void SetImage(Button button){
-		//button.image.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
+		if (node != null)
+		{
+			string maxAge = node["Preferences"]["AgeMax"];
+			dropdown.value = int.Parse(maxAge) - 18;
+		}
 	}
 
-	public IEnumerator GetImage(WWW www){
-		yield return www;
-	}
 
 	// Method to retrieve the user data
 	public void GetProfile(){
@@ -105,7 +128,8 @@ public class RetrieveProfile : MonoBehaviour {
 					{
 						// Check if user equals to the logged in user to retrieve correct data
 						if(userID.Equals(user.Key)){
-							dictUser = (IDictionary)user.Value;
+							node = JSON.Parse(user.GetRawJsonValue());
+							Debug.Log(user.GetRawJsonValue());
 						}
 					}
 				}

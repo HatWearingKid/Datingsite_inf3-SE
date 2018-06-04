@@ -11,19 +11,27 @@ using UnityEditor;
 
 public class getQuestions : MonoBehaviour
 {
+	public GameObject loadingScreen;
 
     string[] questionArray;
     WWW www;
-    private int currentQuestionNumber = 0;
+    private int currentQuestionId = 0;
     private int answerNumber = 1;
     private int weightNumber = 1;
     public int NumberOfQuestions;
     private JSONNode JsonData;
-    public GameObject vragenQuestion3;
-    public GameObject vragenQuestion4;
-    public GameObject vragenQuestion5;
-    public GameObject vragenQuestion6;
+
+    public GameObject QuestionPanel;
+    public GameObject QuestionText;
+	public GameObject Answers2;
+	public GameObject Answers3;
+    public GameObject Answers4;
+    public GameObject Answers5;
+    public GameObject Answers6;
+    public GameObject weightSlider;
+
     public GameObject NoQuestion;
+
     private Text questiontext;
     private GameObject AantalAntwoorden;
     private string userid;
@@ -42,6 +50,8 @@ public class getQuestions : MonoBehaviour
 
         //get json from api
         string url = "http://play4match.com/api/getq.php?id=" + userid + "&qamount=" + NumberOfQuestions;
+
+		loadingScreen.SetActive(true);
 
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
@@ -62,7 +72,8 @@ public class getQuestions : MonoBehaviour
                 //parse json to variable
                 JsonData = JSON.Parse(www.text);
 
-            }
+				loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+			}
             else
             {
                 Debug.Log("WWW Error: " + www.error);
@@ -80,175 +91,132 @@ public class getQuestions : MonoBehaviour
 
 
 
-    public void ShowQuestion(int QuestionNumber)
+    public void ShowQuestion(int questionId)
     {
-        //make question apear on screen
-        //questiontext = GameObject.Find("Question").GetComponent<Text>();
-        Transform TempCanvas;
-        if (QuestionNumber >= JsonData.Count)
-        {
+		// Deactive all Answer sliders
+		Answers2.SetActive(false);
+		Answers3.SetActive(false);
+        Answers4.SetActive(false);
+        Answers5.SetActive(false);
+        Answers6.SetActive(false);
 
-            //Debug.Log("there are no more questions to be asked");
-            //put in pop-up
-            TempCanvas = NoQuestion.transform.Find("Question");
-            questiontext = TempCanvas.GetComponent<Text>();
+        // If there are no questions
+        if (questionId >= JsonData.Count)
+        {
+            //Show Popup
             NoQuestion.SetActive(true);
-            questiontext.text = "there are no more questions to be asked";
         }
         else
         {
-            //temporary gameobject
-            GameObject temp;
+            // Set QuestionText
+            QuestionText.GetComponent<Text>().text = JsonData[questionId]["Q"];
 
-            //selecteerd op basis van antwoordnummers welk popup moet komen. dit is voor alle antwoord aantallen hetzelfde
-            if (JsonData[QuestionNumber]["Answers"].Count == 3)
+			if (JsonData[questionId]["Answers"].Count == 2)
+			{
+				// Fill all the answers
+				for (int i = 0; i < 2; i++)
+				{
+					Answers2.transform.Find("Text" + (i + 1)).GetComponent<Text>().text = UppercaseFirst(JsonData[questionId]["Answers"][i]);
+				}
+
+				// Activate panel
+				Answers2.SetActive(true);
+			}
+			else if (JsonData[questionId]["Answers"].Count == 3)
             {
-                //vind de text waar vraag ingezet moet worden
-                TempCanvas = vragenQuestion3.transform.Find("Question");
-                TempCanvas.GetComponent<Text>().text = JsonData[QuestionNumber]["Q"];
+                // Fill all the answers
+                for(int i = 0; i < 3; i++)
+                {
+                    Answers3.transform.Find("Text"+(i+1)).GetComponent<Text>().text = UppercaseFirst(JsonData[questionId]["Answers"][i]);
+                }
 
-                //importeerd antwoorden vanuit jsondata naar de antwoord slider
-                temp = vragenQuestion3.transform.Find("Antwoord").Find("Text1").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][0];
-
-                temp = vragenQuestion3.transform.Find("Antwoord").Find("Text2").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][1];
-
-                temp = vragenQuestion3.transform.Find("Antwoord").Find("Text3").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][2];
-
-                //zet de correcte canvas in een variabele zodat deze later gebruikt kan worden om de canvas te hiden
-                AantalAntwoorden = vragenQuestion3;
-                //activeer canvas
-                vragenQuestion3.SetActive(true);
-
-
-
-
+                // Activate panel
+                Answers3.SetActive(true);
             }
-            if (JsonData[QuestionNumber]["Answers"].Count == 4)
+            else if(JsonData[questionId]["Answers"].Count == 4)
             {
-                TempCanvas = vragenQuestion4.transform.Find("Question");
-                TempCanvas.GetComponent<Text>().text = JsonData[QuestionNumber]["Q"];
+                // Fill all the answers
+                for (int i = 0; i < 4; i++)
+                {
+                    Answers4.transform.Find("Text" + (i + 1)).GetComponent<Text>().text = UppercaseFirst(JsonData[questionId]["Answers"][i]);
+                }
 
-                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text1").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][0];
-
-                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text2").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][1];
-
-                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text3").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][2];
-
-                temp = vragenQuestion4.transform.Find("Antwoord").Find("Text4").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][3];
-
-                AantalAntwoorden = vragenQuestion4;
-                vragenQuestion4.SetActive(true);
+                // Activate panel
+                Answers4.SetActive(true);
             }
-            if (JsonData[QuestionNumber]["Answers"].Count == 5)
+            else if (JsonData[questionId]["Answers"].Count == 5)
             {
-                TempCanvas = vragenQuestion5.transform.Find("Question");
-                TempCanvas.GetComponent<Text>().text = JsonData[QuestionNumber]["Q"];
+                // Fill all the answers
+                for (int i = 0; i < 5; i++)
+                {
+                    Answers5.transform.Find("Text" + (i + 1)).GetComponent<Text>().text = UppercaseFirst(JsonData[questionId]["Answers"][i]);
+                }
 
-                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text1").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][0];
-
-                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text2").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][1];
-
-                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text3").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][2];
-
-                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text4").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][3];
-
-                temp = vragenQuestion5.transform.Find("Antwoord").Find("Text5").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][4];
-
-                AantalAntwoorden = vragenQuestion5;
-                vragenQuestion5.SetActive(true);
+                // Activate panel
+                Answers5.SetActive(true);
             }
-            if (JsonData[QuestionNumber]["Answers"].Count == 6)
+            else if (JsonData[questionId]["Answers"].Count == 6)
             {
-                TempCanvas = vragenQuestion6.transform.Find("Question");
-                TempCanvas.GetComponent<Text>().text = JsonData[QuestionNumber]["Q"];
+                // Fill all the answers
+                for (int i = 0; i < 6; i++)
+                {
+                    Answers6.transform.Find("Text" + (i + 1)).GetComponent<Text>().text = UppercaseFirst(JsonData[questionId]["Answers"][i]);
+                }
 
-                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text1").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][0];
-
-                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text2").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][1];
-
-                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text3").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][2];
-
-                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text4").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][3];
-
-                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text5").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][4];
-
-                temp = vragenQuestion6.transform.Find("Antwoord").Find("Text6").gameObject;
-                temp.GetComponent<Text>().text = JsonData[QuestionNumber]["Answers"][5];
-
-
-                AantalAntwoorden = vragenQuestion6;
-                vragenQuestion6.SetActive(true);
+                // Activate panel
+                Answers6.SetActive(true);
             }
-            currentQuestionNumber = JsonData[QuestionNumber]["Id"];
 
+            // Activate the QuestionPanel Popup
+            QuestionPanel.SetActive(true);
 
+            // Save currenQuestionId
+            currentQuestionId = JsonData[questionId]["Id"];
         }
-
-    }
-
-    //change answernumber. is used for the slider
-    public void ChangeAnswer(float answer)
-    {
-        answerNumber = (int)answer;
-
-    }
-
-    //change weightNumber. is used for the slider
-    public void ChangeWeight(float Weight)
-    {
-        weightNumber = (int)Weight;
-
     }
 
     //send answer to firebase
     public void SendAnswer()
     {
-        /*send to firebase*/
-        //make answer object
-        Answers answer = new Answers(answerNumber, weightNumber);
+        int answer = 0;
+        int weight = (int)weightSlider.GetComponent<Slider>().value;
+
+        if(Answers3.activeSelf == true)
+        {
+            answer = (int)Answers3.GetComponent<Slider>().value;
+        }
+        else if (Answers4.activeSelf == true)
+        {
+            answer = (int)Answers4.GetComponent<Slider>().value;
+        }
+        else if (Answers5.activeSelf == true)
+        {
+            answer = (int)Answers5.GetComponent<Slider>().value;
+        }
+        else if (Answers6.activeSelf == true)
+        {
+            answer = (int)Answers6.GetComponent<Slider>().value;
+        }
+
         //change answer object to json string
-        string sendAnswer = JsonUtility.ToJson(answer);
+        string sendAnswer = "{\"answer\":" + answer + ", \"weight\":" + weight + "}";
+
         //send json string to firebase database
-        reference.Child("Users").Child(userid).Child("Answered").Child(currentQuestionNumber.ToString()).SetRawJsonValueAsync(sendAnswer);
+        reference.Child("Users").Child(userid).Child("Answered").Child(currentQuestionId.ToString()).SetRawJsonValueAsync(sendAnswer);
 
-        //deactivate de panel waar antwoorden moeten worden gegeven
-        AantalAntwoorden.SetActive(false);
-    }
-}
-
-public class Answers
-{
-
-    public int Answer;
-    public int Value;
-
-    /// <summary>
-    /// answer object for sending to firebase database
-    /// </summary>
-    /// <param name="answer">give answer int</param>
-    /// <param name="weight">the weight of the answer</param>
-    public Answers(int answer, int weight)
-    {
-        this.Answer = answer;
-        this.Value = weight;
-
+		// Deactive QuestionPanel and reset weightslider
+		weightSlider.GetComponent<Slider>().value = 1;
+        QuestionPanel.SetActive(false);
     }
 
+	string UppercaseFirst(string s)
+	{
+		// Check for empty string.
+		if (string.IsNullOrEmpty(s))
+		{
+			return string.Empty;
+		}
+		// Return char and concat substring.
+		return char.ToUpper(s[0]) + s.Substring(1);
+	}
 }

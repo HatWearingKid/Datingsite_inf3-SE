@@ -11,6 +11,7 @@ public class EditProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseUser user;
 	DatabaseReference userRef;
 	DatabaseReference prefRef;
+	DatabaseReference locRef;
 
 	private string name;
 	private string gender;
@@ -20,6 +21,9 @@ public class EditProfile : MonoBehaviour {
 	private string minAge;
 	private string maxAge;
 
+	private string latitude;
+	private string longitude;
+
 	void Start() {
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -27,10 +31,16 @@ public class EditProfile : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
-		// Get the reference to the Users root node of the database.
-		userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
-		// Get the reference to the Preference root node of the database.
-		prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
+		if(user != null)
+		{
+			// Get the reference to the Users root node of the database.
+			userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
+			// Get the reference to the Preference root node of the database.
+			prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
+			// Get the reference to the Location root node of the database.
+			locRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Location");
+		}
+
 	}
 
 	public void SetName(string _name){
@@ -70,15 +80,27 @@ public class EditProfile : MonoBehaviour {
 		maxAge = dropdown.options[dropdown.value].text;
 	}
 
+	public void GetLatitude(Text text){
+		latitude = text.text;
+	}
+
+	public void GetLongitude(Text text){
+		longitude = text.text;	
+	}
+
 	public void UpdateUser(){	
 		// Update data in the Users root
 		userRef.Child("Name").SetValueAsync(name);
 		userRef.Child("Gender").SetValueAsync(gender);
 		userRef.Child("DateOfBirth").SetValueAsync(dateOfBirth);
 
-		//Update data in the Preferences root
+		// Update data in the Preferences root
 		prefRef.Child("Gender").SetValueAsync(genderPref);
 		prefRef.Child("AgeMin").SetValueAsync(minAge);
 		prefRef.Child("AgeMax").SetValueAsync(maxAge);
+
+		// Update data in the Location root
+		locRef.Child ("Longitude").SetValueAsync (longitude);
+		locRef.Child ("Latitude").SetValueAsync (latitude);
 	}
 }
