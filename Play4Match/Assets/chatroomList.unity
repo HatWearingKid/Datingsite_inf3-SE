@@ -862,21 +862,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: activateClickedChatroom
-      objectReference: {fileID: 0}
-    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1789413907}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f34d727f82f96cc44b526e17c9a5fd07, type: 2}
   m_IsPrefabParent: 0
