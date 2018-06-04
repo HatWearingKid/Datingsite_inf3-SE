@@ -154,6 +154,13 @@ public class chatroomList : MonoBehaviour
 
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
+
+
+            //TextAsset imageAsset;
+            //Texture2D tex = new Texture2D(2, 2);
+            //tex.LoadImage(imageAsset.bytes);
+            //GetComponent<Renderer>().material.mainTexture = tex;
+
         }
 
     }
