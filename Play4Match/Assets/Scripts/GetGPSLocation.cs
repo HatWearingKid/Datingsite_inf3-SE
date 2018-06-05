@@ -47,7 +47,9 @@ public class GetGPSLocation : MonoBehaviour {
 		else
 		{
 			// Access granted and location value could be retrieved
-			SetLocation(Input.location.lastData.latitude, Input.location.lastData.longitude);
+			latitude = Input.location.lastData.latitude;
+			longitude = Input.location.lastData.longitude;
+			SetLocation(latitude, longitude);
 		}
 
 		// Stop service if there is no need to query location updates continuously
@@ -57,5 +59,13 @@ public class GetGPSLocation : MonoBehaviour {
 	public void SetLocation(float latitude, float longitude){
 		textLat.text = latitude.ToString ();
 		textLong.text = longitude.ToString ();
+	}
+
+	public float GetLatitude(){
+		return latitude;
+	}
+
+	public float GetLongitude(){
+		return longitude;
 	}
 }

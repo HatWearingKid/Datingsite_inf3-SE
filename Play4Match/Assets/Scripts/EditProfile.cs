@@ -21,6 +21,7 @@ public class EditProfile : MonoBehaviour {
 	private string minAge;
 	private string maxAge;
 
+	private GetGPSLocation gpsLocation;
 	private string latitude;
 	private string longitude;
 
@@ -40,6 +41,8 @@ public class EditProfile : MonoBehaviour {
 			// Get the reference to the Location root node of the database.
 			locRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Location");
 		}
+		gpsLocation = new GetGPSLocation ();
+		gpsLocation.StartGPS ();
 
 	}
 
@@ -100,7 +103,7 @@ public class EditProfile : MonoBehaviour {
 		prefRef.Child("AgeMax").SetValueAsync(maxAge);
 
 		// Update data in the Location root
-		locRef.Child ("Longitude").SetValueAsync (longitude);
-		locRef.Child ("Latitude").SetValueAsync (latitude);
+		locRef.Child ("Longitude").SetValueAsync (gpsLocation.GetLongitude().ToString());
+		locRef.Child ("Latitude").SetValueAsync (gpsLocation.GetLatitude().ToString());
 	}
 }
