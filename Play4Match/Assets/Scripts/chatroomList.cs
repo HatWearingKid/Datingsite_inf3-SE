@@ -168,6 +168,7 @@ public class chatroomList : MonoBehaviour
     public void setChatroomID(string data)
     {
         chatroomID = data;
+        statics.chatroomID = data; // Zet de chatroomID in de static
         Debug.Log("chatroomID gezet op: " + chatroomID);
     }
 
