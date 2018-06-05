@@ -155,12 +155,8 @@ public class chatroomList : MonoBehaviour
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
 
-
-            //TextAsset imageAsset;
-            //Texture2D tex = new Texture2D(2, 2);
-            //tex.LoadImage(imageAsset.bytes);
-            //GetComponent<Renderer>().material.mainTexture = tex;
-
+            Debug.Log("Open LoadImg met: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString());
+            StartCoroutine(LoadImg(ChatRoomBerichtenLijst[i].PhotoUrl.ToString(), newObj));
         }
 
     }
@@ -235,6 +231,26 @@ public class chatroomList : MonoBehaviour
         string json = JsonUtility.ToJson(Message);
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
+    }
+
+    IEnumerator LoadImg(string avatarUrl, GameObject gameobject)
+    {
+        Debug.Log("avatarUrl in LoadImg: " + avatarUrl);
+        WWW imgLink = new WWW(avatarUrl);
+
+        //yield return new WaitUntil(() => imgLink.isDone);
+        while (!imgLink.isDone)
+        {
+            WaitForSeconds w;
+            w = new WaitForSeconds(0.1f);
+        }
+
+        if (imgLink.isDone){
+            gameobject.transform.Find("Avatar").GetComponent<Image>().material.mainTexture = imgLink.texture;
+        }
+            
+
+        yield return imgLink;
     }
 
 }
