@@ -11,48 +11,20 @@ using UnityEngine.EventSystems;
 public class chatroomList : MonoBehaviour
 {
 
-    public string username;
-
-    public InputField chatBox;
-    public DatabaseReference chatRef;
-    public DatabaseReference reference;
-    public string userID;
-    public string chatroomID;
-    public string content;
-    public string date;
-    public string user;
-    public bool chatroomFound = false;
-    private TouchScreenKeyboard keyboard;
-    public string lastMessage;
-    public string lastMessageTime;
+    public DatabaseReference chatRef, reference;
+    public string username, userID, content, date, user, lastMessage, lastMessageTime;
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
-
-    private string usersTabel = "Users"; // Na het testen "Users" gebruiken
-
-    public string andereUser;
-
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
-
-
-    [SerializeField]
-    List<Message> messagelist = new List<Message>();
-
     public GameObject prefab, chatList;
+    public static string chatroomID; // ID meegeven aan de chat
 
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        // Deze settings later ophalen van de Auth en welke match je aanklikt
-        // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji3"; // Hardcoded user waarmee we chatten
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
-
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-
-        getAllChatrooms(); // Alle chatRooms van user ophalen
-
+        getAllChatrooms();
     }
 
     void Update()
@@ -63,10 +35,8 @@ public class chatroomList : MonoBehaviour
 
     public string tijdVerschil(int tijd)
     {
-        Debug.Log("Tijd: " + tijd);
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
-        Debug.Log("Verschil: " + tijdVerschil);
         string result = "";
 
         if (tijdVerschil >= 18144000)
@@ -99,11 +69,6 @@ public class chatroomList : MonoBehaviour
             result = tijdVerschil + " seconden geleden";
         }
 
-        if (tijdVerschil <= 0)
-        {
-            result = "test";
-        }
-
         return result;
 
     }
@@ -112,7 +77,7 @@ public class chatroomList : MonoBehaviour
     void getAllChatrooms()
     {
 
-        FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
                     if (task.IsCompleted)
                     {
@@ -127,7 +92,7 @@ public class chatroomList : MonoBehaviour
                             {
                                 if (user != userID)
                                 {
-                                    FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
+                                    FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user).GetValueAsync().ContinueWith(
                                     task2 => {
                                         if (task2.IsCompleted)
                                         {
@@ -156,7 +121,7 @@ public class chatroomList : MonoBehaviour
                                                                 childSnapshot.Key.ToString(),
                                                                 dictUser["PhotoUrl"].ToString()
                                                             )
-                                                        ); // Het is belangrijk dat de velden er altijd zijn (Dit zou ook default moeten zijn), anders gaat hij stuk
+                                                        );
 
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
@@ -180,63 +145,112 @@ public class chatroomList : MonoBehaviour
 
     public void buildChatroom()
     {
-        //Debug.Log("In buildChatroom, rooms: " + ChatRoomBerichtenLijst.Count);
-
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
-        {
-            /*
-            Debug.Log("ChatroomID: " + ChatRoomBerichtenLijst[i].chatroomID.ToString() + "\n" +
-                "Date: " + ChatRoomBerichtenLijst[i].date.ToString() + "\n" +
-                "name: " + ChatRoomBerichtenLijst[i].name.ToString() + "\n" +
-                "message: " + ChatRoomBerichtenLijst[i].message.ToString() + "\n" +
-                "PhotoUrl: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString()
-            );
-            */
-            
+        {            
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             newObj.SetActive(true);
-            //newObj.tag = ChatRoomBerichtenLijst[i].chatroomID.ToString();
 
-            newObj.name = ChatRoomBerichtenLijst[i].chatroomID.ToString();
-            // ChatRoomBerichtenLijst[i].PhotoUrl.ToString() bevat de URL van de afbeelding
+            string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
+            newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
 
-            // .onClick.AddListener(delegate {activateClickedChatroom(ChatRoomBerichtenLijst[i].chatroomID.ToString()); });
-
+            Debug.Log("Open LoadImg met: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString());
+            StartCoroutine(LoadImg(ChatRoomBerichtenLijst[i].PhotoUrl.ToString(), newObj));
         }
 
     }
-    public void activateClickedChatroom()// PointerEventData eventData
-    {
-        //Debug.Log(EventSystem.current.currentSelectedGameObject.tag);
-        Debug.Log(this.gameObject.name);
-        Debug.Log(this.name);
-        Debug.Log(this.gameObject.gameObject.name);
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-        //Debug.Log(eventData.pointerId);
 
+    public void setChatroomID(string data)
+    {
+        chatroomID = data;
+        statics.chatroomID = data; // Zet de chatroomID in de static
+        Debug.Log("chatroomID gezet op: " + chatroomID);
+    }
+
+    void addReport(string who, string type, string data = "")
+    {
+        reportData report = new reportData(who, userID, data);
+        string json = JsonUtility.ToJson(report);
+        reference.Child(type).Child(who).Child(userID).SetRawJsonValueAsync(json);
+        // Melding geven dat de chat is gereport
+    }
+
+
+
+    // Maak een chatroom aan
+    void createChatroom(string user1, string user2)
+    {
+        string users = user1 + "|" + user2;
+
+        bool chatBestaat = false;
+
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
+                task => {
+                    if (task.IsFaulted)
+                    {
+
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+
+                        foreach (var childSnapshot in snapshot.Children)
+                        {
+                            var user2_db = childSnapshot.Child("users").Value.ToString();
+                            if ((user2_db == user1 + "|" + user2) || (user2_db == user2 + "|" + user1))
+                            {
+                                chatBestaat = true;
+                                chatroomID = childSnapshot.Key;
+                                break;
+                            }
+                        }
+
+                        if (chatBestaat == false)
+                        {
+                            string key = reference.Child("Chat").Push().Key;
+                            createChatroom createChatroom = new createChatroom(key, users);
+                            string json = JsonUtility.ToJson(createChatroom);
+
+                            reference.Child("Users").Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
+                            chatroomID = key;
+
+                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
+                        }
+
+                    }
+                });
 
     }
 
-}
 
-
-public class ChatRoomBerichtList
-{
-    public string date;
-    public string message;
-    public string name;
-    public string chatroomID;
-    public string PhotoUrl;
-    public ChatRoomBerichtList(string date, string message, string name, string chatroomID, string PhotoUrl)
+    void sendMessage(string from, string content)
     {
-        this.date = date;
-        this.message = message;
-        this.name = name;
-        this.chatroomID = chatroomID;
-        this.PhotoUrl = PhotoUrl;
+        chatMessage2 Message = new chatMessage2(from, content);
+        string json = JsonUtility.ToJson(Message);
+        string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
+        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
+
+    IEnumerator LoadImg(string avatarUrl, GameObject gameobject)
+    {
+        Debug.Log("avatarUrl in LoadImg: " + avatarUrl);
+        WWW imgLink = new WWW(avatarUrl);
+
+        //yield return new WaitUntil(() => imgLink.isDone);
+        while (!imgLink.isDone)
+        {
+            WaitForSeconds w;
+            w = new WaitForSeconds(0.1f);
+        }
+
+        if (imgLink.isDone){
+            gameobject.transform.Find("Avatar").GetComponent<Image>().material.mainTexture = imgLink.texture;
+        }
+            
+
+        yield return imgLink;
+    }
+
 }
-
-

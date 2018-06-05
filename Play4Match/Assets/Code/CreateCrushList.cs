@@ -16,7 +16,12 @@ public class CreateCrushList : MonoBehaviour {
 
 	public GameObject loadingScreen;
 
-	void Start()
+    public GameObject CrushViewPanel;
+    public GameObject crushViewPanel_NameAndAge;
+    public GameObject crushViewPanel_Description;
+    public GameObject crushViewPanel_UncrushButton;
+
+    void Start()
 	{
 		loadingScreen.SetActive(true);
 
@@ -50,8 +55,10 @@ public class CreateCrushList : MonoBehaviour {
 
 								string crushName = "";
 								string crushAge = "";
+                                string crushDescription = "";
+                                string crushLocation = "City, Country";
 
-								foreach (var childSnapshot2 in snapshot2.Children)
+                                foreach (var childSnapshot2 in snapshot2.Children)
 								{
 									if(childSnapshot2.Key.ToString() == "Name")
 									{
@@ -62,7 +69,12 @@ public class CreateCrushList : MonoBehaviour {
 									{
 										crushAge = childSnapshot2.Value.ToString();
 									}
-								}
+
+                                    if (childSnapshot2.Key.ToString() == "Description")
+                                    {
+                                        crushDescription = childSnapshot2.Value.ToString();
+                                    }
+                                }
 
 								if(crushName != "" && crushAge != "")
 								{
@@ -71,7 +83,8 @@ public class CreateCrushList : MonoBehaviour {
 									newObj.transform.Find("LocationText").GetComponent<Text>().text = "STAD, LAND";
 
 									newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
-								}
+                                    newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription); });
+                                }
 							}
 						});
 					}
@@ -83,7 +96,14 @@ public class CreateCrushList : MonoBehaviour {
 		initialStart = false;
 	}
 
-	void OnEnable()
+    void CreateView(string name, string age, string location, string description)
+    {
+        
+        CrushViewPanel.SetActive(true);
+    }
+
+
+    void OnEnable()
 	{
 		if (initialStart == false)
 		{

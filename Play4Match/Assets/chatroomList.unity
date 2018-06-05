@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -751,18 +751,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  chatBox: {fileID: 0}
   userID: 
-  chatroomID: 
   content: 
   date: 
   user: 
-  chatroomFound: 0
   lastMessage: 
   lastMessageTime: 
-  andereUser: 
   verticalLayoutGroup: {fileID: 0}
-  messagelist: []
   prefab: {fileID: 274816267}
   chatList: {fileID: 976228482}
 --- !u!1001 &1840779241
@@ -862,21 +857,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: activateClickedChatroom
-      objectReference: {fileID: 0}
-    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114820747478246774, guid: f34d727f82f96cc44b526e17c9a5fd07,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1789413907}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f34d727f82f96cc44b526e17c9a5fd07, type: 2}
   m_IsPrefabParent: 0
@@ -1047,18 +1027,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  chatBox: {fileID: 0}
   userID: 
-  chatroomID: 
   content: 
   date: 
   user: 
-  chatroomFound: 0
   lastMessage: 
   lastMessageTime: 
-  andereUser: 
   verticalLayoutGroup: {fileID: 0}
-  messagelist: []
   prefab: {fileID: 274816267}
   chatList: {fileID: 976228482}
 --- !u!1 &1914877142
