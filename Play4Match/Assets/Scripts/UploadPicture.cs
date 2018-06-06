@@ -97,16 +97,17 @@ public class UploadPicture : MonoBehaviour {
 	public void Upload(){
 		if (imagePath != null) {
 			// Upload the file to the path "images/rivers.jpg"
-			profilePictureRef.PutFileAsync("file://" + imagePath).ContinueWith ((Task<StorageMetadata> task) => {
+			profilePictureRef.PutFileAsync ("file://" + imagePath).ContinueWith ((Task<StorageMetadata> task) => {
 				if (task.IsFaulted || task.IsCanceled) {
-					toast.MyShowToastMethod("Something wrent wrong, try again.");
+					toast.MyShowToastMethod ("Something wrent wrong, try again.");
 				} else {
 					// Metadata contains file metadata such as size, content-type, and download URL.
 					Firebase.Storage.StorageMetadata metadata = task.Result;
-					toast.MyShowToastMethod("Upload success!");
+					toast.MyShowToastMethod ("Upload success!");
 					imagePath = null;
 				}
 			});
+		} else {
 		}
 	}
 }
