@@ -18,6 +18,10 @@ public class chatroomList : MonoBehaviour
     public GameObject prefab, chatList;
     public static string chatroomID; // ID meegeven aan de chat
 
+    public GameObject chatviewPanel;
+
+    public GameObject Camera;
+
     private int chatroomNumber = 0;
 
     void Start()
@@ -173,8 +177,12 @@ public class chatroomList : MonoBehaviour
     public void setChatroomID(string data)
     {
         chatroomID = data;
-        statics.chatroomID = data; // Zet de chatroomID in de static
-        Debug.Log("chatroomID en statics.chatroomID zijn gezet op: " + chatroomID);
+
+        // Set chatroomid
+        Camera.GetComponent<ChatManager>().chatroomID = data;
+
+        // Zet chatviewPanel actief
+        chatviewPanel.SetActive(true);
     }
 
     void addReport(string who, string type, string data = "")
