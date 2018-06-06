@@ -148,7 +148,7 @@ public class ChatManager : MonoBehaviour {
 
     public void getPartnerName()
     {
-        string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
+        //string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)
@@ -170,7 +170,9 @@ public class ChatManager : MonoBehaviour {
                                                               DataSnapshot snapshot2 = task2.Result;
                                                               IDictionary dictUser = (IDictionary)snapshot2.Value;
                                                               name = dictUser["Name"].ToString();
-                                                              string photoUrl = dictUser["PhotoUrl"].ToString();
+                                                              //string photoUrl = dictUser["PhotoUrl"].ToString();
+                                                              string photoUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media";
+                                                              Debug.Log("photoUrl: " + photoUrl);
                                                               StartCoroutine(LoadImg(photoUrl));
                                                               //Verander de header name naar chat partner name
                                                               partnerName.text = name;
