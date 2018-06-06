@@ -17525,6 +17525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchPanel: {fileID: 1726142716}
   nameObj: {fileID: 1670059820}
+  locationObj: {fileID: 1674491247}
   matchRateObj: {fileID: 1596151720}
   descriptionObj: {fileID: 1782564886}
   closeButtonObj: {fileID: 59821982}
@@ -17538,6 +17539,7 @@ MonoBehaviour:
   buttonName: 
   userId: 
   nameString: 
+  locationString: 
   matchRateString: 
   descriptionString: 
 --- !u!136 &1064323324

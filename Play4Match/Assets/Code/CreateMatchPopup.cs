@@ -8,6 +8,7 @@ public class CreateMatchPopup : MonoBehaviour {
     private Image image;
 
     public GameObject nameObj;
+    public GameObject locationObj;
     public GameObject matchRateObj;
 	public GameObject descriptionObj;
 	public GameObject closeButtonObj;
@@ -31,6 +32,7 @@ public class CreateMatchPopup : MonoBehaviour {
 
     public string userId;
     public string nameString;
+    public string locationString;
     public string matchRateString;
 	public string descriptionString;
 
@@ -52,6 +54,8 @@ public class CreateMatchPopup : MonoBehaviour {
                 if (matchPanel.active == false && hit.transform.gameObject.name == buttonName)
                 {
                     nameObj.GetComponent<Text>().text = nameString;
+                    locationObj.GetComponent<Text>().text = locationString;
+                    descriptionObj.GetComponent<Text>().text = descriptionString;
                     matchRateObj.GetComponent<Text>().text = matchRateString;
 					descriptionObj.GetComponent<Text>().text = descriptionString;
 					crushButtonObj.GetComponent<Crush>().matchButton = GameObject.Find(buttonName);

@@ -99,7 +99,8 @@ public class getMatch : MonoBehaviour
 					matchButtonNew.GetComponent<CreateMatchPopup>().buttonName = matchButtonNew.name;
 					matchButtonNew.GetComponent<CreateMatchPopup>().userId = JsonData[i]["Id"];
 					matchButtonNew.GetComponent<CreateMatchPopup>().nameString = JsonData[i]["Name"] + " (" + JsonData[i]["Age"] + ")";
-					matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"] + "%";
+                    matchButtonNew.GetComponent<CreateMatchPopup>().locationString = JsonData[i]["Location"]["City"] + ", " + JsonData[i]["Location"]["CountryLong"];
+                    matchButtonNew.GetComponent<CreateMatchPopup>().matchRateString = JsonData[i]["MatchRate"] + "%";
 					matchButtonNew.GetComponent<CreateMatchPopup>().descriptionString = JsonData[i]["Description"];
 					matchButtonNew.SetActive(true);
 
