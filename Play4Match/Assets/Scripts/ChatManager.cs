@@ -16,7 +16,8 @@ public class ChatManager : MonoBehaviour {
     public GameObject chatPanel;
     public GameObject textPrefab;
     public GameObject textPrefabUser;
-    public GameObject PartnerName;
+    public Text partnerName;
+    public Image profilePicture;
     public int paddingTop = 0;
     Boolean firstChatMessage = true;
 
@@ -24,6 +25,7 @@ public class ChatManager : MonoBehaviour {
     public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
+    public string name;
     public string userID;
     public string chatroomID;
     public string content;
@@ -133,17 +135,6 @@ public class ChatManager : MonoBehaviour {
 
             newObj.transform.Find("PanelHorizontal").Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = newText;
         }
-        //Message newMessage = new Message();
-
-        //newMessage.text = text;
-
-        //TMP_Text newText = Instantiate(textObject, chatPanel.transform);
-
-        //newMessage.textObject = newText.GetComponent<TMP_Text>();
-
-        //newMessage.textObject.text = newMessage.text;
-
-        //messagelist.Add(newMessage);
     }
 
     void sendMessage(string from, string content)
@@ -152,6 +143,70 @@ public class ChatManager : MonoBehaviour {
         string json = JsonUtility.ToJson(Message);
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
+    }
+
+    public void getPartnerName()
+    {
+        string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
+               task => {
+                   if (task.IsCompleted)
+                   {
+                       DataSnapshot snapshot = task.Result;
+
+                       var user2_db = snapshot.Child("users").Value.ToString();
+
+                       string[] users = user2_db.Split('|');
+                       foreach (string user in users)
+                       {
+                           if (user != userID)
+                           {
+                               FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
+                                                      task2 =>
+                                                      {
+                                                          if (task2.IsCompleted)
+                                                          {
+                                                              DataSnapshot snapshot2 = task2.Result;
+                                                              IDictionary dictUser = (IDictionary)snapshot2.Value;
+                                                              name = dictUser["Name"].ToString();
+                                                              string photoUrl = dictUser["PhotoUrl"].ToString();
+                                                              StartCoroutine(LoadImg(photoUrl));
+                                                              //Verander de header name naar chat partner name
+                                                              partnerName.text = name;
+                                                          }
+
+                                                      });
+                           }
+                       }
+                   }
+               });
+    }
+
+    IEnumerator LoadImg(string avatarUrl)
+    {
+        WWW imgLink = new WWW(avatarUrl);
+
+        while (!imgLink.isDone)
+        {
+            WaitForSeconds w;
+            w = new WaitForSeconds(0.1f);
+        }
+
+        if (imgLink.isDone)
+        {
+            Texture2D texture = new Texture2D(imgLink.texture.width, imgLink.texture.height, TextureFormat.DXT1, false);
+            imgLink.LoadImageIntoTexture(texture);
+            Rect rec = new Rect(0, 0, texture.width, texture.height);
+            Sprite spriteToUse = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+
+            profilePicture.GetComponent<Image>().sprite = spriteToUse;
+
+            spriteToUse = null;
+        }
+        imgLink.Dispose();
+        imgLink = null;
+
+        yield return imgLink;
     }
 
     void ChatChildAdded(object sender, ChildChangedEventArgs args)
@@ -227,29 +282,6 @@ public class ChatManager : MonoBehaviour {
                 "message: " + ChatRoomBerichten[i].message.ToString()
             );
         }
-    }
-
-    public void getPartnerName()
-    {
-                                   FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
-                                                      task2 =>
-                                                      {
-                                                          Debug.Log("dit is hem" + user);
-                                                          if (task2.IsCompleted)
-                                                          {
-                                                              DataSnapshot snapshot2 = task2.Result;
-                                                              Debug.Log("test snapshot" + snapshot2);
-                                                              IDictionary dictUser = (IDictionary)snapshot2.Value;
-                                                              string name = dictUser["Name"].ToString();
-
-                                                              Debug.Log("test" + dictUser["Name"].ToString());
-
-                                                              GameObject newObj = (GameObject)Instantiate(PartnerName);
-
-                                                              newObj.transform.Find("Text").GetComponent<Text>().text = name;
-                                                          }
-
-                                                      });
     }
 
     void addChatReport()
