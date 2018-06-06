@@ -7,7 +7,7 @@ public class SoundScript : MonoBehaviour {
 	private AudioSource source;
 	
 	public AudioClip sliderSound;
-	public AudioClip muteSound;
+	public AudioClip toggleSound;
 	public AudioClip matchSound;
 	
 	
@@ -22,7 +22,7 @@ public class SoundScript : MonoBehaviour {
 		// Deze input kan weg, anders krijg je elke klik een sound
 		if(Input.GetMouseButtonDown(0))
 		{
-			source.Play();
+			//source.Play();
 		}
 	}
 	
@@ -43,15 +43,19 @@ public class SoundScript : MonoBehaviour {
 		{
 			case "sliderSound":
 				source.clip = sliderSound;
+				source.Play();
 				break;
-			case "muteSound":
-				source.clip = muteSound;
+			case "toggleSound":
+				source.clip = toggleSound;
+				source.Play();
 				break;
 			case "matchSound":
 				source.clip = matchSound;
+				source.Play();
 				break;
 			default: 
-				source.clip = sliderSound;
+				source.clip = toggleSound;
+				source.Play();
 				break;
 		}
 		
