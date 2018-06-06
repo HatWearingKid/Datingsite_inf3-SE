@@ -24,8 +24,12 @@ public class chatroomList : MonoBehaviour
 
     private int chatroomNumber = 0;
 
-    void Start()
+	public GameObject loadingScreen;
+
+	void Start()
     {
+		loadingScreen.SetActive(true);
+
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -148,7 +152,8 @@ public class chatroomList : MonoBehaviour
                     }
                 });
 
-    }
+		loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+	}
 
     public void buildChatroom()
     {
