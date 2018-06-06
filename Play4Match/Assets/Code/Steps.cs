@@ -35,9 +35,9 @@ public class Steps : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        Pawnpositions.Clear();
         //get posities and sort by name
-        Positions = GameObject.FindGameObjectsWithTag("positie").OrderBy(go => go.name).ToArray();
+        //Positions = GameObject.FindGameObjectsWithTag("positie").OrderBy(go => go.name).ToArray();
 
         for (int i = 0; i < Positions.Length; i++)
         {
@@ -68,7 +68,7 @@ public class Steps : MonoBehaviour {
         }
 
         //wanneer de pion bijna op positie is
-        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 7)
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 10)
         {
             //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
@@ -101,7 +101,8 @@ public class Steps : MonoBehaviour {
                         timeClicked = System.DateTime.Now;
                         //zet stap
                         StepLock = true;
-                        Step();                          
+                        Step();
+                        
                     }
                 }
                 
@@ -162,7 +163,7 @@ public class Steps : MonoBehaviour {
             if(diffInSeconds > 1)
             {
                 //show question
-                getQuestions.ShowQuestion(position-1);
+                getQuestions.ShowQuestion(position -1);
                 QuestionLock = true;
                 next = false;
             }
@@ -193,7 +194,6 @@ public class Steps : MonoBehaviour {
         startPoint = pawn.transform.position;
 
         startPointCamera = cameraPos.transform.position;
-        
     }
 
     public void ChangeSpeed(float newSpeed)
