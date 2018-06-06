@@ -28,7 +28,6 @@ public class SettingsMenu : MonoBehaviour {
 	
 	void SoundToggleChanged()
 	{
-		soundEngine.GetComponent<SoundScript>().PlaySound("muteSound");
 		soundEngine.GetComponent<SoundScript>().SetMute();
 	}
 	

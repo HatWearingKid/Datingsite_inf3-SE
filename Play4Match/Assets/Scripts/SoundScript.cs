@@ -10,16 +10,16 @@ public class SoundScript : MonoBehaviour {
 	public AudioClip muteSound;
 	public AudioClip matchSound;
 	
-	public bool mute;
 	
 	// Use this for initialization
 	void Start () {
-		mute = false;
 		source = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		// Deze input kan weg, anders krijg je elke klik een sound
 		if(Input.GetMouseButtonDown(0))
 		{
 			source.Play();
@@ -28,8 +28,7 @@ public class SoundScript : MonoBehaviour {
 	
 	public void SetMute()
 	{
-		mute = !mute;
-		source.mute = mute;
+		source.mute = !source.mute;
 	}
 	
 	public void SetVolume(float volume)
