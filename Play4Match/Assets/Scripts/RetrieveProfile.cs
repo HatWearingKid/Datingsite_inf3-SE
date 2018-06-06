@@ -73,13 +73,15 @@ public class RetrieveProfile : MonoBehaviour {
 	}
 
 	public void SetGenderPref(Dropdown dropdown){
-		string gender = node["Preferences"]["Gender"];
-		if (gender.Equals ("Male")) {
-			dropdown.value = 0;
-		} else if (gender.Equals ("Female")) {
-			dropdown.value = 1;
-		} else {
-			dropdown.value = 2;
+		if (node != null) {
+			string gender = node ["Preferences"] ["Gender"];
+			if (gender.Equals ("Male")) {
+				dropdown.value = 0;
+			} else if (gender.Equals ("Female")) {
+				dropdown.value = 1;
+			} else {
+				dropdown.value = 2;
+			}
 		}
 	}
 
@@ -129,7 +131,6 @@ public class RetrieveProfile : MonoBehaviour {
 						// Check if user equals to the logged in user to retrieve correct data
 						if(userID.Equals(user.Key)){
 							node = JSON.Parse(user.GetRawJsonValue());
-							Debug.Log(user.GetRawJsonValue());
 						}
 					}
 				}

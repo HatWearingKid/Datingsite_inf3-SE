@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/main.unity
     guid: f77f0c015faca3341adedd49b6a7b795
   - enabled: 1
-    path: Assets/scene0.unity
-    guid: 843bfe05d4e7cb14ca35efd4e99ebe04
+    path: Assets/sceneSemih.unity
+    guid: 74f4d81dbab27bd4c9546f269232c65c
   m_configObjects: {}

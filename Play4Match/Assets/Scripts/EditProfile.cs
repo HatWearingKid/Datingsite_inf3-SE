@@ -21,10 +21,6 @@ public class EditProfile : MonoBehaviour {
 	private string minAge;
 	private string maxAge;
 
-	private GetGPSLocation gpsLocation;
-	private string latitude;
-	private string longitude;
-
 	void Start() {
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -41,9 +37,6 @@ public class EditProfile : MonoBehaviour {
 			// Get the reference to the Location root node of the database.
 			locRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Location");
 		}
-		gpsLocation = new GetGPSLocation ();
-		gpsLocation.StartGPS ();
-
 	}
 
 	public void SetName(string _name){
@@ -83,14 +76,6 @@ public class EditProfile : MonoBehaviour {
 		maxAge = dropdown.options[dropdown.value].text;
 	}
 
-	public void GetLatitude(Text text){
-		latitude = text.text;
-	}
-
-	public void GetLongitude(Text text){
-		longitude = text.text;	
-	}
-
 	public void UpdateUser(){	
 		// Update data in the Users root
 		userRef.Child("Name").SetValueAsync(name);
@@ -101,9 +86,5 @@ public class EditProfile : MonoBehaviour {
 		prefRef.Child("Gender").SetValueAsync(genderPref);
 		prefRef.Child("AgeMin").SetValueAsync(minAge);
 		prefRef.Child("AgeMax").SetValueAsync(maxAge);
-
-		// Update data in the Location root
-		locRef.Child ("Longitude").SetValueAsync (gpsLocation.GetLongitude().ToString());
-		locRef.Child ("Latitude").SetValueAsync (gpsLocation.GetLatitude().ToString());
 	}
 }

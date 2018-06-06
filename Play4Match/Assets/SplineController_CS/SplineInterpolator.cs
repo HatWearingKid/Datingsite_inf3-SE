@@ -19,6 +19,11 @@ public class SplineInterpolator : MonoBehaviour
 
 		internal SplineNode(Vector3 p, Quaternion q, float t, Vector2 io) { Point = p; Rot = q; Time = t; EaseIO = io; }
 		internal SplineNode(SplineNode o) { Point = o.Point; Rot = o.Rot; Time = o.Time; EaseIO = o.EaseIO; }
+		
+		public void setTime(float time)
+		{
+			this.Time = time;
+		}
 	}
 
 	List<SplineNode> mNodes = new List<SplineNode>();
@@ -62,6 +67,15 @@ public class SplineInterpolator : MonoBehaviour
 			throw new System.Exception("Cannot add points after start");
 
 		mNodes.Add(new SplineNode(pos, quat, timeInSeconds, easeInOut));
+	}
+	
+	public void updateList(float duration)
+	{
+		for(int i = 0; i < mNodes.Count; i++)
+		{
+			Debug.Log(mNodes[i].Time);
+			mNodes[i].setTime(duration);
+		}
 	}
 
 
