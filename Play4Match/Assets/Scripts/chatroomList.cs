@@ -18,6 +18,8 @@ public class chatroomList : MonoBehaviour
     public GameObject prefab, chatList;
     public static string chatroomID; // ID meegeven aan de chat
 
+    private int chatroomNumber = 0;
+
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -148,6 +150,7 @@ public class chatroomList : MonoBehaviour
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {            
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
+            newObj.name = chatroomNumber.ToString();
             newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             newObj.SetActive(true);
@@ -155,8 +158,8 @@ public class chatroomList : MonoBehaviour
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
 
-            Debug.Log("Open LoadImg met: " + ChatRoomBerichtenLijst[i].PhotoUrl.ToString());
             StartCoroutine(LoadImg(ChatRoomBerichtenLijst[i].PhotoUrl.ToString(), newObj));
+            chatroomNumber++;
         }
 
     }
@@ -165,7 +168,7 @@ public class chatroomList : MonoBehaviour
     {
         chatroomID = data;
         statics.chatroomID = data; // Zet de chatroomID in de static
-        Debug.Log("chatroomID gezet op: " + chatroomID);
+        //Debug.Log("chatroomID gezet op: " + chatroomID);
     }
 
     void addReport(string who, string type, string data = "")
@@ -235,10 +238,8 @@ public class chatroomList : MonoBehaviour
 
     IEnumerator LoadImg(string avatarUrl, GameObject gameobject)
     {
-        Debug.Log("avatarUrl in LoadImg: " + avatarUrl);
         WWW imgLink = new WWW(avatarUrl);
-
-        //yield return new WaitUntil(() => imgLink.isDone);
+        
         while (!imgLink.isDone)
         {
             WaitForSeconds w;
@@ -246,9 +247,17 @@ public class chatroomList : MonoBehaviour
         }
 
         if (imgLink.isDone){
-            gameobject.transform.Find("Avatar").GetComponent<Image>().material.mainTexture = imgLink.texture;
+            Texture2D texture = new Texture2D(imgLink.texture.width, imgLink.texture.height, TextureFormat.DXT1, false);
+            imgLink.LoadImageIntoTexture(texture);
+            Rect rec = new Rect(0, 0, texture.width, texture.height);
+            Sprite spriteToUse = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+
+            gameobject.transform.Find("Avatar").GetComponent<Image>().sprite = spriteToUse;
+
+            spriteToUse = null;
         }
-            
+        imgLink.Dispose();
+        imgLink = null;
 
         yield return imgLink;
     }
