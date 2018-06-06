@@ -11,21 +11,24 @@ public class CreateCrushList : MonoBehaviour {
 	public GameObject prefab;
 
 	public GameObject CrushList;
-	
+
 	private bool initialStart = true;
 
 	public GameObject loadingScreen;
 
     public GameObject CrushViewPanel;
     public GameObject crushViewPanel_NameAndAge;
-    public GameObject crushViewPanel_Description;
+	public GameObject crushViewPanel_Location;
+	public GameObject crushViewPanel_Description;
     public GameObject crushViewPanel_UncrushButton;
+    public GameObject crushViewPanel_CrushButton;
+
+	int CrushItem = 0;
 
     void Start()
 	{
 		loadingScreen.SetActive(true);
-
-
+	
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
@@ -37,7 +40,7 @@ public class CreateCrushList : MonoBehaviour {
 			if (task.IsCompleted)
 			{
 				DataSnapshot snapshot = task.Result;
-
+			
 				foreach (var childSnapshot in snapshot.Children)
 				{
 					string crushId = childSnapshot.Key.ToString();
@@ -79,11 +82,14 @@ public class CreateCrushList : MonoBehaviour {
 								if(crushName != "" && crushAge != "")
 								{
 									GameObject newObj = (GameObject)Instantiate(prefab, transform);
+									newObj.name = CrushItem.ToString();
 									newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
 									newObj.transform.Find("LocationText").GetComponent<Text>().text = "STAD, LAND";
 
 									newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
-                                    newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription); });
+                                    newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
+
+									CrushItem++;
                                 }
 							}
 						});
@@ -96,10 +102,22 @@ public class CreateCrushList : MonoBehaviour {
 		initialStart = false;
 	}
 
-    void CreateView(string name, string age, string location, string description)
+    void CreateView(string name, string age, string location, string description, string crushId, GameObject crushObj)
     {
-        
-        CrushViewPanel.SetActive(true);
+		crushViewPanel_NameAndAge.GetComponent<Text>().text = name + " (" + age + ")";
+		crushViewPanel_Location.GetComponent<Text>().text = location;
+		crushViewPanel_Description.GetComponent<Text>().text = description;
+
+		crushViewPanel_UncrushButton.SetActive(true);
+		crushViewPanel_CrushButton.SetActive(false);
+
+		crushViewPanel_UncrushButton.GetComponent<Uncrush>().CrushId = crushId;
+		crushViewPanel_UncrushButton.GetComponent<Uncrush>().CrushObj = crushObj;
+
+		crushViewPanel_CrushButton.GetComponent<Uncrush>().CrushId = crushId;
+		crushViewPanel_CrushButton.GetComponent<Uncrush>().CrushObj = crushObj;
+
+		CrushViewPanel.SetActive(true);
     }
 
 
@@ -167,7 +185,7 @@ public class CreateCrushList : MonoBehaviour {
 				result = ts.Minutes + " Minutes ago";
 			}
 		}
-		else if (ts.Seconds > 0)
+		else if (ts.Seconds >= 0)
 		{
 			result = "Just now";
 		}
