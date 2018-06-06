@@ -41,6 +41,7 @@ public class ChatManager : MonoBehaviour {
 
     public string andereUser;
 
+
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
