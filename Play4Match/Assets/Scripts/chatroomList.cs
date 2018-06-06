@@ -168,7 +168,7 @@ public class chatroomList : MonoBehaviour
     {
         chatroomID = data;
         statics.chatroomID = data; // Zet de chatroomID in de static
-        //Debug.Log("chatroomID gezet op: " + chatroomID);
+        Debug.Log("chatroomID en statics.chatroomID zijn gezet op: " + chatroomID);
     }
 
     void addReport(string who, string type, string data = "")
@@ -219,7 +219,7 @@ public class chatroomList : MonoBehaviour
                             reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key;
 
-                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
+                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'");
                         }
 
                     }
