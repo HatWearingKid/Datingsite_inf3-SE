@@ -50,32 +50,37 @@ public class CreateCrushList : MonoBehaviour {
 
 					if (crushId != userId)
 					{
-						FirebaseDatabase.DefaultInstance.GetReference("Users").Child(crushId).GetValueAsync().ContinueWith(
-						task2 => {
-							if (task2.IsCompleted)
-							{
-								DataSnapshot snapshot2 = task2.Result;
+                        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(crushId).GetValueAsync().ContinueWith(
+                        task2 => {
+                        if (task2.IsCompleted)
+                        {
+                            DataSnapshot snapshot2 = task2.Result;
 
-								string crushName = "";
-								string crushAge = "";
-                                string crushDescription = "";
-                                string crushLocation = "City, Country";
+                            string crushName = "";
+                            string crushAge = "";
+                            string crushDescription = "";
+                            string crushLocation = "City, Country";
 
-                                foreach (var childSnapshot2 in snapshot2.Children)
-								{
-									if(childSnapshot2.Key.ToString() == "Name")
-									{
-										crushName = childSnapshot2.Value.ToString();
-									}
+                            foreach (var childSnapshot2 in snapshot2.Children)
+                            {
+                                if (childSnapshot2.Key.ToString() == "Name")
+                                {
+                                    crushName = childSnapshot2.Value.ToString();
+                                }
 
-									if (childSnapshot2.Key.ToString() == "Age")
-									{
-										crushAge = childSnapshot2.Value.ToString();
-									}
+                                if (childSnapshot2.Key.ToString() == "Age")
+                                {
+                                    crushAge = childSnapshot2.Value.ToString();
+                                }
 
-                                    if (childSnapshot2.Key.ToString() == "Description")
-                                    {
-                                        crushDescription = childSnapshot2.Value.ToString();
+                                if (childSnapshot2.Key.ToString() == "Description")
+                                {
+                                    crushDescription = childSnapshot2.Value.ToString();
+                                }
+
+                                if (childSnapshot2.Key.ToString() == "Location")
+                                {
+                                    crushLocation = childSnapshot2.Child("City").Value.ToString() + ", " + childSnapshot2.Child("CountryLong").Value.ToString();
                                     }
                                 }
 
@@ -84,7 +89,7 @@ public class CreateCrushList : MonoBehaviour {
 									GameObject newObj = (GameObject)Instantiate(prefab, transform);
 									newObj.name = CrushItem.ToString();
 									newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
-									newObj.transform.Find("LocationText").GetComponent<Text>().text = "STAD, LAND";
+									newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
 
 									newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
                                     newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
