@@ -16,6 +16,7 @@ public class ChatManager : MonoBehaviour {
     public GameObject chatPanel;
     public GameObject textPrefab;
     public GameObject textPrefabUser;
+    public GameObject PartnerName;
     public int paddingTop = 0;
     Boolean firstChatMessage = true;
 
@@ -49,15 +50,13 @@ public class ChatManager : MonoBehaviour {
         andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji3"; // Hardcoded user waarmee we chatten
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
 
-        createChatroom(userID, andereUser); // Beide userID`s van de gebruikers, jezelf en de andere gebruiker
 
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
-        getAllChatrooms(); // Alle chatRooms van user ophalen
-
+        getPartnerName();
         //addChatReport();
 
     }
@@ -91,18 +90,18 @@ public class ChatManager : MonoBehaviour {
 
     public void SendMessageToChat(string text)
     {
-        System.Random rnd = new System.Random();
-        if (rnd.Next(0, 2) == 1)
-        {
-            text = "kort bericht";
-            userID = "xh4S3DibGraTqCn8HascIIvdFR02";
+        //System.Random rnd = new System.Random();
+        //if (rnd.Next(0, 2) == 1)
+        //{
+        //    text = "kort bericht";
+        //    userID = "xh4S3DibGraTqCn8HascIIvdFR02";
 
-        }
-        else
-        {
-            text = "Een wat langer bericht met meer tekens";
-            userID = "Bob";
-        }
+        //}
+        //else
+        //{
+        //    text = "Een wat langer bericht met meer tekens";
+        //    userID = "Bob";
+        //}
 
         string newText = "";
         int charCount = 0;
@@ -164,63 +163,17 @@ public class ChatManager : MonoBehaviour {
              date = args.Snapshot.Child("date").Value.ToString();
              user = args.Snapshot.Child("user").Value.ToString();
 
-            if (user == userID)
-            {
-                user = "Jij stuurde "; // Tekst rechts uitlijnen
-            } else
-            {
-                user = "Je chatpartner stuurde "; // Tekst rechts uitlijnen
-            }
+            //if (user == userID)
+            //{
+            //    user = "Jij stuurde "; // Tekst rechts uitlijnen
+            //} else
+            //{
+            //    user = "Je chatpartner stuurde "; // Tekst rechts uitlijnen
+            //}
 
             SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
             // Dit tonen in de GUI
         }
-    }
-
-    // Maak een chatroom aan
-    void createChatroom(string user1, string user2)
-    {
-        string users = user1 + "|" + user2;
-
-        bool chatBestaat = false;
-
-        FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user1).Child("Chatrooms").GetValueAsync().ContinueWith(
-                task => {
-                    if (task.IsFaulted)
-                    {
-
-                    }
-                    else if (task.IsCompleted)
-                    {
-                        DataSnapshot snapshot = task.Result;
-
-                        foreach (var childSnapshot in snapshot.Children)
-                        {
-                            var user2_db = childSnapshot.Child("users").Value.ToString();
-                            if ((user2_db == user1 + "|" + user2) || (user2_db == user2 + "|" + user1))
-                            {
-                                chatBestaat = true;
-                                chatroomID = childSnapshot.Key;
-                                break;
-                            }
-                        }
-
-                        if (chatBestaat == false)
-                        {
-                            string key = reference.Child("Chat").Push().Key;
-                            createChatroom createChatroom = new createChatroom(key, users);
-                            string json = JsonUtility.ToJson(createChatroom);
-
-                            reference.Child(usersTabel).Child(user1).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-                            reference.Child(usersTabel).Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
-                            chatroomID = key;
-
-                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
-                        }
-
-                    }
-                });
-
     }
 
     public string tijdVerschil(int tijd)
@@ -263,68 +216,6 @@ public class ChatManager : MonoBehaviour {
        
     }
 
-
-    void getAllChatrooms() {
-
-        FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
-                task => {
-                    if (task.IsCompleted) {
-                        DataSnapshot snapshot = task.Result;
-
-                        foreach (var childSnapshot in snapshot.Children) {
-                            var user2_db = childSnapshot.Child("users").Value.ToString();
-
-                            string[] users = user2_db.Split('|');
-                            foreach (string user in users) {
-                                if (user != userID) {
-
-                                    FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
-                                    task2 => {
-                                        if (task2.IsCompleted) {
-
-                                            DataSnapshot snapshot2 = task2.Result;
-                                            IDictionary dictUser = (IDictionary)snapshot2.Value;
-
-                                            FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
-                                                task3 => {
-                                                    if (task3.IsCompleted) {
-
-                                                        DataSnapshot snapshot3 = task3.Result;
-
-                                                        foreach (var childSnapshot3 in snapshot3.Children) {
-                                                            lastMessage = childSnapshot3.Child("content").Value.ToString();
-                                                            lastMessageTime = childSnapshot3.Child("date").Value.ToString();
-                                                        }
-
-                                                        ChatRoomBerichten.Add(
-                                                            new ChatRoomBericht(
-                                                                lastMessageTime, 
-                                                                lastMessage, 
-                                                                dictUser["Name"].ToString(), 
-                                                                childSnapshot.Key.ToString() 
-                                                            )
-                                                        );
-
-                                                        if (ChatRoomBerichten.Count == snapshot.ChildrenCount)
-                                                        {
-                                                            ChatRoomBerichten.Sort((s1, s2) => s2.date.CompareTo(s1.date));
-                                                            buildChatroom();
-                                                        }
-                                                        
-                                                    }
-
-
-                                                });
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                });
-
-    }
-
     public void buildChatroom()
     {
         // Hier later alles in de GUI laden
@@ -336,6 +227,29 @@ public class ChatManager : MonoBehaviour {
                 "message: " + ChatRoomBerichten[i].message.ToString()
             );
         }
+    }
+
+    public void getPartnerName()
+    {
+                                   FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
+                                                      task2 =>
+                                                      {
+                                                          Debug.Log("dit is hem" + user);
+                                                          if (task2.IsCompleted)
+                                                          {
+                                                              DataSnapshot snapshot2 = task2.Result;
+                                                              Debug.Log("test snapshot" + snapshot2);
+                                                              IDictionary dictUser = (IDictionary)snapshot2.Value;
+                                                              string name = dictUser["Name"].ToString();
+
+                                                              Debug.Log("test" + dictUser["Name"].ToString());
+
+                                                              GameObject newObj = (GameObject)Instantiate(PartnerName);
+
+                                                              newObj.transform.Find("Text").GetComponent<Text>().text = name;
+                                                          }
+
+                                                      });
     }
 
     void addChatReport()
