@@ -121,7 +121,8 @@ public class chatroomList : MonoBehaviour
                                                                 lastMessage.ToString(),
                                                                 dictUser["Name"].ToString(),
                                                                 childSnapshot.Key.ToString(),
-                                                                dictUser["PhotoUrl"].ToString()
+                                                                dictUser["PhotoUrl"].ToString(),
+                                                                user
                                                             )
                                                         );
 
@@ -157,8 +158,13 @@ public class chatroomList : MonoBehaviour
 
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
+            Debug.Log(ChatRoomBerichtenLijst[i].ID.ToString());
 
-            StartCoroutine(LoadImg(ChatRoomBerichtenLijst[i].PhotoUrl.ToString(), newObj));
+            string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png.jpg?alt=media";
+            // ProfilePicture.png.jpg moet veranderd worden in de default naam van de afbeelding
+            //string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
+
+            StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
         }
 
