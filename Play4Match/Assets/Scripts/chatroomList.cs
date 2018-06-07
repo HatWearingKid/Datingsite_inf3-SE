@@ -28,18 +28,17 @@ public class chatroomList : MonoBehaviour
 
 	void Start()
     {
-		loadingScreen.SetActive(true);
-
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        getAllChatrooms();
+
+        //getAllChatrooms();
     }
 
     void Update()
     {
-
+        
     }
 
 
@@ -104,8 +103,9 @@ public class chatroomList : MonoBehaviour
     }
 
 
-    void getAllChatrooms()
+    public void getAllChatrooms()
     {
+        loadingScreen.SetActive(true);
 
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
