@@ -59,7 +59,7 @@ public class ChatManager : MonoBehaviour {
 
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
-        getPartnerName();
+        
         //addChatReport();
 
     }
@@ -70,6 +70,7 @@ public class ChatManager : MonoBehaviour {
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
+            getPartnerName();
         }
 
         if (chatBox.text != "")
@@ -91,7 +92,7 @@ public class ChatManager : MonoBehaviour {
     }
 
 
-    public void SendMessageToChat(string text)
+    public void SendMessageToChat(string text, string user)
     {
 		//System.Random rnd = new System.Random();
 		//if (rnd.Next(0, 2) == 1)
@@ -107,7 +108,7 @@ public class ChatManager : MonoBehaviour {
 		//}
 
 		
-        if (userID == "xh4S3DibGraTqCn8HascIIvdFR02")
+        if (userID == user)
         {
 			GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 			
@@ -159,7 +160,9 @@ public class ChatManager : MonoBehaviour {
 
     public void getPartnerName()
     {
+        //Debug.Log("getPartnerName starten");
         //string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
+        //Debug.Log("chatroomID: " + chatroomID);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)
@@ -173,6 +176,7 @@ public class ChatManager : MonoBehaviour {
                        {
                            if (user != userID)
                            {
+                               //Debug.Log("Gegevens ophalen van: " + user);
                                FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
                                                       task2 =>
                                                       {
@@ -241,7 +245,7 @@ public class ChatManager : MonoBehaviour {
             //}
 
             //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
-			SendMessageToChat(content);
+			SendMessageToChat(content, user);
 			// Dit tonen in de GUI
 		}
     }

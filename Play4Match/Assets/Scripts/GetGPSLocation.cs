@@ -78,7 +78,8 @@ public class GetGPSLocation : MonoBehaviour {
 			// Access granted and location value could be retrieved
 			latitude = Input.location.lastData.latitude;
 			longitude = Input.location.lastData.longitude;
-			SetLocation();
+			toast.MyShowToastMethod ("Location synced");
+			//SetLocation();
 		}
 
 		// Stop service if there is no need to query location updates continuously

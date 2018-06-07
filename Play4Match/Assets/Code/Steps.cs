@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Steps : MonoBehaviour {
 
-	public Slider pawnSpeed;
     public GameObject pawn;
     public GameObject cameraPos;
     private int stepNumber = 0;
@@ -46,7 +45,7 @@ public class Steps : MonoBehaviour {
         }
         cameraStand.z = Pawnpositions[stepNumber].z - 453;
         cameraStand.y = 1481;
-        cameraStand.x = 690;
+        cameraStand.x = 510;
         cameraPos.transform.position = new Vector3 { x = cameraStand.x, z = cameraStand.z, y = cameraStand.y };
         startPointCamera = cameraPos.transform.position;
     }
@@ -88,7 +87,6 @@ public class Steps : MonoBehaviour {
         //wanneer volgende stap wordt geselecteerd
         if (Input.GetMouseButtonDown(0) && (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() || Input.touchCount>0 && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
         {
-			setSpeed();
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
@@ -147,11 +145,6 @@ public class Steps : MonoBehaviour {
     }
     private int position = 1;
     //put pawn on next place
-	
-	public void setSpeed()
-	{				
-		splineController.mSplineInterp.updateList(pawnSpeed.value);
-	}
     
     public void getQuestion()
     {

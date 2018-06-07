@@ -16,6 +16,7 @@ public class EditProfile : MonoBehaviour {
 	private string name;
 	private string gender;
 	private string dateOfBirth;
+	private string description;
 
 	private string genderPref;
 	private string minAge;
@@ -76,11 +77,21 @@ public class EditProfile : MonoBehaviour {
 		maxAge = dropdown.options[dropdown.value].text;
 	}
 
+	public void SetDescription(string _description){
+		description = _description;
+	}
+
+	public void GetDescription(InputField input)
+	{
+		description = input.text;
+	}
+
 	public void UpdateUser(){	
 		// Update data in the Users root
 		userRef.Child("Name").SetValueAsync(name);
 		userRef.Child("Gender").SetValueAsync(gender);
 		userRef.Child("DateOfBirth").SetValueAsync(dateOfBirth);
+		userRef.Child("Description").SetValueAsync(description);
 
 		// Update data in the Preferences root
 		prefRef.Child("Gender").SetValueAsync(genderPref);
