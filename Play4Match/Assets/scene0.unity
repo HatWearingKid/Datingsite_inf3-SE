@@ -10410,7 +10410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &404049519
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17800,6 +17800,7 @@ MonoBehaviour:
   partnerName: {fileID: 2132901354}
   profilePicture: {fileID: 1870950451}
   paddingTop: 0
+  backButton: {fileID: 469234709}
   textObject: {fileID: 114696580311133156, guid: 67073fc06bbe55b4bbdc99a62bb8114b,
     type: 2}
   chatBox: {fileID: 415359658}

@@ -20,6 +20,7 @@ public class ChatManager : MonoBehaviour {
     public Image profilePicture;
     public int paddingTop = 0;
     Boolean firstChatMessage = true;
+    public Button backButton;
 
     public TMP_Text textObject;
     public TMP_InputField chatBox;
@@ -59,7 +60,10 @@ public class ChatManager : MonoBehaviour {
 
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
-        
+        Button btn = backButton.GetComponent<Button>();
+        btn.onClick.AddListener(TaskOnClick);
+
+
         //addChatReport();
 
     }
@@ -235,7 +239,7 @@ public class ChatManager : MonoBehaviour {
              content = args.Snapshot.Child("content").Value.ToString();
              date = args.Snapshot.Child("date").Value.ToString();
              user = args.Snapshot.Child("user").Value.ToString();
-
+            Debug.Log("gebruikers ID" + chatroomID);
             //if (user == userID)
             //{
             //    user = "Jij stuurde "; // Tekst rechts uitlijnen
@@ -248,6 +252,13 @@ public class ChatManager : MonoBehaviour {
 			SendMessageToChat(content, user);
 			// Dit tonen in de GUI
 		}
+    }
+
+    void TaskOnClick()
+    {
+        chatroomID = "";
+        chatroomFound = false;
+        Debug.Log("ChatroomFound !!" + chatroomFound);
     }
 
     public string tijdVerschil(int tijd)
