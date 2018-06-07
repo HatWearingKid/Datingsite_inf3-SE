@@ -139,12 +139,9 @@ public class chatroomList : MonoBehaviour
                     {
                         DataSnapshot snapshot = task.Result;
 
-                        //Debug.Log("Chats ophalen van " + userID);
-
                         foreach (var childSnapshot in snapshot.Children)
                         {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
-                            //Debug.Log("Users: " + user2_db);
 
                             string[] users = user2_db.Split('|');
                             foreach (string user in users)
@@ -173,11 +170,9 @@ public class chatroomList : MonoBehaviour
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
                                                             count++;
                                                         }
-                                                        Debug.Log(lastMessage);
 
                                                         if(count > 0)
                                                         {
-                                                            Debug.Log("Bericht");
 
                                                             ChatRoomBerichtenLijst.Add(
                                                                 new ChatRoomBerichtList(
@@ -191,7 +186,7 @@ public class chatroomList : MonoBehaviour
                                                             );
                                                         } else
                                                         {
-                                                            Debug.Log("Leeg");
+
                                                             ChatRoomBerichtenLijst.Add(
                                                                 new ChatRoomBerichtList(
                                                                     (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString(),
@@ -204,9 +199,6 @@ public class chatroomList : MonoBehaviour
                                                             );
                                                         }
 
-                                                        
-
-                                                        
 
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
@@ -227,12 +219,10 @@ public class chatroomList : MonoBehaviour
                 });
 
 		loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
-        Debug.Log("Einde van getallchatrooms");
     }
 
     public void buildChatroom()
     {
-        Debug.Log("Buildchatroom is geladen");
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {            
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
@@ -243,7 +233,6 @@ public class chatroomList : MonoBehaviour
 
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
-            Debug.Log(ChatRoomBerichtenLijst[i].ID.ToString());
 
             string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png.jpg?alt=media";
             // ProfilePicture.png.jpg moet veranderd worden in de default naam van de afbeelding
@@ -252,7 +241,6 @@ public class chatroomList : MonoBehaviour
             StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
         }
-        Debug.Log("Na buildchatroom");
 
     }
 
