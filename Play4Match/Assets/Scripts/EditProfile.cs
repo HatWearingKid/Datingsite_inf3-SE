@@ -15,8 +15,11 @@ public class EditProfile : MonoBehaviour {
 
 	private string name;
 	private string gender;
-	private string dateOfBirth;
 	private string description;
+
+	private string day;
+	private string month;
+	private string year;
 
 	private string genderPref;
 	private string minAge;
@@ -54,15 +57,38 @@ public class EditProfile : MonoBehaviour {
 		gender = dropdown.options[dropdown.value].text;
 	}
 
-	public void GetDateOfBirth(InputField input){
-		dateOfBirth = input.text;
-	}
+    public void GetDay(InputField input)
+    {
+        day = input.text;
+    }
 
-	public void SetDateOfBirth(string _dateofbirth){
-		dateOfBirth = _dateofbirth;
-	}
+    public void SetDay(string _day)
+    {
+        day = _day;
+    }
 
-	public void GetGenderPref(Dropdown dropdown)
+    public void GetMonth(InputField input)
+    {
+        day = input.text;
+    }
+
+    public void SetMonth(string _month)
+    {
+        month = _month;
+    }
+
+    public void GetYear(InputField input)
+    {
+        year = input.text;
+    }
+
+    public void SetYear(string _year)
+    {
+        year = _year;
+    }
+
+    #region
+    public void GetGenderPref(Dropdown dropdown)
 	{
 		genderPref = dropdown.options[dropdown.value].text;
 	}
@@ -85,16 +111,17 @@ public class EditProfile : MonoBehaviour {
 	{
 		description = input.text;
 	}
+	#endregion
 
 	public void UpdateUser(){	
 		// Update data in the Users root
 		userRef.Child("Name").SetValueAsync(name);
 		userRef.Child("Gender").SetValueAsync(gender);
-		userRef.Child("DateOfBirth").SetValueAsync(dateOfBirth);
+		userRef.Child("DateOfBirth").SetValueAsync(day + "/" + month + "/" + year);
 		userRef.Child("Description").SetValueAsync(description);
 
-		// Update data in the Preferences root
-		prefRef.Child("Gender").SetValueAsync(genderPref);
+        // Update data in the Preferences root
+        prefRef.Child("Gender").SetValueAsync(genderPref);
 		prefRef.Child("AgeMin").SetValueAsync(minAge);
 		prefRef.Child("AgeMax").SetValueAsync(maxAge);
 	}
