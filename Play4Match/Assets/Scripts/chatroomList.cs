@@ -16,16 +16,9 @@ public class chatroomList : MonoBehaviour
     public string userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
-    public GameObject prefab, chatList;
     public static string chatroomID; // ID meegeven aan de chat
-
-    public GameObject chatviewPanel;
-
-    public GameObject Camera;
-
+    public GameObject prefab, chatList, chatviewPanel, loadingScreen, Camera;
     private int chatroomNumber = 0;
-
-	public GameObject loadingScreen;
 
     private bool initialStart = true;
 
@@ -40,9 +33,6 @@ public class chatroomList : MonoBehaviour
 
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
 
-        //getAllChatrooms();
-        Debug.Log("userID in start: " + userID);
-
         getAllChatrooms();
         
     }
@@ -56,7 +46,7 @@ public class chatroomList : MonoBehaviour
     {
         if (initialStart == false)
         {
-            // Delete all crushes in the content object
+            // Delete all messages in the content object
             foreach (Transform child in this.transform)
             {
                 GameObject.Destroy(child.gameObject);
@@ -71,7 +61,6 @@ public class chatroomList : MonoBehaviour
     {
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
-        Debug.Log(tijdVerschil);
 
         string result = "meer dan 1 jaar geleden";
 
@@ -130,8 +119,6 @@ public class chatroomList : MonoBehaviour
 
     public void getAllChatrooms()
     {
-
-        Debug.Log("Users/" + userID + "/Chatrooms");
 
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
@@ -236,7 +223,6 @@ public class chatroomList : MonoBehaviour
 
             string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png.jpg?alt=media";
             // ProfilePicture.png.jpg moet veranderd worden in de default naam van de afbeelding
-            //string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
 
             StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
