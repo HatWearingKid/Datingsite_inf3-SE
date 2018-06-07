@@ -597,17 +597,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 74857193}
-        m_MethodName: getAllChatrooms
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &25081699
@@ -1116,12 +1105,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  userID: 
   content: 
   date: 
   user: 
   lastMessage: 
   lastMessageTime: 
+  userID: 
   verticalLayoutGroup: {fileID: 0}
   prefab: {fileID: 1573811517623606, guid: f34d727f82f96cc44b526e17c9a5fd07, type: 2}
   chatList: {fileID: 679961841}
@@ -25300,12 +25289,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  userID: 
   content: 
   date: 
   user: 
   lastMessage: 
   lastMessageTime: 
+  userID: 
   verticalLayoutGroup: {fileID: 0}
   prefab: {fileID: 0}
   chatList: {fileID: 862419809}
