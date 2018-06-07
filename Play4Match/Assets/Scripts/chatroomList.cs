@@ -68,7 +68,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 524160)
         {
-            result = verschilMinuten + " maanden geleden";
+            result = Mathf.Floor(verschilMinuten/40320) + " maanden geleden";
             if (verschilMinuten < 80640)
             {
                 result = "1 maand geleden";
@@ -77,7 +77,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 40320)
         {
-            result = verschilMinuten + " weken geleden";
+            result = Mathf.Floor(verschilMinuten/10080) + " weken geleden";
             if (verschilMinuten < 20160)
             {
                 result = "1 week geleden";
@@ -86,7 +86,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 10080)
         {
-            result = verschilMinuten + " dagen geleden";
+            result = Mathf.Floor(verschilMinuten/1440) + " dagen geleden";
             if (verschilMinuten < 2880)
             {
                 result = "1 dag geleden";
@@ -95,7 +95,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 1440)
         {
-            result = verschilMinuten + " uren geleden";
+            result = Mathf.Floor(verschilMinuten /60) + " uren geleden";
             if (verschilMinuten < 120)
             {
                 result = "1 uur geleden";
