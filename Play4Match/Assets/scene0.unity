@@ -13018,7 +13018,7 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 50
-    m_Bottom: 0
+    m_Bottom: 50
   m_ChildAlignment: 4
   m_Spacing: 50
   m_ChildForceExpandWidth: 1
@@ -17678,6 +17678,7 @@ MonoBehaviour:
   - {x: 669, y: 32, z: 2449}
   getQuestions: {fileID: 963607097}
   splineController: {fileID: 1588883694}
+  NextSceneButton: {fileID: 0}
   moveSpeed: 10
   direction: 1
   maxCameraPlace: 2000
