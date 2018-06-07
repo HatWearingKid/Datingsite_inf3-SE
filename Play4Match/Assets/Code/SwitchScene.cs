@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SwitchScene : MonoBehaviour {
 
+    private List<string> Scenes = new List<string> { "scene1","scene2"};
+
     /// <summary>
     /// to change scene give desired scene name as string
     /// </summary>
@@ -12,5 +14,11 @@ public class SwitchScene : MonoBehaviour {
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void RandomScene()
+    {
+        int random = Random.Range(0, Scenes.Count);
+        SceneManager.LoadScene(Scenes[random]);
     }
 }
