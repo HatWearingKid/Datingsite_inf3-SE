@@ -5,6 +5,7 @@ public class Player {
 	public string Name;
 	public string DateOfBirth;
 	public string Gender;
+	public string Description;
 	public bool Location;
 	public bool Liked;
 	public bool Preferences;

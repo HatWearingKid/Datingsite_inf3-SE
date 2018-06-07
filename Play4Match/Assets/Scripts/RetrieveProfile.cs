@@ -101,6 +101,12 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
+	public void SetDescription(InputField input){
+		if(node != null)
+		{
+			input.text = node["Description"];
+		}
+	}
 
 	// Method to retrieve the user data
 	public void GetProfile(){
