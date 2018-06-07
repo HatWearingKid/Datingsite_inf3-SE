@@ -46,13 +46,6 @@ public class RetrieveProfile : MonoBehaviour {
 		
 	}
 
-	public void SetDateOfBirth(InputField input){
-		if (node != null)
-		{
-			input.text = node["DateOfBirth"];
-		}
-	}
-
 	public void SetGender(Dropdown dropdown){
 		if (node != null)
 		{

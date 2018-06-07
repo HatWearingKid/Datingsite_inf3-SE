@@ -17,7 +17,7 @@ public class UploadPicture : MonoBehaviour {
 	Toast toast = new Toast();
 	WWW www;
 	public Button button;
-	public Image ProfilePicture;
+	public Image HUDPicture;
 
 	void Start(){
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -33,8 +33,8 @@ public class UploadPicture : MonoBehaviour {
 			profilePictureRef = storageRef.Child("ProfilePictures/" + user.UserId + "/ProfilePicture.png");
 
 			RetrievePicture();
+			//SetHUDPicture();
 		}
-
 	}
 
 	public void RetrievePicture(){
@@ -58,21 +58,25 @@ public class UploadPicture : MonoBehaviour {
 		}
 	}
 
-	public void SetProfilePicture(){
-		if (www != null) {
-			ProfilePicture.sprite = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), new Vector2 (0, 0));
-		}
-	}
-
-	public void SetImage(){
+	public void SetEditPicture(){
 		if(www != null)
 		{
 			button.image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
 		}
 	}
 
+	/*public void SetHUDPicture(){
+		if(www != null)
+		{
+			
+		}
+	}*/
+
 	public IEnumerator GetImage(WWW www){
 		yield return www;
+		if (www.isDone) {
+			HUDPicture.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
+		}
 	}
 
 	// Method to open the gallery on Android (with the asset)

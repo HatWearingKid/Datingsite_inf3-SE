@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UI;
 using Firebase;
 using Firebase.Unity.Editor;
 using Firebase.Database;
@@ -20,12 +19,13 @@ public class ChatManager : MonoBehaviour {
     public Image profilePicture;
     public int paddingTop = 0;
     Boolean firstChatMessage = true;
+    public Button backButton;
+    public ScrollRect scrollBar;
 
     public TMP_Text textObject;
     public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
-    public string name;
     public string userID;
     public string chatroomID;
     public string content;
@@ -59,7 +59,11 @@ public class ChatManager : MonoBehaviour {
 
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
-        
+        Button btn = backButton.GetComponent<Button>();
+        btn.onClick.AddListener(TaskOnClick);
+
+        //ScrollRect scrollDown = scrollBar.GetComponent<ScrollRect>();
+        //scrollDown.verticalNormalizedPosition = 0;
         //addChatReport();
 
     }
@@ -81,18 +85,13 @@ public class ChatManager : MonoBehaviour {
                 {
                     sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
                     chatBox.text = "";
-
-                }
-                
-               
+                }               
             }
-        }
-
-        
+        }       
     }
 
 
-    public void SendMessageToChat(string text)
+    public void SendMessageToChat(string text, string user)
     {
 		//System.Random rnd = new System.Random();
 		//if (rnd.Next(0, 2) == 1)
@@ -108,7 +107,7 @@ public class ChatManager : MonoBehaviour {
 		//}
 
 		
-        if (userID == "xh4S3DibGraTqCn8HascIIvdFR02")
+        if (userID == user)
         {
 			GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 			
@@ -160,9 +159,9 @@ public class ChatManager : MonoBehaviour {
 
     public void getPartnerName()
     {
-        Debug.Log("getPartnerName starten");
+        //Debug.Log("getPartnerName starten");
         //string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
-        Debug.Log("chatroomID: " + chatroomID);
+        //Debug.Log("chatroomID: " + chatroomID);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)
@@ -176,7 +175,7 @@ public class ChatManager : MonoBehaviour {
                        {
                            if (user != userID)
                            {
-                               Debug.Log("Gegevens ophalen van: " + user);
+                               //Debug.Log("Gegevens ophalen van: " + user);
                                FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
                                                       task2 =>
                                                       {
@@ -184,13 +183,13 @@ public class ChatManager : MonoBehaviour {
                                                           {
                                                               DataSnapshot snapshot2 = task2.Result;
                                                               IDictionary dictUser = (IDictionary)snapshot2.Value;
-                                                              name = dictUser["Name"].ToString();
+                                                              string name = dictUser["Name"].ToString();
                                                               //string photoUrl = dictUser["PhotoUrl"].ToString();
                                                               string photoUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media";
                                                               Debug.Log("photoUrl: " + photoUrl);
                                                               StartCoroutine(LoadImg(photoUrl));
                                                               //Verander de header name naar chat partner name
-                                                              partnerName.text = "---" + name;
+                                                              partnerName.text = name;
                                                           }
 
                                                       });
@@ -235,7 +234,7 @@ public class ChatManager : MonoBehaviour {
              content = args.Snapshot.Child("content").Value.ToString();
              date = args.Snapshot.Child("date").Value.ToString();
              user = args.Snapshot.Child("user").Value.ToString();
-
+            Debug.Log("gebruikers ID" + chatroomID);
             //if (user == userID)
             //{
             //    user = "Jij stuurde "; // Tekst rechts uitlijnen
@@ -245,9 +244,16 @@ public class ChatManager : MonoBehaviour {
             //}
 
             //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
-			SendMessageToChat(content);
+			SendMessageToChat(content, user);
 			// Dit tonen in de GUI
 		}
+    }
+
+    void TaskOnClick()
+    {
+        chatroomID = "";
+        chatroomFound = false;
+        Debug.Log("ChatroomFound !!" + chatroomFound);
     }
 
     public string tijdVerschil(int tijd)

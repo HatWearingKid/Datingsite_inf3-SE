@@ -12,34 +12,48 @@ public class chatroomList : MonoBehaviour
 {
 
     public DatabaseReference chatRef, reference;
-    public string username, userID, content, date, user, lastMessage, lastMessageTime;
+    public string username, content, date, user, lastMessage, lastMessageTime;
+    public string userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
-    public GameObject prefab, chatList;
     public static string chatroomID; // ID meegeven aan de chat
-
-    public GameObject chatviewPanel;
-
-    public GameObject Camera;
-
+    public GameObject prefab, chatList, chatviewPanel, loadingScreen, Camera;
     private int chatroomNumber = 0;
 
-	public GameObject loadingScreen;
+    private bool initialStart = true;
 
-	void Start()
+    void Start()
     {
-		loadingScreen.SetActive(true);
+        loadingScreen.SetActive(true);
+        initialStart = false;
 
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+        userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
+
         getAllChatrooms();
+        
     }
 
     void Update()
     {
+        
+    }
 
+    void OnEnable()
+    {
+        if (initialStart == false)
+        {
+            // Delete all messages in the content object
+            foreach (Transform child in this.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            Start();
+        }
     }
 
 
@@ -47,34 +61,53 @@ public class chatroomList : MonoBehaviour
     {
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
-        string result = "";
 
-        if (tijdVerschil >= 18144000)
+        string result = "meer dan 1 jaar geleden";
+
+        float verschilMinuten = Mathf.Floor(tijdVerschil / 60);
+
+        if (verschilMinuten < 524160)
         {
-            result = Mathf.Floor(tijdVerschil / 217728000) + " jaar geleden";
+            result = verschilMinuten + " maanden geleden";
+            if (verschilMinuten < 80640)
+            {
+                result = "1 maand geleden";
+            }
         }
 
-        if (tijdVerschil < 18144000)
+        if (verschilMinuten < 40320)
         {
-            result = Mathf.Floor(tijdVerschil / 18144000) + " maand geleden";
+            result = verschilMinuten + " weken geleden";
+            if (verschilMinuten < 20160)
+            {
+                result = "1 week geleden";
+            }
         }
 
-        if (tijdVerschil < 604800)
+        if (verschilMinuten < 10080)
         {
-            result = Mathf.Floor(tijdVerschil / 604800) + " dagen geleden";
+            result = verschilMinuten + " dagen geleden";
+            if (verschilMinuten < 2880)
+            {
+                result = "1 dag geleden";
+            }
         }
 
-        if (tijdVerschil < 86400)
+        if (verschilMinuten < 1440)
         {
-            result = Mathf.Floor(tijdVerschil / 3600) + " uur geleden";
+            result = verschilMinuten + " uren geleden";
+            if (verschilMinuten < 120)
+            {
+                result = "1 uur geleden";
+            }
         }
 
-        if (tijdVerschil < 3600)
+        if (verschilMinuten < 60)
         {
-            result = Mathf.Floor(tijdVerschil / 60) + " minuten geleden";
+            result = verschilMinuten + " minuten geleden";
         }
 
-        if (tijdVerschil < 60)
+        if (verschilMinuten < 0)
         {
             result = tijdVerschil + " seconden geleden";
         }
@@ -84,7 +117,7 @@ public class chatroomList : MonoBehaviour
     }
 
 
-    void getAllChatrooms()
+    public void getAllChatrooms()
     {
 
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
@@ -100,13 +133,13 @@ public class chatroomList : MonoBehaviour
                             string[] users = user2_db.Split('|');
                             foreach (string user in users)
                             {
+                                
                                 if (user != userID)
                                 {
                                     FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user).GetValueAsync().ContinueWith(
                                     task2 => {
                                         if (task2.IsCompleted)
                                         {
-                                            
                                             DataSnapshot snapshot2 = task2.Result;
                                             IDictionary dictUser = (IDictionary)snapshot2.Value;
 
@@ -117,22 +150,42 @@ public class chatroomList : MonoBehaviour
                                                         
                                                         DataSnapshot snapshot3 = task3.Result;
 
+                                                        int count = 0;
                                                         foreach (var childSnapshot3 in snapshot3.Children) 
                                                         {
                                                             lastMessage = childSnapshot3.Child("content").Value.ToString();
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
+                                                            count++;
                                                         }
 
-                                                        ChatRoomBerichtenLijst.Add(
-                                                            new ChatRoomBerichtList(
-                                                                lastMessageTime.ToString(),
-                                                                lastMessage.ToString(),
-                                                                dictUser["Name"].ToString(),
-                                                                childSnapshot.Key.ToString(),
-                                                                dictUser["PhotoUrl"].ToString(),
-                                                                user
-                                                            )
-                                                        );
+                                                        if(count > 0)
+                                                        {
+
+                                                            ChatRoomBerichtenLijst.Add(
+                                                                new ChatRoomBerichtList(
+                                                                    lastMessageTime.ToString(),
+                                                                    lastMessage.ToString(),
+                                                                    dictUser["Name"].ToString(),
+                                                                    childSnapshot.Key.ToString(),
+                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media",
+                                                                    user
+                                                                )
+                                                            );
+                                                        } else
+                                                        {
+
+                                                            ChatRoomBerichtenLijst.Add(
+                                                                new ChatRoomBerichtList(
+                                                                    (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString(),
+                                                                    "Er is nog niets gezegd",
+                                                                    dictUser["Name"].ToString(),
+                                                                    childSnapshot.Key.ToString(),
+                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media",
+                                                                    user
+                                                                )
+                                                            );
+                                                        }
+
 
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
@@ -153,7 +206,7 @@ public class chatroomList : MonoBehaviour
                 });
 
 		loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
-	}
+    }
 
     public void buildChatroom()
     {
@@ -167,11 +220,9 @@ public class chatroomList : MonoBehaviour
 
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
-            Debug.Log(ChatRoomBerichtenLijst[i].ID.ToString());
 
             string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png.jpg?alt=media";
             // ProfilePicture.png.jpg moet veranderd worden in de default naam van de afbeelding
-            //string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
 
             StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
@@ -200,8 +251,8 @@ public class chatroomList : MonoBehaviour
 
 
 
-    // Maak een chatroom aan
-    void createChatroom(string user1, string user2)
+    // Maak een chatroom aan, met een default message, mee te geven als parameter
+    void createChatroom(string user1, string user2, string message = "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'")
     {
         string users = user1 + "|" + user2;
 
@@ -238,7 +289,8 @@ public class chatroomList : MonoBehaviour
                             reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key;
 
-                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'");
+                            sendMessage(userID, message);
+
                         }
 
                     }
