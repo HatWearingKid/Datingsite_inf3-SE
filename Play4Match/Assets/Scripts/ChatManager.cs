@@ -41,6 +41,7 @@ public class ChatManager : MonoBehaviour {
 
     public string andereUser;
 
+
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
@@ -58,7 +59,7 @@ public class ChatManager : MonoBehaviour {
 
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
-        getPartnerName();
+        
         //addChatReport();
 
     }
@@ -69,6 +70,7 @@ public class ChatManager : MonoBehaviour {
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
+            getPartnerName();
         }
 
         if (chatBox.text != "")
@@ -92,49 +94,60 @@ public class ChatManager : MonoBehaviour {
 
     public void SendMessageToChat(string text)
     {
-        //System.Random rnd = new System.Random();
-        //if (rnd.Next(0, 2) == 1)
-        //{
-        //    text = "kort bericht";
-        //    userID = "xh4S3DibGraTqCn8HascIIvdFR02";
+		//System.Random rnd = new System.Random();
+		//if (rnd.Next(0, 2) == 1)
+		//{
+		//    text = "kort bericht";
+		//    userID = "xh4S3DibGraTqCn8HascIIvdFR02";
 
-        //}
-        //else
-        //{
-        //    text = "Een wat langer bericht met meer tekens";
-        //    userID = "Bob";
-        //}
+		//}
+		//else
+		//{
+		//    text = "Een wat langer bericht met meer tekens";
+		//    userID = "Bob";
+		//}
 
-        string newText = "";
-        int charCount = 0;
-
-        for(int i = 0; i < text.Length; i++)
-        {
-            string letter = text[i].ToString();
-
-            charCount++;
-
-            if (charCount >= 35)
-            {
-                newText += "\n";
-                charCount = 0;
-            }
-
-            newText += text[i];
-        }
-
+		
         if (userID == "xh4S3DibGraTqCn8HascIIvdFR02")
         {
-            GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
+			GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
+			
+			float sum = 400 - (text.Length * text.Length) + 50;
 
-            newObjUser.transform.Find("PanelHorizontal").Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = newText;
-        }
+			if (sum < 100f)
+			{
+				sum = 100f;
+			}
+
+			if (sum > 400f)
+			{
+				sum = 400f;
+			}
+
+			newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
+
+			newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+		}
         else
         {
-            GameObject newObj = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+			GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
 
-            newObj.transform.Find("PanelHorizontal").Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = newText;
-        }
+			float sum = 400 - (text.Length * text.Length) + 50;
+
+			if (sum < 100f)
+			{
+				sum = 100f;
+			}
+
+			if (sum > 400f)
+			{
+				sum = 400f;
+			}
+
+			newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
+
+			newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+		}
     }
 
     void sendMessage(string from, string content)
@@ -147,7 +160,9 @@ public class ChatManager : MonoBehaviour {
 
     public void getPartnerName()
     {
-        string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
+        Debug.Log("getPartnerName starten");
+        //string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
+        Debug.Log("chatroomID: " + chatroomID);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)
@@ -161,6 +176,7 @@ public class ChatManager : MonoBehaviour {
                        {
                            if (user != userID)
                            {
+                               Debug.Log("Gegevens ophalen van: " + user);
                                FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
                                                       task2 =>
                                                       {
@@ -169,10 +185,12 @@ public class ChatManager : MonoBehaviour {
                                                               DataSnapshot snapshot2 = task2.Result;
                                                               IDictionary dictUser = (IDictionary)snapshot2.Value;
                                                               name = dictUser["Name"].ToString();
-                                                              string photoUrl = dictUser["PhotoUrl"].ToString();
+                                                              //string photoUrl = dictUser["PhotoUrl"].ToString();
+                                                              string photoUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media";
+                                                              Debug.Log("photoUrl: " + photoUrl);
                                                               StartCoroutine(LoadImg(photoUrl));
                                                               //Verander de header name naar chat partner name
-                                                              partnerName.text = name;
+                                                              partnerName.text = "---" + name;
                                                           }
 
                                                       });
@@ -226,9 +244,10 @@ public class ChatManager : MonoBehaviour {
             //    user = "Je chatpartner stuurde "; // Tekst rechts uitlijnen
             //}
 
-            SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
-            // Dit tonen in de GUI
-        }
+            //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
+			SendMessageToChat(content);
+			// Dit tonen in de GUI
+		}
     }
 
     public string tijdVerschil(int tijd)

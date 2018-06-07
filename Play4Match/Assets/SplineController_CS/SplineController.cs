@@ -119,6 +119,7 @@ public class SplineController : MonoBehaviour
 	{
 		if (SplineRoot != null)
 		{
+            //SplineRoot.SetActive(false); //zou moeten werken inplaats van de regel hieronder maar werkt niet. investigation is needed
 			SplineRoot.SetActiveRecursively(false);
 		}
 	}

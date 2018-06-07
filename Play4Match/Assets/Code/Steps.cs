@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Steps : MonoBehaviour {
 
@@ -33,9 +34,9 @@ public class Steps : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        Pawnpositions.Clear();
         //get posities and sort by name
-        Positions = GameObject.FindGameObjectsWithTag("positie").OrderBy(go => go.name).ToArray();
+        //Positions = GameObject.FindGameObjectsWithTag("positie").OrderBy(go => go.name).ToArray();
 
         for (int i = 0; i < Positions.Length; i++)
         {
@@ -44,7 +45,7 @@ public class Steps : MonoBehaviour {
         }
         cameraStand.z = Pawnpositions[stepNumber].z - 453;
         cameraStand.y = 1481;
-        cameraStand.x = 690;
+        cameraStand.x = 510;
         cameraPos.transform.position = new Vector3 { x = cameraStand.x, z = cameraStand.z, y = cameraStand.y };
         startPointCamera = cameraPos.transform.position;
     }
@@ -54,6 +55,7 @@ public class Steps : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+		
         //camera alleen bewegen als de volgende stap is aangeklikt
         if (movecamera)
         {
@@ -65,7 +67,7 @@ public class Steps : MonoBehaviour {
         }
 
         //wanneer de pion bijna op positie is
-        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 7)
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 10)
         {
             //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
@@ -97,7 +99,8 @@ public class Steps : MonoBehaviour {
                         timeClicked = System.DateTime.Now;
                         //zet stap
                         StepLock = true;
-                        Step();                          
+                        Step();
+                        
                     }
                 }
                 
@@ -153,7 +156,7 @@ public class Steps : MonoBehaviour {
             if(diffInSeconds > 1)
             {
                 //show question
-                getQuestions.ShowQuestion(position-1);
+                getQuestions.ShowQuestion(position -1);
                 QuestionLock = true;
                 next = false;
             }
@@ -184,7 +187,6 @@ public class Steps : MonoBehaviour {
         startPoint = pawn.transform.position;
 
         startPointCamera = cameraPos.transform.position;
-        
     }
 
     public void ChangeSpeed(float newSpeed)

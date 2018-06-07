@@ -18,10 +18,18 @@ public class chatroomList : MonoBehaviour
     public GameObject prefab, chatList;
     public static string chatroomID; // ID meegeven aan de chat
 
+    public GameObject chatviewPanel;
+
+    public GameObject Camera;
+
     private int chatroomNumber = 0;
 
-    void Start()
+	public GameObject loadingScreen;
+
+	void Start()
     {
+		loadingScreen.SetActive(true);
+
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -121,7 +129,8 @@ public class chatroomList : MonoBehaviour
                                                                 lastMessage.ToString(),
                                                                 dictUser["Name"].ToString(),
                                                                 childSnapshot.Key.ToString(),
-                                                                dictUser["PhotoUrl"].ToString()
+                                                                dictUser["PhotoUrl"].ToString(),
+                                                                user
                                                             )
                                                         );
 
@@ -143,7 +152,8 @@ public class chatroomList : MonoBehaviour
                     }
                 });
 
-    }
+		loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+	}
 
     public void buildChatroom()
     {
@@ -157,8 +167,13 @@ public class chatroomList : MonoBehaviour
 
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
+            Debug.Log(ChatRoomBerichtenLijst[i].ID.ToString());
 
-            StartCoroutine(LoadImg(ChatRoomBerichtenLijst[i].PhotoUrl.ToString(), newObj));
+            string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png.jpg?alt=media";
+            // ProfilePicture.png.jpg moet veranderd worden in de default naam van de afbeelding
+            //string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
+
+            StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
         }
 
@@ -167,8 +182,12 @@ public class chatroomList : MonoBehaviour
     public void setChatroomID(string data)
     {
         chatroomID = data;
-        statics.chatroomID = data; // Zet de chatroomID in de static
-        //Debug.Log("chatroomID gezet op: " + chatroomID);
+
+        // Set chatroomid
+        Camera.GetComponent<ChatManager>().chatroomID = data;
+
+        // Zet chatviewPanel actief
+        chatviewPanel.SetActive(true);
     }
 
     void addReport(string who, string type, string data = "")
@@ -219,7 +238,7 @@ public class chatroomList : MonoBehaviour
                             reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key;
 
-                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'"); // Tijdelijk
+                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'");
                         }
 
                     }
