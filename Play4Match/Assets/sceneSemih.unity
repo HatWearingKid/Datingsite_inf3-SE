@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.29729906, g: 0.6088409, b: 0.7079393, a: 1}
+  m_IndirectSpecularColor: {r: 0.329887, g: 0.7537765, b: 0.88751036, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17106,7 +17106,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936283704}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1f3f6d2fdd329042973e839b3aecaa2, type: 3}
   m_Name: 
@@ -17406,6 +17406,7 @@ MonoBehaviour:
   - {x: 669, y: 32, z: 2449}
   getQuestions: {fileID: 963607097}
   splineController: {fileID: 1588883694}
+  NextSceneButton: {fileID: 0}
   moveSpeed: 10
   direction: 1
   maxCameraPlace: 2000
@@ -26343,6 +26344,39 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1251325238}
+        m_MethodName: SetDay
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1939775590}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.InputField, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1251325238}
+        m_MethodName: SetMonth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 979159132}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.InputField, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1251325238}
+        m_MethodName: SetYear
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1316765413}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.InputField, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

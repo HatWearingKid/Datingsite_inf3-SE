@@ -87,7 +87,6 @@ public class EditProfile : MonoBehaviour {
         year = _year;
     }
 
-    #region
     public void GetGenderPref(Dropdown dropdown)
 	{
 		genderPref = dropdown.options[dropdown.value].text;
@@ -111,7 +110,6 @@ public class EditProfile : MonoBehaviour {
 	{
 		description = input.text;
 	}
-	#endregion
 
 	public void UpdateUser(){	
 		// Update data in the Users root

@@ -15,6 +15,7 @@ public class RetrieveProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
 	string userID;
+    string[] dateOfBirth;
 	Toast toast;
 	float timer;
 	JSONNode node;
@@ -42,11 +43,25 @@ public class RetrieveProfile : MonoBehaviour {
 		if(node != null)
 		{
 			input.text = node["Name"];
-		}
-		
+		}	
 	}
 
-	public void SetGender(Dropdown dropdown){
+    public void SetDay(InputField input)
+    {
+        input.text = dateOfBirth[0];
+    }
+
+    public void SetMonth(InputField input)
+    {
+        input.text = dateOfBirth[1];
+    }
+
+    public void SetYear(InputField input)
+    {
+        input.text = dateOfBirth[2];
+    }
+
+    public void SetGender(Dropdown dropdown){
 		if (node != null)
 		{
 			string gender = node["Gender"];
@@ -130,7 +145,9 @@ public class RetrieveProfile : MonoBehaviour {
 						// Check if user equals to the logged in user to retrieve correct data
 						if(userID.Equals(user.Key)){
 							node = JSON.Parse(user.GetRawJsonValue());
-						}
+                            string birthdate = node["DateOfBirth"];
+                            dateOfBirth = birthdate.Split('/');
+                        }
 					}
 				}
 			});
