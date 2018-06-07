@@ -92,7 +92,7 @@ public class ChatManager : MonoBehaviour {
     }
 
 
-    public void SendMessageToChat(string text)
+    public void SendMessageToChat(string text, string user)
     {
 		//System.Random rnd = new System.Random();
 		//if (rnd.Next(0, 2) == 1)
@@ -108,7 +108,7 @@ public class ChatManager : MonoBehaviour {
 		//}
 
 		
-        if (userID == "xh4S3DibGraTqCn8HascIIvdFR02")
+        if (userID == user)
         {
 			GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 			
@@ -245,7 +245,7 @@ public class ChatManager : MonoBehaviour {
             //}
 
             //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
-			SendMessageToChat(content);
+			SendMessageToChat(content, user);
 			// Dit tonen in de GUI
 		}
     }
