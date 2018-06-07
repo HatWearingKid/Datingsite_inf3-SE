@@ -7,13 +7,9 @@ public class SettingsMenu : MonoBehaviour {
 
 	public GameObject soundEngine;
 	
-	public Slider pawnSpeed;
 	public Toggle soundToggle;
 	public Slider volume;
-	
-	public SplineController splineController;
 
-	
 	// Use this for initialization
 	void Start () {
 		soundToggle.onValueChanged.AddListener(delegate {
@@ -21,9 +17,6 @@ public class SettingsMenu : MonoBehaviour {
 				});
 		volume.onValueChanged.AddListener(delegate {
                 SoundVolumeChanged();
-				});
-		pawnSpeed.onValueChanged.AddListener(delegate {
-                PawnSpeedChanged();
 				});
 	}
 	
@@ -42,10 +35,5 @@ public class SettingsMenu : MonoBehaviour {
 	{
 		float vol = volume.value;
 		soundEngine.GetComponent<SoundScript>().SetVolume(vol);
-	}
-	
-	void PawnSpeedChanged()
-	{
-		splineController.mSplineInterp.updateList(pawnSpeed.value);
 	}
 }
