@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UI;
 using Firebase;
 using Firebase.Unity.Editor;
 using Firebase.Database;
@@ -21,12 +20,12 @@ public class ChatManager : MonoBehaviour {
     public int paddingTop = 0;
     Boolean firstChatMessage = true;
     public Button backButton;
+    public ScrollRect scrollBar;
 
     public TMP_Text textObject;
     public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
-    public string name;
     public string userID;
     public string chatroomID;
     public string content;
@@ -63,7 +62,8 @@ public class ChatManager : MonoBehaviour {
         Button btn = backButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
 
-
+        //ScrollRect scrollDown = scrollBar.GetComponent<ScrollRect>();
+        //scrollDown.verticalNormalizedPosition = 0;
         //addChatReport();
 
     }
@@ -85,14 +85,9 @@ public class ChatManager : MonoBehaviour {
                 {
                     sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
                     chatBox.text = "";
-
-                }
-                
-               
+                }               
             }
-        }
-
-        
+        }       
     }
 
 
@@ -188,7 +183,7 @@ public class ChatManager : MonoBehaviour {
                                                           {
                                                               DataSnapshot snapshot2 = task2.Result;
                                                               IDictionary dictUser = (IDictionary)snapshot2.Value;
-                                                              name = dictUser["Name"].ToString();
+                                                              string name = dictUser["Name"].ToString();
                                                               //string photoUrl = dictUser["PhotoUrl"].ToString();
                                                               string photoUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media";
                                                               Debug.Log("photoUrl: " + photoUrl);

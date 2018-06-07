@@ -10433,7 +10433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &404049519
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17825,10 +17825,10 @@ MonoBehaviour:
   profilePicture: {fileID: 1946759585}
   paddingTop: 0
   backButton: {fileID: 469234709}
+  scrollBar: {fileID: 1305515087}
   textObject: {fileID: 114696580311133156, guid: 67073fc06bbe55b4bbdc99a62bb8114b,
     type: 2}
   chatBox: {fileID: 415359658}
-  name: 
   userID: 
   chatroomID: 
   content: 
@@ -31128,7 +31128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2056415686
 RectTransform:
   m_ObjectHideFlags: 0
