@@ -1115,8 +1115,8 @@ MonoBehaviour:
   prefab: {fileID: 1573811517623606, guid: f34d727f82f96cc44b526e17c9a5fd07, type: 2}
   chatList: {fileID: 679961841}
   chatviewPanel: {fileID: 404049518}
-  Camera: {fileID: 963607091}
   loadingScreen: {fileID: 1406932044}
+  Camera: {fileID: 963607091}
 --- !u!114 &74857194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10433,7 +10433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &404049519
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20440,7 +20440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1820889795}
-  ProfilePicture: {fileID: 1478610902}
+  HUDPicture: {fileID: 0}
 --- !u!114 &1251325242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25299,8 +25299,8 @@ MonoBehaviour:
   prefab: {fileID: 0}
   chatList: {fileID: 862419809}
   chatviewPanel: {fileID: 0}
-  Camera: {fileID: 963607091}
   loadingScreen: {fileID: 0}
+  Camera: {fileID: 963607091}
 --- !u!114 &1657909038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31128,7 +31128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2056415686
 RectTransform:
   m_ObjectHideFlags: 0
