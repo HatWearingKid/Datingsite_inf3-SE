@@ -220,8 +220,8 @@ public class chatroomList : MonoBehaviour
 
 
 
-    // Maak een chatroom aan
-    void createChatroom(string user1, string user2)
+    // Maak een chatroom aan, met een default message, mee te geven als parameter
+    void createChatroom(string user1, string user2, string message = "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'")
     {
         string users = user1 + "|" + user2;
 
@@ -258,7 +258,8 @@ public class chatroomList : MonoBehaviour
                             reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key;
 
-                            sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'");
+                            sendMessage(userID, message);
+
                         }
 
                     }
