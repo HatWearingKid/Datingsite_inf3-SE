@@ -17,12 +17,12 @@ public class Steps : MonoBehaviour {
     public List<Vector3> Pawnpositions;
     private bool QuestionLock;
     public getQuestions getQuestions;
+    public SetQuestions SetQuestions = null;
     private Vector3 cameraStand;
     public SplineController splineController;
     private bool next;
     private bool StepLock;
     private bool stop;
-    public GameObject NextSceneButton;
 
     private Touch initTouch = new Touch();
     private float movZ = 0f;
@@ -68,7 +68,7 @@ public class Steps : MonoBehaviour {
         }
 
         //wanneer de pion bijna op positie is
-        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 15)
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 10)
         {
             //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
@@ -82,8 +82,7 @@ public class Steps : MonoBehaviour {
         {
             //anders follow curve
             next = false;
-            GameObject pion = pawn.gameObject.transform.GetChild(0).gameObject;
-            pion.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
+            //pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
         }
 
         //wanneer volgende stap wordt geselecteerd
@@ -158,14 +157,17 @@ public class Steps : MonoBehaviour {
             if(diffInSeconds > 1)
             {
                 //show question
-                getQuestions.ShowQuestion(position -1);
+                if(SetQuestions != null)
+                {
+                    SetQuestions.ShowQuestion(position - 1);
+                }
+                else
+                {
+                    getQuestions.ShowQuestion(position - 1);
+                }
+                
                 QuestionLock = true;
                 next = false;
-
-                if (Pawnpositions.Count-1 == position)
-                {
-                    NextSceneButton.SetActive(true);
-                }
             }
             
         }
