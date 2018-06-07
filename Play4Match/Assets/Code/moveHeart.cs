@@ -16,18 +16,22 @@ public class moveHeart : MonoBehaviour {
 
 	private float startingTime;
 
-	// Use this for initialization
-	void Start () {
+    Vector3 newPos;
+
+    // Use this for initialization
+    void Start () {
 		sr = this.GetComponent<SpriteRenderer>();
 		startPosition = transform.position;
 
 		fadeOutTime = Random.Range(fadeOutTime_min, fadeOutTime_max);
 		startingTime = fadeOutTime;
-	}
+
+        newPos = new Vector3(transform.position.x, startPosition.y + 1000f, transform.position.z);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 newPos = new Vector3(transform.position.x, startPosition.y + 1000f, transform.position.z);
+		
 		transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
 
 

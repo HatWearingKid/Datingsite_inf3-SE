@@ -17,6 +17,7 @@ public class Steps : MonoBehaviour {
     public List<Vector3> Pawnpositions;
     private bool QuestionLock;
     public getQuestions getQuestions;
+    public SetQuestions SetQuestions = null;
     private Vector3 cameraStand;
     public SplineController splineController;
     private bool next;
@@ -81,7 +82,7 @@ public class Steps : MonoBehaviour {
         {
             //anders follow curve
             next = false;
-            pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
+            //pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
         }
 
         //wanneer volgende stap wordt geselecteerd
@@ -156,7 +157,15 @@ public class Steps : MonoBehaviour {
             if(diffInSeconds > 1)
             {
                 //show question
-                getQuestions.ShowQuestion(position -1);
+                if(SetQuestions != null)
+                {
+                    SetQuestions.ShowQuestion(position - 1);
+                }
+                else
+                {
+                    getQuestions.ShowQuestion(position - 1);
+                }
+                
                 QuestionLock = true;
                 next = false;
             }
