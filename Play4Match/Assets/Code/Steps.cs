@@ -23,6 +23,7 @@ public class Steps : MonoBehaviour {
     private bool next;
     private bool StepLock;
     private bool stop;
+    public GameObject NextSceneButton;
 
     private Touch initTouch = new Touch();
     private float movZ = 0f;
@@ -68,7 +69,7 @@ public class Steps : MonoBehaviour {
         }
 
         //wanneer de pion bijna op positie is
-        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 10)
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 15)
         {
             //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
@@ -82,7 +83,8 @@ public class Steps : MonoBehaviour {
         {
             //anders follow curve
             next = false;
-            //pawn.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
+            GameObject pion = pawn.gameObject.transform.GetChild(0).gameObject;
+            pion.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
         }
 
         //wanneer volgende stap wordt geselecteerd
@@ -168,6 +170,11 @@ public class Steps : MonoBehaviour {
                 
                 QuestionLock = true;
                 next = false;
+
+                if (Pawnpositions.Count - 1 == position)
+                {
+                    NextSceneButton.SetActive(true);
+                }
             }
             
         }
