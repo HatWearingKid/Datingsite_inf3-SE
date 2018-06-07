@@ -59,7 +59,7 @@ public class ChatManager : MonoBehaviour {
 
         keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
-        getPartnerName();
+        
         //addChatReport();
 
     }
@@ -70,6 +70,7 @@ public class ChatManager : MonoBehaviour {
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
+            getPartnerName();
         }
 
         if (chatBox.text != "")
@@ -159,7 +160,9 @@ public class ChatManager : MonoBehaviour {
 
     public void getPartnerName()
     {
+        Debug.Log("getPartnerName starten");
         //string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
+        Debug.Log("chatroomID: " + chatroomID);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)
@@ -173,6 +176,7 @@ public class ChatManager : MonoBehaviour {
                        {
                            if (user != userID)
                            {
+                               Debug.Log("Gegevens ophalen van: " + user);
                                FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
                                                       task2 =>
                                                       {
@@ -186,7 +190,7 @@ public class ChatManager : MonoBehaviour {
                                                               Debug.Log("photoUrl: " + photoUrl);
                                                               StartCoroutine(LoadImg(photoUrl));
                                                               //Verander de header name naar chat partner name
-                                                              partnerName.text = name;
+                                                              partnerName.text = "---" + name;
                                                           }
 
                                                       });
