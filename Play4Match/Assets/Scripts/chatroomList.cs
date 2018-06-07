@@ -47,34 +47,54 @@ public class chatroomList : MonoBehaviour
     {
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
-        string result = "";
+        Debug.Log(tijdVerschil);
 
-        if (tijdVerschil >= 18144000)
+        string result = "meer dan 1 jaar geleden";
+
+        float verschilMinuten = Mathf.Floor(tijdVerschil / 60);
+
+        if (verschilMinuten < 524160)
         {
-            result = Mathf.Floor(tijdVerschil / 217728000) + " jaar geleden";
+            result = verschilMinuten + " maanden geleden";
+            if (verschilMinuten < 80640)
+            {
+                result = "1 maand geleden";
+            }
         }
 
-        if (tijdVerschil < 18144000)
+        if (verschilMinuten < 40320)
         {
-            result = Mathf.Floor(tijdVerschil / 18144000) + " maand geleden";
+            result = verschilMinuten + " weken geleden";
+            if (verschilMinuten < 20160)
+            {
+                result = "1 week geleden";
+            }
         }
 
-        if (tijdVerschil < 604800)
+        if (verschilMinuten < 10080)
         {
-            result = Mathf.Floor(tijdVerschil / 604800) + " dagen geleden";
+            result = verschilMinuten + " dagen geleden";
+            if (verschilMinuten < 2880)
+            {
+                result = "1 dag geleden";
+            }
         }
 
-        if (tijdVerschil < 86400)
+        if (verschilMinuten < 1440)
         {
-            result = Mathf.Floor(tijdVerschil / 3600) + " uur geleden";
+            result = verschilMinuten + " uren geleden";
+            if (verschilMinuten < 120)
+            {
+                result = "1 uur geleden";
+            }
         }
 
-        if (tijdVerschil < 3600)
+        if (verschilMinuten < 60)
         {
-            result = Mathf.Floor(tijdVerschil / 60) + " minuten geleden";
+            result = verschilMinuten + " minuten geleden";
         }
 
-        if (tijdVerschil < 60)
+        if (verschilMinuten < 0)
         {
             result = tijdVerschil + " seconden geleden";
         }
