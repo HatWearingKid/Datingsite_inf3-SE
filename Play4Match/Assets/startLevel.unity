@@ -815,18 +815,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  userID: 
   content: 
   date: 
   user: 
   lastMessage: 
   lastMessageTime: 
+  userID: 
   verticalLayoutGroup: {fileID: 0}
   prefab: {fileID: 1573811517623606, guid: f34d727f82f96cc44b526e17c9a5fd07, type: 2}
   chatList: {fileID: 679961841}
   chatviewPanel: {fileID: 404049518}
-  Camera: {fileID: 963607091}
   loadingScreen: {fileID: 1406932044}
+  Camera: {fileID: 963607091}
 --- !u!114 &74857194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12407,7 +12407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &630780457
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15403,10 +15403,11 @@ MonoBehaviour:
   partnerName: {fileID: 2132901354}
   profilePicture: {fileID: 1870950451}
   paddingTop: 0
+  backButton: {fileID: 0}
+  scrollBar: {fileID: 0}
   textObject: {fileID: 114696580311133156, guid: 67073fc06bbe55b4bbdc99a62bb8114b,
     type: 2}
   chatBox: {fileID: 415359658}
-  name: 
   userID: 
   chatroomID: 
   content: 
@@ -17446,7 +17447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1820889795}
-  ProfilePicture: {fileID: 1478610902}
+  HUDPicture: {fileID: 0}
 --- !u!114 &1251325242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21684,18 +21685,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: 
-  userID: 
   content: 
   date: 
   user: 
   lastMessage: 
   lastMessageTime: 
+  userID: 
   verticalLayoutGroup: {fileID: 0}
   prefab: {fileID: 0}
   chatList: {fileID: 862419809}
   chatviewPanel: {fileID: 0}
-  Camera: {fileID: 963607091}
   loadingScreen: {fileID: 0}
+  Camera: {fileID: 963607091}
 --- !u!114 &1657909038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25862,42 +25863,42 @@ Prefab:
     - target: {fileID: 224152086391567468, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224742040172630190, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224036350859205756, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224036350859205756, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224036350859205756, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224189322745662782, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224189322745662782, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224189322745662782, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114767535369768954, guid: 0934254d47327460b8bd9ab8ff4a4f64,
         type: 2}
