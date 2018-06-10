@@ -24,6 +24,7 @@ public class EditProfile : MonoBehaviour {
 	private string genderPref;
 	private string minAge;
 	private string maxAge;
+	private int distance;
 
 	void Start() {
 		// Set up the Editor before calling into the realtime database.
@@ -43,7 +44,8 @@ public class EditProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetName(string _name){
+    #region Getters & Setters
+    public void SetName(string _name){
 		name = _name;
 	}
 		
@@ -102,7 +104,20 @@ public class EditProfile : MonoBehaviour {
 		maxAge = dropdown.options[dropdown.value].text;
 	}
 
-	public void SetDescription(string _description){
+    public void GetDistance(Dropdown dropdown)
+    {
+        if (dropdown.value == 0) {
+            distance = 25;
+        } else if (dropdown.value == 1) {
+            distance = 50;
+        } else if (dropdown.value == 2) {
+            distance = 100;
+        } else {
+            distance = 0;
+        }
+    }
+
+    public void SetDescription(string _description){
 		description = _description;
 	}
 
@@ -110,13 +125,15 @@ public class EditProfile : MonoBehaviour {
 	{
 		description = input.text;
 	}
+    #endregion
 
-	public void UpdateUser(){	
+    public void UpdateUser(){	
 		// Update data in the Users root
 		userRef.Child("Name").SetValueAsync(name);
 		userRef.Child("Gender").SetValueAsync(gender);
 		userRef.Child("DateOfBirth").SetValueAsync(day + "/" + month + "/" + year);
 		userRef.Child("Description").SetValueAsync(description);
+		userRef.Child("Distance").SetValueAsync(distance);
 
         // Update data in the Preferences root
         prefRef.Child("Gender").SetValueAsync(genderPref);

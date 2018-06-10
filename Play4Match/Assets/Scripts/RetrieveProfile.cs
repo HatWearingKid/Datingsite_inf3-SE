@@ -39,7 +39,8 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetName(InputField input){
+    #region Retrieve data to set
+    public void SetName(InputField input){
 		if(node != null)
 		{
 			input.text = node["Name"];
@@ -116,8 +117,30 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	// Method to retrieve the user data
-	public void GetProfile(){
+    public void SetDistance(Dropdown dropdown)
+    {
+        if (node != null)
+        {
+            int distance = node["Distance"];
+            if (distance == 25)
+            {
+                dropdown.value = 0;
+            } else if (distance == 50)
+            {
+                dropdown.value = 1;
+            } else if (distance == 75)
+            {
+                dropdown.value = 2;
+            } else
+            {
+                dropdown.value = 3;
+            }
+        }
+    }
+    #endregion
+
+    // Method to retrieve the user data
+    public void GetProfile(){
 		// Check if user is logged in
 		if (user != null) {
 			userID = user.UserId;
