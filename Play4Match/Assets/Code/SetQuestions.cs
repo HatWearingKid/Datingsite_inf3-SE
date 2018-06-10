@@ -14,11 +14,34 @@ public class SetQuestions : MonoBehaviour {
 
     public void ShowQuestion(int questionId)
     {
-        Debug.Log(questionId);
         if(questionId == 0)
         {
             question1.SetActive(true);
         }
-    }
+		else if (questionId == 1)
+		{
+			question2.SetActive(true);
+		}
+		else if (questionId == 2)
+		{
+			question3.SetActive(true);
+		}
+		else if (questionId == 3)
+		{
+			question4.SetActive(true);
+		}
+		else if (questionId == 4)
+		{
+			question5.SetActive(true);
+		}
+		else if (questionId == 5)
+		{
+			question6.SetActive(true);
+		}
+		else if (questionId == 6)
+		{
+			question7.SetActive(true);
+		}
+	}
 
 }

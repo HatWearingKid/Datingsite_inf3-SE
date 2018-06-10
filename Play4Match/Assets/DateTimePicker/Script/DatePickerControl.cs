@@ -193,7 +193,7 @@ public class DatePickerControl : MonoBehaviour {
 		}
 		actualizarFecha ();
 	}
-	//		© NNA-Gamers 2017, Man Sanz
+
 	public void actualizarFecha(){
 		if (dateOn) {
 			if (inputFieldDate.day != null) {
@@ -223,7 +223,9 @@ public class DatePickerControl : MonoBehaviour {
 	public void diaMax(){
 		try{
 			fecha = new DateTime (fecha.Year, fecha.Month, fecha.Day + 1,fecha.Hour,fecha.Minute,fecha.Second);
-		}catch{
+			
+		}
+		catch{
 			Debug.Log ("(+) No hay mas dias");
 		}
 		actualizarFecha ();
@@ -365,7 +367,7 @@ public class DatePickerControl : MonoBehaviour {
 		actualizarFecha ();
 	}
 }
-//		© NNA-Gamers 2017, Man Sanz
+
 #if UNITY_EDITOR
 [CustomEditor(typeof(DatePickerControl))]
 public class DatePickerControl_Editor : Editor {
@@ -443,12 +445,3 @@ public class DatePickerControl_Editor : Editor {
 	}
 }
 #endif
-
-/*****
-//	▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-//	█  █▄   █ █▄   █ █▀▀▀▀█          █▀▀▀▀▀ █▀▀▀▀█ █▄  ▄█ █▀▀▀▀▀ █▀▀▀▀█ █▀▀▀▀▀   █
-//	█  █ ▀▄ █ █ ▀▄ █ █▄▄▄▄█  ▄▄▄▄▄▄  █  ▄▄▄ █▄▄▄▄█ █ ▀▀ █ █▄▄▄▄  █▄▄▄▄█ █▄▄▄▄▄   █
-//	█  █   ▀█ █   ▀█ █    █          █▄▄▄▄█ █    █ █    █ █▄▄▄▄▄ █   ▀▄ ▄▄▄▄▄█   █
-//	▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-//		© NNA-Gamers 2017, Man Sanz
-*****/

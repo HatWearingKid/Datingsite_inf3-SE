@@ -23,12 +23,16 @@ namespace CustomUiElements
             }
             if (newValue >= MaxSlider.RealValue && MaxSlider.RealValue != MaxSlider.minValue)
             {
-                // invalid
-                return;
+				// invalid
+				return;
             }
-            if (Indicator != null)
+			if (Indicator != null)
             {
-                Indicator.text = newValue.ToString(NumberFormat);
+				if(newValue == 0)
+				{
+					newValue = 18;
+				}
+				Indicator.text = newValue.ToString(NumberFormat);
             }
             base.Set(input, sendCallback);
         }
