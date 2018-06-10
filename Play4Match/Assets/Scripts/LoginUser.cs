@@ -18,8 +18,9 @@ public class LoginUser : MonoBehaviour {
 	Toast toast = new Toast();
 	Firebase.Auth.FirebaseAuth auth;
 
-	// Setter method for the emial
-	public void setEmail(string _email)
+    #region Set Email & Password
+    // Setter method for the emial
+    public void setEmail(string _email)
 	{
 		email = _email;
 	}
@@ -29,30 +30,10 @@ public class LoginUser : MonoBehaviour {
 	{
 		password = _password;
 	}
+    #endregion
 
-	/*public void GoogleSignIn(){
-		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-		Firebase.Auth.Credential credential =
-			Firebase.Auth.GoogleAuthProvider.GetCredential(googleIdToken, googleAccessToken);
-		auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
-			if (task.IsCanceled) {
-				Debug.LogError("SignInWithCredentialAsync was canceled.");
-				return;
-			}
-			if (task.IsFaulted) {
-				Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-				return;
-			}
-
-			Firebase.Auth.FirebaseUser newUser = task.Result;
-			Debug.LogFormat("User signed in successfully: {0} ({1})",
-				newUser.DisplayName, newUser.UserId);
-		});
-	}*/
-
-	// Method to log the user in
-	public void LoginUserOnClick(){
+    // Method to log the user in
+    public void LoginUserOnClick(){
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
 		// A method from Firebase to login the user asynchrone

@@ -6,6 +6,7 @@ public class Player {
 	public string DateOfBirth;
 	public string Gender;
 	public string Description;
+    public int Distance;
 	public bool Location;
 	public bool Liked;
 	public bool Preferences;
