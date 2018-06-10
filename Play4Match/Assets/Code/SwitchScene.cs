@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SwitchScene : MonoBehaviour {
 
-    private List<string> Scenes = new List<string> { "scene1","scene2"};
+    private List<string> Scenes = new List<string> { "scene0","scene1"};
 
     /// <summary>
     /// to change scene give desired scene name as string
