@@ -24,10 +24,10 @@ public class Notifications : MonoBehaviour {
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
-		//userId = "ID1";
-		string userId = auth.CurrentUser.UserId;
+		userId = "ID1";
+		//string userId = auth.CurrentUser.UserId;
 		
-		InvokeRepeating("GetNotifications", 10, 30);
+		InvokeRepeating("GetNotifications", 5, 5);
 	}
 	
 	// Update is called once per frame
@@ -57,8 +57,8 @@ public class Notifications : MonoBehaviour {
 					CreateNotification(childSnapshot.Value.ToString());
 				}
 				
-				DatabaseReference dbref = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(userId).Child("Notifications");
-				dbref.RemoveValueAsync();
+				//DatabaseReference dbref = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(userId).Child("Notifications");
+				//dbref.RemoveValueAsync();
 			}
 		});
 		
