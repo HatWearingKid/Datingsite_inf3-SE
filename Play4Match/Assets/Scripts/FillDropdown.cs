@@ -9,18 +9,19 @@ using Firebase.Unity.Editor;
 public class FillDropdown : MonoBehaviour
 {
 	List<string> list = new List<string>();
+    public Dropdown dropdownMin;
+    public Dropdown dropdownMax;
 
 	// Use this for initialization
 	void Start ()
 	{
-		for (int i = 18; i <= 99; i++){
+        dropdownMin.ClearOptions();
+        dropdownMax.ClearOptions();
+        for (int i = 18; i <= 99; i++){
 			list.Add ("" + i);
 		}
-	}
-
-	public void FillDropdownBox(Dropdown dropdown){
-		dropdown.ClearOptions ();
-		dropdown.AddOptions(list);
-	}
+        dropdownMin.AddOptions(list);
+        dropdownMax.AddOptions(list);
+    }
 }
 
