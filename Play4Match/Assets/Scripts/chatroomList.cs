@@ -120,7 +120,7 @@ public class chatroomList : MonoBehaviour
     public void getAllChatrooms()
     {
         Debug.Log("getAllChatrooms");
-        
+        ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
 
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
