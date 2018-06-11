@@ -56,11 +56,13 @@ public class Notifications : MonoBehaviour {
 				{
 					CreateNotification(childSnapshot.Value.ToString());
 				}
+				
+				DatabaseReference dbref = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(userId).Child("Notifications");
+				dbref.RemoveValueAsync();
 			}
 		});
 		
-		DatabaseReference dbref = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(userId).Child("Notifications");
-		dbref.RemoveValueAsync();
+		
 		
 	}
 }
