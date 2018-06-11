@@ -51,7 +51,6 @@ public class ChatManager : MonoBehaviour {
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
         // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji3"; // Hardcoded user waarmee we chatten
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
 
 
@@ -130,24 +129,31 @@ public class ChatManager : MonoBehaviour {
 		}
         else
         {
-            andereUser = user;
-            GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+            if (userID == "SYSTEEMBERICHT")
+            {
+                Debug.Log("Systeembericht tonen");
+            } else
+            {
+                andereUser = user;
+                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
 
-			float sum = 400 - (text.Length * text.Length) + 50;
+                float sum = 400 - (text.Length * text.Length) + 50;
 
-			if (sum < 100f)
-			{
-				sum = 100f;
-			}
+                if (sum < 100f)
+                {
+                    sum = 100f;
+                }
 
-			if (sum > 400f)
-			{
-				sum = 400f;
-			}
+                if (sum > 400f)
+                {
+                    sum = 400f;
+                }
 
-			newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
+                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
-			newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+                newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+            }
+            
 		}
     }
 
