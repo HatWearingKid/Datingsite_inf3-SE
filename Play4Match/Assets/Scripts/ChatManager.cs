@@ -36,6 +36,7 @@ public class ChatManager : MonoBehaviour {
     public string lastMessage;
     public string lastMessageTime;
     List<ChatRoomBericht> ChatRoomBerichten = new List<ChatRoomBericht>();
+    public GameObject chatReportPanel;
 
     private string usersTabel = "Users"; // Na het testen "Users" gebruiken
 
@@ -319,6 +320,16 @@ public class ChatManager : MonoBehaviour {
         reference.Child(type).Child(andereUser).SetRawJsonValueAsync(json); // .Child(userID)
         // Melding geven dat de chat is gereport
         Debug.Log("add report. Type: " + type + " , wie: " + andereUser);
+
+        chatReportPanel.SetActive(true);
+
+        Invoke("hideReport", 3f);
+
+    }
+
+    public void hideReport()
+    {
+        chatReportPanel.SetActive(false);
     }
 }
 
