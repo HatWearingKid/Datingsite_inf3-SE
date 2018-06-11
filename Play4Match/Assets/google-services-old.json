@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "485246890955",
+    "firebase_url": "https://play4matc.firebaseio.com",
+    "project_id": "play4matc",
+    "storage_bucket": "play4matc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485246890955:android:1a04bfc078be7931",
+        "android_client_info": {
+          "package_name": "com.play4match.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485246890955-6b2kru0sradbt43dp9jceij01tokgd51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa_Tfm3AvCe23bNMZG-DEeFtU50tHpSg4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
