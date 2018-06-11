@@ -312,11 +312,11 @@ public class ChatManager : MonoBehaviour {
 
     public void addReport()
     {
-        string type = "chat";
+        string type = "chatReport";
         string data = "";
         reportData report = new reportData(andereUser, userID, data);
         string json = JsonUtility.ToJson(report);
-        reference.Child(type).Child(andereUser).Child(userID).SetRawJsonValueAsync(json);
+        reference.Child(type).Child(andereUser).SetRawJsonValueAsync(json); // .Child(userID)
         // Melding geven dat de chat is gereport
         Debug.Log("add report. Type: " + type + " , wie: " + andereUser);
     }
