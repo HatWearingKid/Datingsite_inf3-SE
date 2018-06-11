@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -24602,6 +24602,7 @@ MonoBehaviour:
   getQuestions: {fileID: 1869673596}
   SetQuestions: {fileID: 0}
   splineController: {fileID: 1940072641}
+  NextSceneButton: {fileID: 0}
   moveSpeed: 10
   direction: 1
   maxCameraPlace: 2000
@@ -26265,6 +26266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9833100400f7ba740b947ec74a950bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropdownMin: {fileID: 0}
+  dropdownMax: {fileID: 0}
 --- !u!114 &1990094893
 MonoBehaviour:
   m_ObjectHideFlags: 0
