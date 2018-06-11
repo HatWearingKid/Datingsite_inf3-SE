@@ -8,9 +8,10 @@ using System;
 using TMPro;
 using UnityEngine.UI;
 
-public class ChatManager : MonoBehaviour {
+public class ChatManager : MonoBehaviour
+{
 
-    public string username; 
+    public string username;
 
     public GameObject chatPanel;
     public GameObject textPrefab;
@@ -46,7 +47,8 @@ public class ChatManager : MonoBehaviour {
     [SerializeField]
     List<Message> messagelist = new List<Message>();
 
-    void Start() {
+    void Start()
+    {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
@@ -68,10 +70,20 @@ public class ChatManager : MonoBehaviour {
 
     }
 
-    void Update() {
+    void Update()
+    {
         if (chatroomID.ToString() != "" && chatroomFound == false)
         {
+
+            foreach (Transform child in chatPanel.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            Debug.Log("chatroomID: " + chatroomID);
+            chatRef = null;
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
+
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
             getPartnerName();
@@ -85,54 +97,55 @@ public class ChatManager : MonoBehaviour {
                 {
                     sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
                     chatBox.text = "";
-                }               
+                }
             }
-        }       
+        }
     }
 
 
     public void SendMessageToChat(string text, string user)
     {
-		//System.Random rnd = new System.Random();
-		//if (rnd.Next(0, 2) == 1)
-		//{
-		//    text = "kort bericht";
-		//    userID = "xh4S3DibGraTqCn8HascIIvdFR02";
+        //System.Random rnd = new System.Random();
+        //if (rnd.Next(0, 2) == 1)
+        //{
+        //    text = "kort bericht";
+        //    userID = "xh4S3DibGraTqCn8HascIIvdFR02";
 
-		//}
-		//else
-		//{
-		//    text = "Een wat langer bericht met meer tekens";
-		//    userID = "Bob";
-		//}
+        //}
+        //else
+        //{
+        //    text = "Een wat langer bericht met meer tekens";
+        //    userID = "Bob";
+        //}
 
-		
+
         if (userID == user)
         {
-			GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
-			
-			float sum = 400 - (text.Length * text.Length) + 50;
+            GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 
-			if (sum < 100f)
-			{
-				sum = 100f;
-			}
+            float sum = 400 - (text.Length * text.Length) + 50;
 
-			if (sum > 400f)
-			{
-				sum = 400f;
-			}
+            if (sum < 100f)
+            {
+                sum = 100f;
+            }
 
-			newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
+            if (sum > 400f)
+            {
+                sum = 400f;
+            }
 
-			newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
-		}
+            newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
+
+            newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+        }
         else
         {
             if (userID == "SYSTEEMBERICHT")
             {
                 Debug.Log("Systeembericht tonen");
-            } else
+            }
+            else
             {
                 andereUser = user;
                 GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
@@ -153,8 +166,8 @@ public class ChatManager : MonoBehaviour {
 
                 newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
             }
-            
-		}
+
+        }
     }
 
     void sendMessage(string from, string content)
@@ -236,13 +249,13 @@ public class ChatManager : MonoBehaviour {
 
     void ChatChildAdded(object sender, ChildChangedEventArgs args)
     {
-        
+        Debug.Log("chatChildAdded, chatroomID: " + chatroomID);
         if (args.DatabaseError == null)
         {
-             content = args.Snapshot.Child("content").Value.ToString();
-             date = args.Snapshot.Child("date").Value.ToString();
-             user = args.Snapshot.Child("user").Value.ToString();
-            Debug.Log("gebruikers ID" + chatroomID);
+            content = args.Snapshot.Child("content").Value.ToString();
+            date = args.Snapshot.Child("date").Value.ToString();
+            user = args.Snapshot.Child("user").Value.ToString();
+            //Debug.Log("gebruikers ID" + chatroomID);
             //if (user == userID)
             //{
             //    user = "Jij stuurde "; // Tekst rechts uitlijnen
@@ -252,9 +265,9 @@ public class ChatManager : MonoBehaviour {
             //}
 
             //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
-			SendMessageToChat(content, user);
-			// Dit tonen in de GUI
-		}
+            SendMessageToChat(content, user);
+            // Dit tonen in de GUI
+        }
     }
 
     void TaskOnClick()
@@ -301,7 +314,7 @@ public class ChatManager : MonoBehaviour {
         }
 
         return result;
-       
+
     }
 
     public void buildChatroom()
@@ -368,7 +381,7 @@ public class report
 public class Message
 {
     public string text;
-    public TMP_Text  textObject;
+    public TMP_Text textObject;
 
     public Message()
     {
