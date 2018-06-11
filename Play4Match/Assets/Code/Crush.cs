@@ -108,11 +108,20 @@ public class Crush : MonoBehaviour {
                             reference.Child("Users").Child(user2).Child("Chatrooms").Child(key).SetRawJsonValueAsync(json);
                             chatroomID = key;
 
-                            //sendMessage(userID, "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'");
+                            sendMessage("SYSTEEMBERICHT", "Dit is een systeembericht");
                         }
 
                     }
                 });
 
+    }
+
+
+    void sendMessage(string from, string content)
+    {
+        chatMessage2 Message = new chatMessage2(from, content);
+        string json = JsonUtility.ToJson(Message);
+        string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
+        reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
 }
