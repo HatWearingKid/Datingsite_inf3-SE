@@ -119,6 +119,8 @@ public class chatroomList : MonoBehaviour
 
     public void getAllChatrooms()
     {
+        Debug.Log("getAllChatrooms");
+        
 
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
@@ -227,6 +229,7 @@ public class chatroomList : MonoBehaviour
             StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
         }
+        ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
 
     }
 
