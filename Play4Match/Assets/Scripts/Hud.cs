@@ -48,9 +48,9 @@ public class Hud : MonoBehaviour {
 
 						int answeredCount = 0;
 
-						foreach(var bla in collection)
+						foreach(var answered in collection)
 						{
-							if(bla != null)
+							if(answered != null)
 							{
 								answeredCount++;
 							}
