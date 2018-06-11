@@ -36,6 +36,7 @@ public class ChatManager : MonoBehaviour {
     public string lastMessage;
     public string lastMessageTime;
     List<ChatRoomBericht> ChatRoomBerichten = new List<ChatRoomBericht>();
+    public GameObject chatReportPanel;
 
     private string usersTabel = "Users"; // Na het testen "Users" gebruiken
 
@@ -50,7 +51,6 @@ public class ChatManager : MonoBehaviour {
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
         // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        andereUser = "AvPdwyvcvLYgs1YU6PTb6oWoVji3"; // Hardcoded user waarmee we chatten
         userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
 
 
@@ -129,23 +129,31 @@ public class ChatManager : MonoBehaviour {
 		}
         else
         {
-			GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+            if (userID == "SYSTEEMBERICHT")
+            {
+                Debug.Log("Systeembericht tonen");
+            } else
+            {
+                andereUser = user;
+                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
 
-			float sum = 400 - (text.Length * text.Length) + 50;
+                float sum = 400 - (text.Length * text.Length) + 50;
 
-			if (sum < 100f)
-			{
-				sum = 100f;
-			}
+                if (sum < 100f)
+                {
+                    sum = 100f;
+                }
 
-			if (sum > 400f)
-			{
-				sum = 400f;
-			}
+                if (sum > 400f)
+                {
+                    sum = 400f;
+                }
 
-			newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
+                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
-			newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+                newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+            }
+            
 		}
     }
 
@@ -309,12 +317,25 @@ public class ChatManager : MonoBehaviour {
         }
     }
 
-    void addChatReport()
+    public void addReport()
     {
-        report reportChat = new report(userID);
-        string json = JsonUtility.ToJson(reportChat);
-        reference.Child("chatReport").Child(chatroomID.ToString()).Child(userID).SetRawJsonValueAsync(json);
+        string type = "chatReport";
+        string data = "";
+        reportData report = new reportData(andereUser, userID, data);
+        string json = JsonUtility.ToJson(report);
+        reference.Child(type).Child(andereUser).SetRawJsonValueAsync(json); // .Child(userID)
         // Melding geven dat de chat is gereport
+        Debug.Log("add report. Type: " + type + " , wie: " + andereUser);
+
+        chatReportPanel.SetActive(true);
+
+        Invoke("hideReport", 3f);
+
+    }
+
+    public void hideReport()
+    {
+        chatReportPanel.SetActive(false);
     }
 }
 

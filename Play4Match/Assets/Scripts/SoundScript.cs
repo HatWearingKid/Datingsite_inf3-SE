@@ -9,6 +9,7 @@ public class SoundScript : MonoBehaviour {
 	public AudioClip sliderSound;
 	public AudioClip toggleSound;
 	public AudioClip matchSound;
+	public AudioClip notificationSound;
 	
 	
 	// Use this for initialization
@@ -51,6 +52,10 @@ public class SoundScript : MonoBehaviour {
 				break;
 			case "matchSound":
 				source.clip = matchSound;
+				source.Play();
+				break;
+			case "notificationSound":
+				source.clip = notificationSound;
 				source.Play();
 				break;
 			default: 
