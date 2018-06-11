@@ -51,7 +51,7 @@ public class Crush : MonoBehaviour {
                     CreateChatroom(userId, crushId);
 
                     // Change notification message
-                    notification = "Someone has started a chat with you!";
+                    notification = "You have found a match!";
                 }
 
                 // Insert notification
