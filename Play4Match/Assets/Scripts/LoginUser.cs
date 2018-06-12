@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.SocialPlatforms;
 
@@ -72,4 +73,11 @@ public class LoginUser : MonoBehaviour {
 			toast.MyShowToastMethod("Password reset email sent successfully.");
 		});
 	}
+
+    public void LogOut()
+    {
+        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignOut();
+        SceneManager.LoadScene("main");
+    }
 }
