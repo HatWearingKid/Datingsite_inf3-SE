@@ -32,8 +32,8 @@ public class CreateCrushList : MonoBehaviour {
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
-		string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
-		//string userId = auth.CurrentUser.UserId;
+		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		string userId = auth.CurrentUser.UserId;
 
 		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId).Child("Liked").GetValueAsync().ContinueWith(
 		task => {
