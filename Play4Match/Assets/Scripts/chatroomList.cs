@@ -31,7 +31,7 @@ public class chatroomList : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
+        userID = auth.CurrentUser.UserId;
 
         getAllChatrooms();
         

@@ -53,7 +53,7 @@ public class ChatManager : MonoBehaviour
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
         // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
+        userID = auth.CurrentUser.UserId;
 
 
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
