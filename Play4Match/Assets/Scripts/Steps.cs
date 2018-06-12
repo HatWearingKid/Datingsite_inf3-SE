@@ -131,7 +131,7 @@ public class Steps : MonoBehaviour {
                     movZ = movZ + cameraPos.transform.position.z;
                     if(movZ >= -44 && movZ <= maxCameraPlace)
                     {
-                        cameraPos.transform.position = new Vector3(690, 1481, movZ);
+                        cameraPos.transform.position = new Vector3(cameraStand.x, 1481, movZ);
                     }
                     
 

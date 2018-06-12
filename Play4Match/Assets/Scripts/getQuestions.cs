@@ -15,6 +15,8 @@ public class getQuestions : MonoBehaviour
 
     string[] questionArray;
     WWW www;
+    WWW www2;
+
     private int currentQuestionId = 0;
     private int answerNumber = 1;
     private int weightNumber = 1;
@@ -29,6 +31,7 @@ public class getQuestions : MonoBehaviour
     public GameObject Answers5;
     public GameObject Answers6;
     public GameObject weightSlider;
+    private bool done = false;
 
     public GameObject NoQuestion;
 
@@ -42,7 +45,8 @@ public class getQuestions : MonoBehaviour
     {
         //connect to firebase and get userid
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        userid = "xh4S3DibGraTqCn8HascIIvdFR02";
+        //userid = "xh4S3DibGraTqCn8HascIIvdFR02";
+        string userId = auth.CurrentUser.UserId;
 
         //set reference to firebase database
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -55,6 +59,44 @@ public class getQuestions : MonoBehaviour
 
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
+    }
+    public JSONNode ReturnAmmountQuestions()
+    {
+        www.Dispose();
+        JsonData = "";
+        
+        string url = "http://play4match.com/api/getq.php?id=" + userid + "&qamount=10";
+
+        loadingScreen.SetActive(true);
+
+        www2 = new WWW(url);
+        while (!www2.isDone)
+        {
+            WaitForSeconds w;
+            w = new WaitForSeconds(0.1f);
+        }
+        if (www2.isDone)
+        {
+            // check for errors
+            if (www2.error == null)
+            {
+                //remove brackets and split on comma
+                string temp = www2.text.Trim(new System.Char[] { '[', ']' });
+                questionArray = temp.Split(',');
+
+                //parse json to variable
+                JsonData = JSON.Parse(www2.text);
+
+                loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+                done = true;
+            }
+            else
+            {
+                Debug.Log("WWW Error: " + www2.error);
+            }
+        }
+        return JsonData;
+        
     }
 
     IEnumerator WaitForRequest(WWW www)
