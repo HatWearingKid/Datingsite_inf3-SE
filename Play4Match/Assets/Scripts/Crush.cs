@@ -26,8 +26,8 @@ public class Crush : MonoBehaviour {
 		// Get the root reference location of the database.
 		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
-        //string userId = auth.CurrentUser.UserId;
+        //string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+        string userId = auth.CurrentUser.UserId;
 
         // INSERT THE CRUSH INTO DB
         string crushId = matchButton.GetComponent<CreateMatchPopup>().userId;

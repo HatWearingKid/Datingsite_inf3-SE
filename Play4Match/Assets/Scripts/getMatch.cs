@@ -43,8 +43,8 @@ public class getMatch : MonoBehaviour
 	public void GetMatch()
     {
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        string userid = "xh4S3DibGraTqCn8HascIIvdFR02";
-        //string userid = auth.CurrentUser.UserId;
+        //string userid = "xh4S3DibGraTqCn8HascIIvdFR02";
+        string userid = auth.CurrentUser.UserId;
 
         string url = "http://play4match.com/api/getmatch.php?id=" + userid;
         www = new WWW(url);
