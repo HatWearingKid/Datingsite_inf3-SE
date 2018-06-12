@@ -60,8 +60,8 @@ function filterUsersByUserPref($user, $users)
 	{
 		$userAge = getAge($tempUser['DateOfBirth']);
 
-		if(	$userAge >= $user['Preferences']['Age_min'] &&
-			$userAge <= $user['Preferences']['Age_max'] &&
+		if(	$userAge >= $user['Preferences']['AgeMin'] &&
+			$userAge <= $user['Preferences']['AgeMax'] &&
 			$tempUser['Gender'] == $user['Preferences']['Gender'])
 		{
 			// $tempUser meets specifications for $user, add to $result
@@ -84,8 +84,8 @@ function filterUsersByOthersPref($user, $users)
 	{
 		$userAge = getAge($tempUser['DateOfBirth']);
 
-		if(	$tempUser['Preferences']['Age_min'] <= $userAge &&
-			$tempUser['Preferences']['Age_max'] >= $userAge &&
+		if(	$tempUser['Preferences']['AgeMin'] <= $userAge &&
+			$tempUser['Preferences']['AgeMax'] >= $userAge &&
 			$tempUser['Preferences']['Gender'] == $user['Gender'] )
 		{
 			// $user meets specifications for $tempUser, add to $result
@@ -161,6 +161,9 @@ function compareAnswers($user, $users)
 			}
 		}
 
+		// Turn DateOfBirth into age
+		$result[$userId]['Age'] = getAge($result[$userId]['DateOfBirth']);
+
 		// Let's calculate the match percentage
 		if($result[$userId]['points'] != 0 && $result[$userId]['UsedAnswers']!= 0)
 		{
@@ -172,14 +175,13 @@ function compareAnswers($user, $users)
 			unset($result[$userId]);
 		}
 
-		// Turn DateOfBirth into age
-		$result[$userId]['Age'] = getAge($result[$userId]['DateOfBirth']);
-		unset($result[$userId]['DateOfBirth']);
-		unset($result[$userId]['CompleteProfile']);
-
 		// Unset some unneeded data
 		unset($result[$userId]['Answered']);
 		unset($result[$userId]['Preferences']);
+		unset($result[$userId]['DateOfBirth']);
+		unset($result[$userId]['CompleteProfile']);
+		unset($result[$userId]['Chatrooms']);
+		unset($result[$userId]['Notifications']);
 	}
 
 	return $result;
