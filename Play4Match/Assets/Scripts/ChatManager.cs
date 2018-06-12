@@ -18,12 +18,9 @@ public class ChatManager : MonoBehaviour
     public GameObject textPrefabUser;
     public Text partnerName;
     public Image profilePicture;
-    public int paddingTop = 0;
     Boolean firstChatMessage = true;
     public Button backButton;
-    public ScrollRect scrollBar;
 
-    public TMP_Text textObject;
     public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
@@ -53,7 +50,7 @@ public class ChatManager : MonoBehaviour
 
         // Deze settings later ophalen van de Auth en welke match je aanklikt
         // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
-        userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
+        userID = auth.CurrentUser.UserId;
 
 
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -63,9 +60,6 @@ public class ChatManager : MonoBehaviour
 
         Button btn = backButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
-
-        //ScrollRect scrollDown = scrollBar.GetComponent<ScrollRect>();
-        //scrollDown.verticalNormalizedPosition = 0;
         //addChatReport();
 
     }
@@ -80,7 +74,6 @@ public class ChatManager : MonoBehaviour
                 GameObject.Destroy(child.gameObject);
             }
 
-            Debug.Log("chatroomID: " + chatroomID);
             chatRef = null;
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
 
@@ -95,7 +88,7 @@ public class ChatManager : MonoBehaviour
             {
                 if (chatroomFound == true)
                 {
-                    sendMessage(userID, chatBox.text); // Dit later ophalen uit de inputs en userID en ontvanger data die in de app bekend is
+                    sendMessage(userID, chatBox.text);
                     chatBox.text = "";
                 }
             }
@@ -105,20 +98,6 @@ public class ChatManager : MonoBehaviour
 
     public void SendMessageToChat(string text, string user)
     {
-        //System.Random rnd = new System.Random();
-        //if (rnd.Next(0, 2) == 1)
-        //{
-        //    text = "kort bericht";
-        //    userID = "xh4S3DibGraTqCn8HascIIvdFR02";
-
-        //}
-        //else
-        //{
-        //    text = "Een wat langer bericht met meer tekens";
-        //    userID = "Bob";
-        //}
-
-
         if (userID == user)
         {
             GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
@@ -180,9 +159,6 @@ public class ChatManager : MonoBehaviour
 
     public void getPartnerName()
     {
-        //Debug.Log("getPartnerName starten");
-        //string chatroomID = "-LDaU9iEIGxmT85YA9KZ";
-        //Debug.Log("chatroomID: " + chatroomID);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)

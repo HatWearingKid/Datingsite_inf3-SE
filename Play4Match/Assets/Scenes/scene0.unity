@@ -425,6 +425,75 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114194295395194972, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b5e635ebebcd2834b8d73be0f48e139c,
+        type: 3}
+    - target: {fileID: 224822114992725148, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 224822114992725148, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224822114992725148, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575402839694706, guid: 980d4f5450bcaf24ab34b40a5db6132d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224209799600717006, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224209799600717006, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224919780422863466, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224919780422863466, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224919780422863466, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1181267684829760, guid: 980d4f5450bcaf24ab34b40a5db6132d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114499016380251008, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1251325234}
+    - target: {fileID: 114499016380251008, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LogOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 114499016380251008, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 980d4f5450bcaf24ab34b40a5db6132d, type: 2}
   m_IsPrefabParent: 0
@@ -7978,11 +8047,7 @@ MonoBehaviour:
     type: 2}
   partnerName: {fileID: 2132901354}
   profilePicture: {fileID: 1946759585}
-  paddingTop: 0
   backButton: {fileID: 469234709}
-  scrollBar: {fileID: 1305515087}
-  textObject: {fileID: 114696580311133156, guid: 67073fc06bbe55b4bbdc99a62bb8114b,
-    type: 2}
   chatBox: {fileID: 415359658}
   userID: 
   chatroomID: 
@@ -8835,6 +8900,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1242484977553210, guid: 980d4f5450bcaf24ab34b40a5db6132d,
     type: 2}
   m_PrefabInternal: {fileID: 59177389}
+--- !u!114 &1251325234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1251325233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab6b2ae191790d4d93c1d47334dbdab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
 --- !u!1 &1264548359
 GameObject:
   m_ObjectHideFlags: 0
@@ -8891,12 +8968,6 @@ Transform:
   m_Father: {fileID: 374131206}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1305515087 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114592029093875322, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 59177389}
-  m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1406932044 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1467678880322584, guid: 980d4f5450bcaf24ab34b40a5db6132d,

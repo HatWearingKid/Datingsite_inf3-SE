@@ -15,20 +15,16 @@
       },
       "oauth_client": [
         {
-          "client_id": "485246890955-hvtv4ms9abgngf50hqlj2uinh9n4chjb.apps.googleusercontent.com",
+          "client_id": "485246890955-gctm0q0uscqfdr36o6aq2jan242hms4f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.play4match.app",
-            "certificate_hash": "e7af249cbbf802a8f77bff537b23459696d113e1"
+            "certificate_hash": "a629a1ff481be80834ffc9a9855fa561ddc502c5"
           }
         },
         {
-          "client_id": "485246890955-1asujvlftoh8spb3vg8v8k6k34mhfhmp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.play4match.app",
-            "certificate_hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-          }
+          "client_id": "485246890955-vu4bd7nns3nop0h5dgh7v893mcelknms.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "485246890955-6b2kru0sradbt43dp9jceij01tokgd51.apps.googleusercontent.com",
@@ -52,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "485246890955-6b2kru0sradbt43dp9jceij01tokgd51.apps.googleusercontent.com",
+              "client_id": "485246890955-vu4bd7nns3nop0h5dgh7v893mcelknms.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
