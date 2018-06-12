@@ -17,7 +17,7 @@ public class getQuestions : MonoBehaviour
     WWW www;
     WWW www2;
 
-    private int currentQuestionId = 0;
+	private int currentQuestionId = 0;
     private int answerNumber = 1;
     private int weightNumber = 1;
     public int NumberOfQuestions;
@@ -37,7 +37,7 @@ public class getQuestions : MonoBehaviour
 
     private Text questiontext;
     private GameObject AantalAntwoorden;
-    private string userid;
+    private string userId;
     private DatabaseReference reference;
 
     // Use this for initialization
@@ -46,26 +46,27 @@ public class getQuestions : MonoBehaviour
         //connect to firebase and get userid
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         //userid = "xh4S3DibGraTqCn8HascIIvdFR02";
-        string userId = auth.CurrentUser.UserId;
+        userId = auth.CurrentUser.UserId;
 
         //set reference to firebase database
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         //get json from api
-        string url = "http://play4match.com/api/getq.php?id=" + userid + "&qamount=" + NumberOfQuestions;
+        string url = "http://play4match.com/api/getq.php?id=" + userId + "&qamount=" + NumberOfQuestions;
 
 		loadingScreen.SetActive(true);
 
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
     }
+
     public JSONNode ReturnAmmountQuestions()
     {
         www.Dispose();
         JsonData = "";
         
-        string url = "http://play4match.com/api/getq.php?id=" + userid + "&qamount=10";
+        string url = "http://play4match.com/api/getq.php?id=" + userId + "&qamount=10";
 
         loadingScreen.SetActive(true);
 
@@ -244,12 +245,22 @@ public class getQuestions : MonoBehaviour
         string sendAnswer = "{\"answer\":" + answer + ", \"weight\":" + weight + "}";
 
         //send json string to firebase database
-        reference.Child("Users").Child(userid).Child("Answered").Child(currentQuestionId.ToString()).SetRawJsonValueAsync(sendAnswer);
+        reference.Child("Users").Child(userId).Child("Answered").Child(currentQuestionId.ToString()).SetRawJsonValueAsync(sendAnswer);
 
 		// Deactive QuestionPanel and reset weightslider
 		weightSlider.GetComponent<Slider>().value = 1;
         QuestionPanel.SetActive(false);
     }
+
+	public void ReportQuestion()
+	{
+		//Create new key
+		string key = reference.Child("QuestionReport").Push().Key;
+
+		//Push questionId and the userId that reported the question
+		reference.Child("QuestionReport").Child(key).Child("QuestionID").SetValueAsync(currentQuestionId);
+		reference.Child("QuestionReport").Child(key).Child("By").SetValueAsync(userId);
+	}
 
 	string UppercaseFirst(string s)
 	{
