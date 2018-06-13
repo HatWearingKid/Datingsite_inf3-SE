@@ -94,14 +94,14 @@ public class EditProfile : MonoBehaviour {
 		genderPref = dropdown.options[dropdown.value].text;
 	}
 
-	public void GetMinAge(Dropdown dropdown)
+	public void GetMinAge(Slider slider)
 	{
-		minAge = dropdown.options[dropdown.value].text;
+		minAge = slider.value.ToString();
 	}
 
-	public void GetMaxAge(Dropdown dropdown)
+	public void GetMaxAge(Slider slider)
 	{
-		maxAge = dropdown.options[dropdown.value].text;
+        maxAge = (100 - slider.value + 18).ToString();
 	}
 
     public void GetDistance(Dropdown dropdown)

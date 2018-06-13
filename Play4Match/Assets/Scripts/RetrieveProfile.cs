@@ -94,19 +94,20 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetMinAge(Dropdown dropdown){
+	public void SetMinAge(Slider slider){
 		if (node != null)
 		{
-			/*string minAge = node["Preferences"]["AgeMin"];
-			dropdown.value = int.Parse(minAge) - 18;*/
+			string minAge = node["Preferences"]["AgeMin"];
+			slider.value = int.Parse(minAge);
+            Debug.Log(slider.value + " -- " + minAge);
 		}
 	}
 
-	public void SetMaxAge(Dropdown dropdown){
+	public void SetMaxAge(Slider slider){
 		if (node != null)
 		{
-			/*string maxAge = node["Preferences"]["AgeMax"];
-			dropdown.value = int.Parse(maxAge) - 18;*/
+			string maxAge = node["Preferences"]["AgeMax"];
+            slider.value = (100 - int.Parse(maxAge) + 18);
 		}
 	}
 

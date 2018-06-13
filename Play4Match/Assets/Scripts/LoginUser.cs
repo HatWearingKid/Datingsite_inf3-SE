@@ -56,8 +56,10 @@ public class LoginUser : MonoBehaviour {
 
 			// If the user is logged in switch the scene
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-            SwitchScene(newUser.UserId);
-		});
+            //SwitchScene(newUser.UserId);
+            SwitchScene switschScene = new SwitchScene();
+            switschScene.ChangeScene("scene0");
+        });
 	}
 
 	// Method to reset the password
