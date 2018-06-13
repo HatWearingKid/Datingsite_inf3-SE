@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Firebase.Database;
+using SimpleJSON;
 using UnityEngine.UI;
 using UnityEngine.SocialPlatforms;
 
@@ -18,6 +20,10 @@ public class LoginUser : MonoBehaviour {
 
 	Toast toast = new Toast();
 	Firebase.Auth.FirebaseAuth auth;
+	Firebase.Auth.FirebaseUser user;
+
+    JSONNode node;
+    SwitchScene switschScene = new SwitchScene();
 
     #region Set Email & Password
     // Setter method for the emial
@@ -50,8 +56,7 @@ public class LoginUser : MonoBehaviour {
 
 			// If the user is logged in switch the scene
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-			SwitchScene switschScene = new SwitchScene();
-			switschScene.ChangeScene("startLevel");
+            SwitchScene(newUser.UserId);
 		});
 	}
 
@@ -61,11 +66,11 @@ public class LoginUser : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		auth.SendPasswordResetEmailAsync(email).ContinueWith(task => {
 			if (task.IsCanceled) {
-				toast.MyShowToastMethod("1 - " + task.Exception.InnerExceptions[0].Message);
+				toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
 				return;
 			}
 			if (task.IsFaulted) {
-				toast.MyShowToastMethod("2 - " + task.Exception.InnerExceptions[0].Message);
+				toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
 				return;
 			}
 
@@ -73,6 +78,45 @@ public class LoginUser : MonoBehaviour {
 			toast.MyShowToastMethod("Password reset email sent successfully.");
 		});
 	}
+
+    public void SwitchScene(string userID)
+    {
+        // Firebase method to make connection with the database and get the user's information
+        FirebaseDatabase.DefaultInstance
+            .GetReference("Users")
+            .GetValueAsync().ContinueWith(task => {
+                if (task.IsFaulted)
+                {
+                    toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
+                }
+                if (task.IsCanceled)
+                {
+                    toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
+                }
+                // If task succeeds
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+
+                    // Itterate through all the users
+                    foreach (DataSnapshot user in snapshot.Children)
+                    {
+                        // Check if user equals to the logged in user to retrieve correct data
+                        if (userID.Equals(user.Key))
+                        {
+                            node = JSON.Parse(user.GetRawJsonValue());
+                            if (node["CompleteProfile"] == true)
+                            {
+                                switschScene.ChangeScene("scene0");
+                            } else
+                            {
+                                switschScene.ChangeScene("startLevel");
+                            }
+                        }
+                    }
+                }
+            });
+    }
 
     public void LogOut()
     {
