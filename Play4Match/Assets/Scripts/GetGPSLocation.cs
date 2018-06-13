@@ -19,8 +19,7 @@ public class GetGPSLocation : MonoBehaviour {
 	string city;
 	string countryLongname;
 	string countryShortname;
-	public Text textLat;
-	public Text textLong;
+	public Text Location;
 
 	WWW www;
 	private JSONNode jsonNode;
@@ -36,9 +35,7 @@ public class GetGPSLocation : MonoBehaviour {
 		locRef = FirebaseDatabase.DefaultInstance.RootReference.Child ("Users").Child (user.UserId).Child ("Location");
 
 		StartCoroutine (GetLocation());
-		www = new WWW("https://maps.googleapis.com/maps/api/geocode/json?latlng=52.777791,6.911333&key=AIzaSyAcd1isbfsa7-pRLkmM6UTqqDtNTRf-O0A&language=en");
-		StartCoroutine (WaitForRequest(www));
-	}
+    }
 
 	public void GetLocationOnClick(){
 		StartCoroutine (GetLocation());
@@ -78,18 +75,17 @@ public class GetGPSLocation : MonoBehaviour {
 			// Access granted and location value could be retrieved
 			latitude = Input.location.lastData.latitude;
 			longitude = Input.location.lastData.longitude;
-			toast.MyShowToastMethod ("Location synced");
-			//SetLocation();
+            www = new WWW("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=AIzaSyAcd1isbfsa7-pRLkmM6UTqqDtNTRf-O0A&language=en");
+            StartCoroutine(WaitForRequest(www));
 		}
 
 		// Stop service if there is no need to query location updates continuously
 		Input.location.Stop();
 	}
 
-	public void SetLocation(){
-		textLat.text = this.latitude.ToString ();
-		textLong.text = this.longitude.ToString ();
-	}
+	public void SetLocation(string City, string Country){
+        Location.text = City + ", " + Country;
+    }
 
 	IEnumerator WaitForRequest(WWW www)
 	{
@@ -104,10 +100,12 @@ public class GetGPSLocation : MonoBehaviour {
 				wwwtext = www.text;
 				//parse json to variable
 				jsonNode = JSON.Parse(www.text);
-
-				city = jsonNode [0] [0] ["address_components"] [1] ["long_name"];
-				countryLongname = jsonNode [0] [0] ["address_components"] [4] ["long_name"];
-				countryShortname = jsonNode [0] [0] ["address_components"] [4] ["short_name"];
+                toast.MyShowToastMethod(jsonNode.ToString());
+                
+				city = jsonNode [0] [0] ["address_components"] [2] ["long_name"];
+				countryLongname = jsonNode [0] [0] ["address_components"] [5] ["long_name"];
+				countryShortname = jsonNode [0] [0] ["address_components"] [5] ["short_name"];
+                SetLocation(city, countryLongname);
 			}
 			else
 			{

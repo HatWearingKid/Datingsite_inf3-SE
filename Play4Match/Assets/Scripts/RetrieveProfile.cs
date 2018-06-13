@@ -97,16 +97,16 @@ public class RetrieveProfile : MonoBehaviour {
 	public void SetMinAge(Dropdown dropdown){
 		if (node != null)
 		{
-			string minAge = node["Preferences"]["AgeMin"];
-			dropdown.value = int.Parse(minAge) - 18;
+			/*string minAge = node["Preferences"]["AgeMin"];
+			dropdown.value = int.Parse(minAge) - 18;*/
 		}
 	}
 
 	public void SetMaxAge(Dropdown dropdown){
 		if (node != null)
 		{
-			string maxAge = node["Preferences"]["AgeMax"];
-			dropdown.value = int.Parse(maxAge) - 18;
+			/*string maxAge = node["Preferences"]["AgeMax"];
+			dropdown.value = int.Parse(maxAge) - 18;*/
 		}
 	}
 
