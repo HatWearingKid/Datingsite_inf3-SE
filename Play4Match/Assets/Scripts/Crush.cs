@@ -15,8 +15,9 @@ public class Crush : MonoBehaviour {
 
 	public GameObject matchPanel;
 	public GameObject matchButton;
+	public GameObject reportButton;
 
-    public static string chatroomID;
+	public static string chatroomID;
 
     public void insertCrush()
     {
@@ -26,8 +27,11 @@ public class Crush : MonoBehaviour {
 		// Get the root reference location of the database.
 		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        //string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
-        string userId = auth.CurrentUser.UserId;
+		//connect to firebase and get userid
+		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
+		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		string userId = auth.CurrentUser.UserId;
 
         // INSERT THE CRUSH INTO DB
         string crushId = matchButton.GetComponent<CreateMatchPopup>().userId;
@@ -124,4 +128,28 @@ public class Crush : MonoBehaviour {
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
     }
+
+	public void ReportUser()
+	{
+		// Set up the Editor before calling into the realtime database.
+		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
+
+		// Get the root reference location of the database.
+		reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+		//connect to firebase and get userid
+		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
+		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		string userId = auth.CurrentUser.UserId;
+
+		string crushId = matchButton.GetComponent<CreateMatchPopup>().userId;
+
+		//Create new key
+		string key = reference.Child("UserReport").Push().Key;
+
+		//Push crushId and the userId that reported the user
+		reference.Child("UserReport").Child(key).Child("UserId").SetValueAsync(crushId);
+		reference.Child("UserReport").Child(key).Child("By").SetValueAsync(userId);
+	}
 }

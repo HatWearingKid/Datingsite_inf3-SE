@@ -24,9 +24,8 @@ public class Notifications : MonoBehaviour {
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
-		//userId = "ID1";
-		string userId = auth.CurrentUser.UserId;
-		
+		userId = auth.CurrentUser.UserId;
+
 		InvokeRepeating("GetNotifications", 5, 5);
 	}
 	
