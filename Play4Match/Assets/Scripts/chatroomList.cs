@@ -234,18 +234,22 @@ public class chatroomList : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
+        Debug.Log("Build chatroom");
+
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {            
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.name = chatroomNumber.ToString();
 
+            newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+
             if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
             {
-                newObj.transform.Find("naam").GetComponent<Text>().text = "System said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                newObj.transform.Find("naam").GetComponent<Text>().text = "System said ";
 
             } else
             {
-                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
             }
             
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
