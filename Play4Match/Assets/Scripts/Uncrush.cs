@@ -25,8 +25,8 @@ public class Uncrush : MonoBehaviour
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
-		string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
-		//string userId = auth.CurrentUser.UserId;
+		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		string userId = auth.CurrentUser.UserId;
 
 		if (userId != null)
 		{
@@ -50,8 +50,8 @@ public class Uncrush : MonoBehaviour
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
-		string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
-		//string userId = auth.CurrentUser.UserId;
+		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
+		string userId = auth.CurrentUser.UserId;
 
 		// INSERT THE CRUSH INTO DB
 		string key = reference.Child("Users").Child(userId).Child("Liked").Push().Key;

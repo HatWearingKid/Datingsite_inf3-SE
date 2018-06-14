@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SwitchScene : MonoBehaviour {
-    public getQuestions getquestions;
     private JSONNode questions;
     Scene m_Scene;
 
@@ -37,7 +36,7 @@ public class SwitchScene : MonoBehaviour {
     private int getRandom()
     {
         int random;
-        questions = getquestions.ReturnAmmountQuestions();
+        questions = this.GetComponent<getQuestions>().ReturnAmmountQuestions();
         Debug.Log(questions.Count);
 
         if (questions.Count >= 7)
