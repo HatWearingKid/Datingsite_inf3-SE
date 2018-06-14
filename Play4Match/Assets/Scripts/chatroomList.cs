@@ -42,7 +42,7 @@ public class chatroomList : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void OnEnable()
@@ -71,7 +71,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 524160)
         {
-            result = Mathf.Floor(verschilMinuten/40320) + " months ago";
+            result = Mathf.Floor(verschilMinuten / 40320) + " months ago";
             if (verschilMinuten < 80640)
             {
                 result = "1 month ago";
@@ -80,7 +80,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 40320)
         {
-            result = Mathf.Floor(verschilMinuten/10080) + " weeks ago";
+            result = Mathf.Floor(verschilMinuten / 10080) + " weeks ago";
             if (verschilMinuten < 20160)
             {
                 result = "1 week ago";
@@ -89,7 +89,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 10080)
         {
-            result = Mathf.Floor(verschilMinuten/1440) + " days ago";
+            result = Mathf.Floor(verschilMinuten / 1440) + " days ago";
             if (verschilMinuten < 2880)
             {
                 result = "1 day ago";
@@ -98,7 +98,7 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 1440)
         {
-            result = Mathf.Floor(verschilMinuten /60) + " hours ago";
+            result = Mathf.Floor(verschilMinuten / 60) + " hours ago";
             if (verschilMinuten < 120)
             {
                 result = "1 hour ago";
@@ -122,7 +122,7 @@ public class chatroomList : MonoBehaviour
 
     public void getAllChatrooms()
     {
-
+        Debug.Log("getAllChatrooms");
         ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
         int messages = 0;
 
@@ -148,7 +148,7 @@ public class chatroomList : MonoBehaviour
 
                             foreach (string user in users)
                             {
-                                
+
                                 if (user != userID)
                                 {
                                     FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user).GetValueAsync().ContinueWith(
@@ -162,22 +162,34 @@ public class chatroomList : MonoBehaviour
                                                 task3 => {
                                                     if (task3.IsCompleted)
                                                     {
-                                                        
+
                                                         DataSnapshot snapshot3 = task3.Result;
 
                                                         int count = 0;
                                                         string user_tmp = "";
-                                                        foreach (var childSnapshot3 in snapshot3.Children) 
+                                                        foreach (var childSnapshot3 in snapshot3.Children)
                                                         {
-                                                            lastMessage = childSnapshot3.Child("content").Value.ToString();
-                                                            lastMessageTime = childSnapshot3.Child("date").Value.ToString();
-                                                            count++;
-                                                            messages++; // count messages to see if something changed
                                                             user_tmp = childSnapshot3.Child("user").Value.ToString();
-                                                        }
+                                                            if (user_tmp != "SYSTEEMBERICHT")
+                                                            {
+                                                                Debug.Log("Een systeembericht");
+                                                                lastMessage = childSnapshot3.Child("content").Value.ToString();
+                                                                lastMessageTime = childSnapshot3.Child("date").Value.ToString();
+                                                                count++;
+                                                                messages++; // count messages to see if something changed
+                                                            }
+                                                            else
+                                                            {
+                                                                lastMessage = "";
+                                                                lastMessageTime = "";
+                                                            }
 
-                                                        if(count > 0)
+
+                                                        }
+                                                        Debug.Log("Count: " + count);
+                                                        if (count > 0)
                                                         {
+
                                                             ChatRoomBerichtenLijst.Add(
                                                                 new ChatRoomBerichtList(
                                                                     lastMessageTime.ToString(),
@@ -188,8 +200,11 @@ public class chatroomList : MonoBehaviour
                                                                     user_tmp
                                                                 )
                                                             );
-                                                        } else
+
+                                                        }
+                                                        else
                                                         {
+                                                            Debug.Log("Leeg bericht");
 
                                                             ChatRoomBerichtenLijst.Add(
                                                                 new ChatRoomBerichtList(
@@ -203,10 +218,10 @@ public class chatroomList : MonoBehaviour
                                                             );
                                                         }
 
-                                                        
+                                                        Debug.Log("chatroomBerichtenLijst Count: " + ChatRoomBerichtenLijst.Count + " - ChildrenCount: " + snapshot.ChildrenCount);
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
-                                                            
+                                                            Debug.Log("Sort");
                                                             ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date));
 
                                                             if (totalMessages != messages)
@@ -214,7 +229,7 @@ public class chatroomList : MonoBehaviour
                                                                 totalMessages = messages;
                                                                 buildChatroom();
                                                             }
-                                                            
+
                                                         }
 
                                                     }
@@ -242,21 +257,21 @@ public class chatroomList : MonoBehaviour
         Debug.Log("Build chatroom");
 
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
-        {            
+        {
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.name = chatroomNumber.ToString();
 
             newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
 
-            if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
-            {
-                newObj.transform.Find("naam").GetComponent<Text>().text = "System said ";
+            //if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
+            //{
+            //    newObj.transform.Find("naam").GetComponent<Text>().text = "System said ";
+            //
+            //} else
+            //{
+            newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
+            //}
 
-            } else
-            {
-                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
-            }
-            
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             newObj.SetActive(true);
 
@@ -351,14 +366,15 @@ public class chatroomList : MonoBehaviour
     IEnumerator LoadImg(string avatarUrl, GameObject gameobject)
     {
         WWW imgLink = new WWW(avatarUrl);
-        
+
         while (!imgLink.isDone)
         {
             WaitForSeconds w;
             w = new WaitForSeconds(0.1f);
         }
 
-        if (imgLink.isDone){
+        if (imgLink.isDone)
+        {
             Texture2D texture = new Texture2D(imgLink.texture.width, imgLink.texture.height, TextureFormat.DXT1, false);
             imgLink.LoadImageIntoTexture(texture);
             Rect rec = new Rect(0, 0, texture.width, texture.height);
