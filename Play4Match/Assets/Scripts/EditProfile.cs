@@ -23,7 +23,7 @@ public class EditProfile : MonoBehaviour {
 	private string genderPref;
 	private string minAge;
 	private string maxAge;
-	private int distance;
+	private float distance;
 
 	void Start() {
 		// Set up the Editor before calling into the realtime database.
@@ -32,7 +32,7 @@ public class EditProfile : MonoBehaviour {
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
-		if(user != null)
+		if (user != null)
 		{
 			// Get the reference to the Users root node of the database.
 			userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
@@ -101,16 +101,14 @@ public class EditProfile : MonoBehaviour {
         maxAge = (100 - slider.value + 18).ToString();
 	}
 
-    public void GetDistance(Dropdown dropdown)
+    public void GetDistance(Slider slider)
     {
-        if (dropdown.value == 0) {
-            distance = 25;
-        } else if (dropdown.value == 1) {
-            distance = 50;
-        } else if (dropdown.value == 2) {
-            distance = 100;
-        } else {
+        if(slider.value == 5)
+        {
             distance = 0;
+        } else
+        {
+            distance = slider.value * 25;
         }
     }
 
