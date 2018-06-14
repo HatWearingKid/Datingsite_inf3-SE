@@ -65,13 +65,6 @@ public class UploadPicture : MonoBehaviour {
 		}
 	}
 
-	/*public void SetHUDPicture(){
-		if(www != null)
-		{
-			
-		}
-	}*/
-
 	public IEnumerator GetImage(WWW www){
 		yield return www;
 		if (www.isDone) {

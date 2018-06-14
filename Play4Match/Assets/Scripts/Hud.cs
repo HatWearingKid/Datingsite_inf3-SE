@@ -16,7 +16,6 @@ public class Hud : MonoBehaviour {
 	public GameObject menuPanel;
 	public Button menuButton;
 	public Text nameText;
-	public Text answeredText;
 
 	// Use this for initialization
 	void Start () {
@@ -35,30 +34,7 @@ public class Hud : MonoBehaviour {
 			{
 				DataSnapshot snapshot = task.Result;
 
-				foreach (var childSnapshot in snapshot.Children)
-				{
-					if(childSnapshot.Key.ToString() == "Name")
-					{
-						nameText.text = childSnapshot.Value.ToString();
-					}
-
-					if (childSnapshot.Key.ToString() == "Answered")
-					{
-						IList collection = (IList)childSnapshot.Value;
-
-						int answeredCount = 0;
-
-						foreach(var answered in collection)
-						{
-							if(answered != null)
-							{
-								answeredCount++;
-							}
-						}
-
-						answeredText.text = "Answered: " + answeredCount.ToString();
-					}
-				}
+                nameText.text = snapshot.Child("Name").Value.ToString();
 			}
 		});
 	}

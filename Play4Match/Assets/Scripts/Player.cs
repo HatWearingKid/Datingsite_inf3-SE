@@ -7,7 +7,6 @@ public class Player {
 	public string Gender;
 	public string Description;
     public int Distance;
-    public bool CompletedProfile;
 	public bool Location;
 	public bool Liked;
 	public bool Preferences;
@@ -18,6 +17,5 @@ public class Player {
 		Liked = false;
 		Preferences = false;
 		Chatrooms = false;
-        CompletedProfile = false;
 	}
 }
