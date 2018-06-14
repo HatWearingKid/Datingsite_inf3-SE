@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChatRoomBerichtList : MonoBehaviour {
 
-    public string date, message, name, chatroomID, PhotoUrl, ID;
+    public string date, message, name, chatroomID, PhotoUrl, ID, time;
     public ChatRoomBerichtList(string date, string message, string name, string chatroomID, string PhotoUrl, string ID)
     {
         this.date = date;

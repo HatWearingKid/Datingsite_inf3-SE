@@ -6,6 +6,7 @@ using Firebase;
 using Firebase.Unity.Editor;
 using Firebase.Database;
 using System;
+using System.Globalization;
 
 public class CreateCrushList : MonoBehaviour {
 	public GameObject prefab;
@@ -28,12 +29,13 @@ public class CreateCrushList : MonoBehaviour {
     void Start()
 	{
 		loadingScreen.SetActive(true);
-	
-		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
-		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
-		string userId = auth.CurrentUser.UserId;
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
+        //string userId = "RQEHrdIuMBhv1zHIHg9Ujn5Ys5V2";
+        string userId = auth.CurrentUser.UserId;
 
 		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId).Child("Liked").GetValueAsync().ContinueWith(
 		task => {
@@ -45,59 +47,38 @@ public class CreateCrushList : MonoBehaviour {
 				{
 					string crushId = childSnapshot.Key.ToString();
 					long timestamp = (long)childSnapshot.Value;
-
+ 
 					string dateText = getDateAgo(timestamp);
 
 					if (crushId != userId)
 					{
                         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(crushId).GetValueAsync().ContinueWith(
                         task2 => {
-                        if (task2.IsCompleted)
-                        {
-                            DataSnapshot snapshot2 = task2.Result;
-
-                            string crushName = "";
-                            string crushAge = "";
-                            string crushDescription = "";
-                            string crushLocation = "City, Country";
-
-                            foreach (var childSnapshot2 in snapshot2.Children)
+                            if (task2.IsCompleted)
                             {
-                                if (childSnapshot2.Key.ToString() == "Name")
+                                DataSnapshot snapshot2 = task2.Result;
+
+                                string crushName = snapshot2.Child("Name").Value.ToString();
+                                string crushAge = getAge(snapshot2.Child("DateOfBirth").Value.ToString());
+                                string crushDescription = snapshot2.Child("Description").Value.ToString();
+                                string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
+
+                                Debug.Log(crushName);
+
+                                if (crushName != "" && crushAge != "")
                                 {
-                                    crushName = childSnapshot2.Value.ToString();
-                                }
+                                    GameObject newObj = (GameObject)Instantiate(prefab, transform);
+                                    newObj.name = CrushItem.ToString();
+                                    newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
+                                    newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
 
-                                if (childSnapshot2.Key.ToString() == "Age")
-                                {
-                                    crushAge = childSnapshot2.Value.ToString();
-                                }
-
-                                if (childSnapshot2.Key.ToString() == "Description")
-                                {
-                                    crushDescription = childSnapshot2.Value.ToString();
-                                }
-
-                                if (childSnapshot2.Key.ToString() == "Location")
-                                {
-                                    crushLocation = childSnapshot2.Child("City").Value.ToString() + ", " + childSnapshot2.Child("CountryLong").Value.ToString();
-                                    }
-                                }
-
-								if(crushName != "" && crushAge != "")
-								{
-									GameObject newObj = (GameObject)Instantiate(prefab, transform);
-									newObj.name = CrushItem.ToString();
-									newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
-									newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
-
-									newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
+                                    newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
                                     newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
 
-									CrushItem++;
+                                    CrushItem++;
                                 }
-							}
-						});
+                            }
+                        });
 					}
 				}
 			}
@@ -197,4 +178,39 @@ public class CreateCrushList : MonoBehaviour {
 
 		return result;
 	}
+
+    string getAge(string date)
+    {
+
+        string[] seperateNumbers = date.Split('/');
+
+        DateTime birthdate = DateTime.Today;
+
+        if (seperateNumbers[0].Length == 1)
+        {
+            seperateNumbers[0] = "0" + seperateNumbers[0];
+        }
+
+        if (seperateNumbers[1].Length == 1)
+        {
+            seperateNumbers[1] = "0" + seperateNumbers[1];
+        }
+
+        birthdate = DateTime.ParseExact(seperateNumbers[0]+"/"+ seperateNumbers[1]+"/"+seperateNumbers[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+        // Save today's date.
+        var today = DateTime.Today;
+
+        if (!birthdate.Equals(today))
+        {
+            // Calculate the age.
+            var age = today.Year - birthdate.Year;
+            // Go back to the year the person was born in case of a leap year
+            if (birthdate > today.AddYears(-age)) age--;
+
+            return age.ToString();
+        }
+
+        return "";
+    }
 }

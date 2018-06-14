@@ -62,10 +62,7 @@ public class getQuestions : MonoBehaviour
     }
 
     public JSONNode ReturnAmmountQuestions()
-    {
-        www.Dispose();
-        JsonData = "";
-        
+    {       
         string url = "http://play4match.com/api/getq.php?id=" + userId + "&qamount=10";
 
         loadingScreen.SetActive(true);
