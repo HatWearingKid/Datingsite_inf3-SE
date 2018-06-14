@@ -13,12 +13,13 @@ public class chatroomList : MonoBehaviour
 
     public DatabaseReference chatRef, reference;
     public string username, content, date, user, lastMessage, lastMessageTime;
-    public string userID = "xh4S3DibGraTqCn8HascIIvdFR02"; // auth.CurrentUser.UserId
+    public string userID;
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
     public static string chatroomID; // ID meegeven aan de chat
     public GameObject prefab, chatList, chatviewPanel, loadingScreen, Camera;
     private int chatroomNumber = 0;
+    public int totalMessages = 0;
 
     private bool initialStart = true;
 
@@ -34,7 +35,9 @@ public class chatroomList : MonoBehaviour
         userID = auth.CurrentUser.UserId;
 
         getAllChatrooms();
-        
+
+        loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+
     }
 
     void Update()
@@ -62,54 +65,49 @@ public class chatroomList : MonoBehaviour
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
 
-        string result = "meer dan 1 jaar geleden";
+        string result = "more then 1 year ago";
 
         float verschilMinuten = Mathf.Floor(tijdVerschil / 60);
 
         if (verschilMinuten < 524160)
         {
-            result = Mathf.Floor(verschilMinuten/40320) + " maanden geleden";
+            result = Mathf.Floor(verschilMinuten/40320) + " months ago";
             if (verschilMinuten < 80640)
             {
-                result = "1 maand geleden";
+                result = "1 month ago";
             }
         }
 
         if (verschilMinuten < 40320)
         {
-            result = Mathf.Floor(verschilMinuten/10080) + " weken geleden";
+            result = Mathf.Floor(verschilMinuten/10080) + " weeks ago";
             if (verschilMinuten < 20160)
             {
-                result = "1 week geleden";
+                result = "1 week ago";
             }
         }
 
         if (verschilMinuten < 10080)
         {
-            result = Mathf.Floor(verschilMinuten/1440) + " dagen geleden";
+            result = Mathf.Floor(verschilMinuten/1440) + " days ago";
             if (verschilMinuten < 2880)
             {
-                result = "1 dag geleden";
+                result = "1 day ago";
             }
         }
 
         if (verschilMinuten < 1440)
         {
-            result = Mathf.Floor(verschilMinuten /60) + " uren geleden";
+            result = Mathf.Floor(verschilMinuten /60) + " hours ago";
             if (verschilMinuten < 120)
             {
-                result = "1 uur geleden";
+                result = "1 hour ago";
             }
         }
 
         if (verschilMinuten < 60)
         {
-            result = verschilMinuten + " minuten geleden";
-        }
-
-        if (verschilMinuten < 0)
-        {
-            result = tijdVerschil + " seconden geleden";
+            result = "Just now";
         }
 
         return result;
@@ -119,8 +117,9 @@ public class chatroomList : MonoBehaviour
 
     public void getAllChatrooms()
     {
-        Debug.Log("getAllChatrooms");
+
         ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
+        int messages = 0;
 
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                 task => {
@@ -158,6 +157,7 @@ public class chatroomList : MonoBehaviour
                                                             lastMessage = childSnapshot3.Child("content").Value.ToString();
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
                                                             count++;
+                                                            messages++; // count messages to see if something changed
                                                         }
 
                                                         if(count > 0)
@@ -188,11 +188,18 @@ public class chatroomList : MonoBehaviour
                                                             );
                                                         }
 
-
+                                                        
                                                         if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                         {
+                                                            
                                                             ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date));
-                                                            buildChatroom();
+
+                                                            if (totalMessages != messages)
+                                                            { // Check if the amount of messages is different from the previous time
+                                                                totalMessages = messages;
+                                                                buildChatroom();
+                                                            }
+                                                            
                                                         }
 
                                                     }
@@ -207,11 +214,16 @@ public class chatroomList : MonoBehaviour
                     }
                 });
 
-		loadingScreen.GetComponent<LoadingScreen>().fadeOut = true;
+        Invoke("getAllChatrooms", 10); // Invoke every 10 seconds
     }
 
     public void buildChatroom()
     {
+        foreach (Transform child in this.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {            
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
@@ -223,8 +235,7 @@ public class chatroomList : MonoBehaviour
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
 
-            string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png.jpg?alt=media";
-            // ProfilePicture.png.jpg moet veranderd worden in de default naam van de afbeelding
+            string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png?alt=media";
 
             StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;

@@ -17,7 +17,6 @@ public class ChatManager : MonoBehaviour
     public GameObject textPrefab;
     public GameObject textPrefabUser;
     public Text partnerName;
-    public Image profilePicture;
     Boolean firstChatMessage = true;
     public Button backButton;
 
@@ -181,10 +180,6 @@ public class ChatManager : MonoBehaviour
                                                               DataSnapshot snapshot2 = task2.Result;
                                                               IDictionary dictUser = (IDictionary)snapshot2.Value;
                                                               string name = dictUser["Name"].ToString();
-                                                              //string photoUrl = dictUser["PhotoUrl"].ToString();
-                                                              string photoUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media";
-                                                              Debug.Log("photoUrl: " + photoUrl);
-                                                              StartCoroutine(LoadImg(photoUrl));
                                                               //Verander de header name naar chat partner name
                                                               partnerName.text = name;
                                                           }
@@ -194,33 +189,6 @@ public class ChatManager : MonoBehaviour
                        }
                    }
                });
-    }
-
-    IEnumerator LoadImg(string avatarUrl)
-    {
-        WWW imgLink = new WWW(avatarUrl);
-
-        while (!imgLink.isDone)
-        {
-            WaitForSeconds w;
-            w = new WaitForSeconds(0.1f);
-        }
-
-        if (imgLink.isDone)
-        {
-            Texture2D texture = new Texture2D(imgLink.texture.width, imgLink.texture.height, TextureFormat.DXT1, false);
-            imgLink.LoadImageIntoTexture(texture);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            Sprite spriteToUse = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-
-            profilePicture.GetComponent<Image>().sprite = spriteToUse;
-
-            spriteToUse = null;
-        }
-        imgLink.Dispose();
-        imgLink = null;
-
-        yield return imgLink;
     }
 
     void ChatChildAdded(object sender, ChildChangedEventArgs args)
