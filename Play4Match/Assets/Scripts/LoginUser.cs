@@ -55,17 +55,20 @@ public class LoginUser : MonoBehaviour {
 
 			// If the user is logged in switch the scene
 			user = task.Result;
-            Debug.Log(user.DisplayName);
-            if(user.DisplayName == "1")
-            {
-                SceneManager.LoadScene("scene0");
+            Debug.Log(user.IsEmailVerified);
+            if (user.IsEmailVerified) {
+                toast.MyShowToastMethod("Logging in...");
+                if (user.DisplayName == "1")
+                {
+                    SceneManager.LoadScene("scene0");
+                } else
+                {
+                    SceneManager.LoadScene("startLevel");
+                }
             } else
             {
-                SceneManager.LoadScene("startLevel");
+                toast.MyShowToastMethod("Please verify your email first.");
             }
-            //SwitchScene();
-            //SwitchScene switschScene = new SwitchScene();
-            //switschScene.ChangeScene("scene0");
         });
 	}
 

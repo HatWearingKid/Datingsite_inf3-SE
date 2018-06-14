@@ -95,11 +95,10 @@ public class GetGPSLocation : MonoBehaviour {
 			{
 				//parse json to variable
 				jsonNode = JSON.Parse(www.text);
-                toast.MyShowToastMethod(jsonNode.ToString());
                 
 				city = jsonNode [0] [0] ["address_components"] [2] ["long_name"];
-				countryLongname = jsonNode [0] [0] ["address_components"] [5] ["long_name"];
-				countryShortname = jsonNode [0] [0] ["address_components"] [5] ["short_name"];
+				countryLongname = jsonNode [0] [0] ["address_components"] [4] ["long_name"];
+				countryShortname = jsonNode [0] [0] ["address_components"] [4] ["short_name"];
                 SetLocation(city, countryLongname);
 			}
 			else
