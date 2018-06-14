@@ -22,8 +22,30 @@ public class Question7 : MonoBehaviour {
 		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         //string userId = "TestGebruiker";
-        string userId = auth.CurrentUser.UserId;
-            
-        reference.Child("Users").Child(userId).Child("CompleteProfile").SetValueAsync(true);
-	}
+        //string userId = auth.CurrentUser.UserId;
+
+        //reference.Child("Users").Child(userId).Child("CompleteProfile").SetValueAsync(true);
+
+
+        Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+        if (user != null)
+        {
+            Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
+            {
+                DisplayName = "1",
+            };
+            user.UpdateUserProfileAsync(profile).ContinueWith(task => {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("UpdateUserProfileAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                    return;
+                }
+            });
+        }
+    }
 }
