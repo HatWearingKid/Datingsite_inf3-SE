@@ -24,8 +24,6 @@ public class GetGPSLocation : MonoBehaviour {
 	WWW www;
 	private JSONNode jsonNode;
 
-	string wwwtext;
-
 	void Start(){
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -95,9 +93,6 @@ public class GetGPSLocation : MonoBehaviour {
 			// check for errors
 			if (www.error == null)
 			{
-				//remove brackets and split on comma
-				string temp = www.text.Trim(new System.Char[] { '[', ']' });
-				wwwtext = www.text;
 				//parse json to variable
 				jsonNode = JSON.Parse(www.text);
                 toast.MyShowToastMethod(jsonNode.ToString());

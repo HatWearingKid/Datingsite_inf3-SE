@@ -28,7 +28,7 @@ public class Hud : MonoBehaviour {
 
 		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
 		string userId = auth.CurrentUser.UserId;
-
+        Debug.Log(userId);
 		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId).GetValueAsync().ContinueWith(
 		task => {
 			if (task.IsCompleted)

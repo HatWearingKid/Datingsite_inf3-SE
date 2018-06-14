@@ -54,9 +54,16 @@ public class LoginUser : MonoBehaviour {
 			}
 
 			// If the user is logged in switch the scene
-			Firebase.Auth.FirebaseUser newUser = task.Result;
-            SwitchScene(auth.CurrentUser.UserId);
-            Debug.Log(auth.CurrentUser.UserId);
+			user = task.Result;
+            Debug.Log(user.DisplayName);
+            if(user.DisplayName == "1")
+            {
+                SceneManager.LoadScene("scene0");
+            } else
+            {
+                SceneManager.LoadScene("startLevel");
+            }
+            //SwitchScene();
             //SwitchScene switschScene = new SwitchScene();
             //switschScene.ChangeScene("scene0");
         });
@@ -80,47 +87,6 @@ public class LoginUser : MonoBehaviour {
 			toast.MyShowToastMethod("Password reset email sent successfully.");
 		});
 	}
-
-    public void SwitchScene(string userID)
-    {
-        SwitchScene switschScene = new SwitchScene();
-
-        // Firebase method to make connection with the database and get the user's information
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Users")
-            .GetValueAsync().ContinueWith(task => {
-                if (task.IsFaulted)
-                {
-                    toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
-                }
-                if (task.IsCanceled)
-                {
-                    toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
-                }
-                // If task succeeds
-                else if (task.IsCompleted)
-                {
-                    DataSnapshot snapshot = task.Result;
-
-                    // Itterate through all the users
-                    foreach (DataSnapshot user in snapshot.Children)
-                    {
-                        // Check if user equals to the logged in user to retrieve correct data
-                        if (userID.Equals(user.Key))
-                        {
-                            node = JSON.Parse(user.GetRawJsonValue());
-                            if (node["CompleteProfile"] == true)
-                            {
-                                switschScene.ChangeScene("scene0");
-                            } else
-                            {
-                                switschScene.ChangeScene("startLevel");
-                            }
-                        }
-                    }
-                }
-            });
-    }
 
     public void LogOut()
     {
