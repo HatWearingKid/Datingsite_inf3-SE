@@ -67,10 +67,12 @@ public class RegisterUser : MonoBehaviour {
 
 				// Firebase user has been created.
 				user = task.Result;
-				// Ass the user to the database
+				// Add the user to the real time database
 				AddUser(user.UserId);
 				// Send an email to the user
 				SendEmail ();
+                // Message for the user
+                toast.MyShowToastMethod("An email has been send to you, please verify your account.");
 				// Log the user out (Firebase automatically logs the user in after registration)
 				auth.SignOut ();
 			});
