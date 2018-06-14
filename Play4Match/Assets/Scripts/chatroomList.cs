@@ -152,12 +152,14 @@ public class chatroomList : MonoBehaviour
                                                         DataSnapshot snapshot3 = task3.Result;
 
                                                         int count = 0;
+                                                        string user_tmp = "";
                                                         foreach (var childSnapshot3 in snapshot3.Children) 
                                                         {
                                                             lastMessage = childSnapshot3.Child("content").Value.ToString();
                                                             lastMessageTime = childSnapshot3.Child("date").Value.ToString();
                                                             count++;
                                                             messages++; // count messages to see if something changed
+                                                            user_tmp = childSnapshot3.Child("user").Value.ToString();
                                                         }
 
                                                         if(count > 0)
@@ -170,7 +172,7 @@ public class chatroomList : MonoBehaviour
                                                                     dictUser["Name"].ToString(),
                                                                     childSnapshot.Key.ToString(),
                                                                     "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media",
-                                                                    user
+                                                                    user_tmp
                                                                 )
                                                             );
                                                         } else
@@ -183,7 +185,7 @@ public class chatroomList : MonoBehaviour
                                                                     dictUser["Name"].ToString(),
                                                                     childSnapshot.Key.ToString(),
                                                                     "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media",
-                                                                    user
+                                                                    user_tmp
                                                                 )
                                                             );
                                                         }
@@ -229,11 +231,11 @@ public class chatroomList : MonoBehaviour
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.name = chatroomNumber.ToString();
 
-            
 
+            Debug.Log("ID: " + ChatRoomBerichtenLijst[i].ID.ToString());
             if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
             {
-                newObj.transform.Find("naam").GetComponent<Text>().text = "Systemmessage said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                newObj.transform.Find("naam").GetComponent<Text>().text = "System said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
 
             } else
             {
