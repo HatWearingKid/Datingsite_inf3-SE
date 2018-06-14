@@ -9795,7 +9795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df896894f79f6a049b549f89e962fb8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getquestions: {fileID: 1869673596}
 --- !u!114 &1869673595
 MonoBehaviour:
   m_ObjectHideFlags: 0
