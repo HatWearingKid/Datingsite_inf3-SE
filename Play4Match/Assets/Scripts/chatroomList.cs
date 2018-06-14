@@ -130,8 +130,17 @@ public class chatroomList : MonoBehaviour
                         foreach (var childSnapshot in snapshot.Children)
                         {
                             var user2_db = childSnapshot.Child("users").Value.ToString();
+                            string user_id_partner = "";
 
                             string[] users = user2_db.Split('|');
+                            foreach (string user in users)
+                            {
+                                if (user != userID)
+                                {
+                                    user_id_partner = user;
+                                }
+                            }
+
                             foreach (string user in users)
                             {
                                 
@@ -164,14 +173,13 @@ public class chatroomList : MonoBehaviour
 
                                                         if(count > 0)
                                                         {
-
                                                             ChatRoomBerichtenLijst.Add(
                                                                 new ChatRoomBerichtList(
                                                                     lastMessageTime.ToString(),
                                                                     lastMessage.ToString(),
                                                                     dictUser["Name"].ToString(),
                                                                     childSnapshot.Key.ToString(),
-                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media",
+                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user_id_partner + "%2FProfilePicture.png?alt=media",
                                                                     user_tmp
                                                                 )
                                                             );
@@ -184,7 +192,7 @@ public class chatroomList : MonoBehaviour
                                                                     "Er is nog niets gezegd",
                                                                     dictUser["Name"].ToString(),
                                                                     childSnapshot.Key.ToString(),
-                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user + "%2FProfilePicture.png.jpg?alt=media",
+                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user_id_partner + "%2FProfilePicture.png?alt=media",
                                                                     user_tmp
                                                                 )
                                                             );
@@ -231,8 +239,6 @@ public class chatroomList : MonoBehaviour
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.name = chatroomNumber.ToString();
 
-
-            Debug.Log("ID: " + ChatRoomBerichtenLijst[i].ID.ToString());
             if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
             {
                 newObj.transform.Find("naam").GetComponent<Text>().text = "System said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
@@ -248,8 +254,7 @@ public class chatroomList : MonoBehaviour
             string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
             newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
 
-            string PhotoURL = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F"+ ChatRoomBerichtenLijst[i].ID.ToString() + "%2FProfilePicture.png?alt=media";
-
+            string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
             StartCoroutine(LoadImg(PhotoURL, newObj));
             chatroomNumber++;
         }
