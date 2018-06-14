@@ -228,7 +228,18 @@ public class chatroomList : MonoBehaviour
         {            
             GameObject newObj = (GameObject)Instantiate(prefab, transform);
             newObj.name = chatroomNumber.ToString();
-            newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " zei " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+
+            
+
+            if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
+            {
+                newObj.transform.Find("naam").GetComponent<Text>().text = "Systemmessage said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+
+            } else
+            {
+                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said " + tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+            }
+            
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             newObj.SetActive(true);
 
@@ -266,7 +277,7 @@ public class chatroomList : MonoBehaviour
 
 
     // Maak een chatroom aan, met een default message, mee te geven als parameter
-    void createChatroom(string user1, string user2, string message = "Chatroom aangemaakt, hier het 'Je hebt hetzelfde antwoord ingevuld als blabla op de volgende vraag: Is dit een vraag?'")
+    void createChatroom(string user1, string user2, string message = "Chatroom created")
     {
         string users = user1 + "|" + user2;
 
