@@ -7832,6 +7832,8 @@ MonoBehaviour:
   textPrefab: {fileID: 1277756832398582, guid: f3a221cd8035d3248b47b7e5524e5fa3, type: 2}
   textPrefabUser: {fileID: 1944644003381550, guid: 65e9bd2b169813146bb46fd44c0c2d8e,
     type: 2}
+  textPrefabSystem: {fileID: 1969061347823840, guid: 1b809aa13c939f945bc8b72356cc4ef6,
+    type: 2}
   partnerName: {fileID: 2132901354}
   backButton: {fileID: 469234709}
   chatBox: {fileID: 415359658}
