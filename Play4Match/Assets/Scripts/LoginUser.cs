@@ -23,7 +23,6 @@ public class LoginUser : MonoBehaviour {
 	Firebase.Auth.FirebaseUser user;
 
     JSONNode node;
-    SwitchScene switschScene = new SwitchScene();
 
     #region Set Email & Password
     // Setter method for the emial
@@ -56,9 +55,10 @@ public class LoginUser : MonoBehaviour {
 
 			// If the user is logged in switch the scene
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-            //SwitchScene(newUser.UserId);
-            SwitchScene switschScene = new SwitchScene();
-            switschScene.ChangeScene("scene0");
+            SwitchScene(auth.CurrentUser.UserId);
+            Debug.Log(auth.CurrentUser.UserId);
+            //SwitchScene switschScene = new SwitchScene();
+            //switschScene.ChangeScene("scene0");
         });
 	}
 
@@ -83,6 +83,8 @@ public class LoginUser : MonoBehaviour {
 
     public void SwitchScene(string userID)
     {
+        SwitchScene switschScene = new SwitchScene();
+
         // Firebase method to make connection with the database and get the user's information
         FirebaseDatabase.DefaultInstance
             .GetReference("Users")

@@ -142,38 +142,34 @@ public class RetrieveProfile : MonoBehaviour {
 
     // Method to retrieve the user data
     public void GetProfile(){
-		// Check if user is logged in
-		if (user != null) {
-			userID = user.UserId;
-		}
+        // Check if user is logged in
+        if (user != null)
+        {
+            userID = user.UserId;
 
-		// Firebase method to make connection with the database and get the user's information
-		FirebaseDatabase.DefaultInstance
-			.GetReference("Users")
-			.GetValueAsync().ContinueWith(task => {
-				if (task.IsFaulted)
-				{
-					toast.MyShowToastMethod(task.Exception.InnerExceptions [0].Message);
-				}
-				if(task.IsCanceled){
-					toast.MyShowToastMethod(task.Exception.InnerExceptions [0].Message);
-				}
-				// If task succeeds
-				else if (task.IsCompleted)
-				{
-					DataSnapshot snapshot = task.Result;
+            // Firebase method to make connection with the database and get the user's information
+            FirebaseDatabase.DefaultInstance.GetReference("Users").GetValueAsync().ContinueWith(task => {
+                if (task.IsFaulted) {
+                    toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
+                }
+                if (task.IsCanceled) {
+                    toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
+                }
+                // If task succeeds
+                else if (task.IsCompleted) {
+                    DataSnapshot snapshot = task.Result;
 
-					// Itterate through all the users
-					foreach (DataSnapshot user in snapshot.Children)
-					{
-						// Check if user equals to the logged in user to retrieve correct data
-						if(userID.Equals(user.Key)){
-							node = JSON.Parse(user.GetRawJsonValue());
+                    // Itterate through all the users
+                    foreach (DataSnapshot user in snapshot.Children) {
+                        // Check if user equals to the logged in user to retrieve correct data
+                        if (userID.Equals(user.Key)) {
+                            node = JSON.Parse(user.GetRawJsonValue());
                             string birthdate = node["DateOfBirth"];
                             dateOfBirth = birthdate.Split('/');
                         }
-					}
-				}
-			});
+                    }
+                }
+            });
+        }
 	}
 }
