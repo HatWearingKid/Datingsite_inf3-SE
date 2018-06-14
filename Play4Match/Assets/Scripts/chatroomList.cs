@@ -214,7 +214,7 @@ public class chatroomList : MonoBehaviour
                     }
                 });
 
-        Invoke("getAllChatrooms", 10); // Invoke every 10 seconds
+        Invoke("getAllChatrooms", 3); // Invoke every 3 seconds
     }
 
     public void buildChatroom()
