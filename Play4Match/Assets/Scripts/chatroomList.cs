@@ -107,6 +107,11 @@ public class chatroomList : MonoBehaviour
 
         if (verschilMinuten < 60)
         {
+            result = verschilMinuten + " minutes ago";
+        }
+
+        if (verschilMinuten < 1)
+        {
             result = "Just now";
         }
 
@@ -224,7 +229,7 @@ public class chatroomList : MonoBehaviour
                     }
                 });
 
-        Invoke("getAllChatrooms", 3); // Invoke every 3 seconds
+        Invoke("getAllChatrooms", 5); // Invoke every 5 seconds
     }
 
     public void buildChatroom()
