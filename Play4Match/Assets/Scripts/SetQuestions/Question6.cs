@@ -21,6 +21,9 @@ public class Question6 : MonoBehaviour {
         // Set up the Editor before calling into the realtime database.
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
+        //connect to firebase and get userid
+		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
         // Get the root reference location of the database.
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 

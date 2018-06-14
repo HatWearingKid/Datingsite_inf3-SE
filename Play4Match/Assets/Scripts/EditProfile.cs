@@ -11,9 +11,8 @@ public class EditProfile : MonoBehaviour {
 	Firebase.Auth.FirebaseUser user;
 	DatabaseReference userRef;
 	DatabaseReference prefRef;
-	DatabaseReference locRef;
 
-	private string name;
+	private string username;
 	private string gender;
 	private string description;
 
@@ -39,19 +38,17 @@ public class EditProfile : MonoBehaviour {
 			userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId);
 			// Get the reference to the Preference root node of the database.
 			prefRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Preferences");
-			// Get the reference to the Location root node of the database.
-			locRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(user.UserId).Child("Location");
 		}
 	}
 
     #region Getters & Setters
     public void SetName(string _name){
-		name = _name;
+        username = _name;
 	}
 		
 	public void GetName(InputField input)
 	{
-		name = input.text;
+        username = input.text;
 	}
 		
 	public void GetGender(Dropdown dropdown)
@@ -129,7 +126,7 @@ public class EditProfile : MonoBehaviour {
 
     public void UpdateUser(){	
 		// Update data in the Users root
-		userRef.Child("Name").SetValueAsync(name);
+		userRef.Child("Name").SetValueAsync(username);
 		userRef.Child("Gender").SetValueAsync(gender);
 		userRef.Child("DateOfBirth").SetValueAsync(day + "/" + month + "/" + year);
 		userRef.Child("Description").SetValueAsync(description);
