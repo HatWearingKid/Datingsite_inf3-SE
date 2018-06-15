@@ -16,7 +16,6 @@ public class ChatManager : MonoBehaviour
     public GameObject chatPanel;
     public GameObject textPrefab;
     public GameObject textPrefabUser;
-    public GameObject textPrefabSystem;
     public Text partnerName;
     Boolean firstChatMessage = true;
     public Button backButton;
@@ -120,30 +119,6 @@ public class ChatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("de user is " + user);
-            if (user == "SYSTEEMBERICHT")
-            {
-                GameObject newObjUser = (GameObject)Instantiate(textPrefabSystem, chatPanel.transform);
-
-                float sum = 400 - (text.Length * text.Length) + 50;
-
-                if (sum < 100f)
-                {
-                    sum = 100f;
-                }
-
-                if (sum > 400f)
-                {
-                    sum = 400f;
-                }
-
-                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
-                newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
-
-                Debug.Log("Systeembericht tonen");
-            }
-            else
-            {
                 andereUser = user;
                 GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
 
@@ -162,7 +137,7 @@ public class ChatManager : MonoBehaviour
                 newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
                 newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
-            }
+            
 
         }
     }
