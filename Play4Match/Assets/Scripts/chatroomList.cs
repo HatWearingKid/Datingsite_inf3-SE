@@ -22,6 +22,7 @@ public class chatroomList : MonoBehaviour
     public int totalMessages = 0;
 
     private bool initialStart = true;
+    private bool getChatroomsLock = false;
 
     void Start()
     {
@@ -119,132 +120,164 @@ public class chatroomList : MonoBehaviour
 
     }
 
+    public void releaseLock()
+    {
+        Debug.Log("releaseLock na " + Time.time.ToString("0.0"));
+        getChatroomsLock = false;
+        Invoke("getAllChatrooms", 5); // Invoke every 5 seconds
+    }
+
 
     public void getAllChatrooms()
     {
         Debug.Log("getAllChatrooms");
-        ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
-        int messages = 0;
+        if (getChatroomsLock == false)
+        {
+            getChatroomsLock = true;
+            ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
+            int messages = 0;
 
-        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
-                task => {
-                    if (task.IsCompleted)
-                    {
-                        DataSnapshot snapshot = task.Result;
-
-                        foreach (var childSnapshot in snapshot.Children)
+            FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
+                    task => {
+                        if (task.IsCompleted)
                         {
-                            var user2_db = childSnapshot.Child("users").Value.ToString();
-                            string user_id_partner = "";
+                            DataSnapshot snapshot = task.Result;
 
-                            string[] users = user2_db.Split('|');
-                            foreach (string user in users)
-                            {
-                                if (user != userID)
-                                {
-                                    user_id_partner = user;
-                                }
+                            if (snapshot.ChildrenCount == 0) {
+                                releaseLock();
                             }
 
-                            foreach (string user in users)
+                            foreach (var childSnapshot in snapshot.Children)
                             {
+                                var user2_db = childSnapshot.Child("users").Value.ToString();
+                                string user_id_partner = "";
 
-                                if (user != userID)
+                                string[] users = user2_db.Split('|');
+                                foreach (string user in users)
                                 {
-                                    FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user).GetValueAsync().ContinueWith(
-                                    task2 => {
-                                        if (task2.IsCompleted)
-                                        {
-                                            DataSnapshot snapshot2 = task2.Result;
-                                            IDictionary dictUser = (IDictionary)snapshot2.Value;
+                                    if (user != userID)
+                                    {
+                                        user_id_partner = user;
+                                    }
+                                }
 
-                                            FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
-                                                task3 => {
-                                                    if (task3.IsCompleted)
-                                                    {
+                                foreach (string user in users)
+                                {
 
-                                                        DataSnapshot snapshot3 = task3.Result;
+                                    if (user != userID)
+                                    {
+                                        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user).GetValueAsync().ContinueWith(
+                                        task2 => {
+                                            if (task2.IsCompleted)
+                                            {
+                                                DataSnapshot snapshot2 = task2.Result;
+                                                if (snapshot2.ChildrenCount == 0)
+                                                {
+                                                    releaseLock();
+                                                }
 
-                                                        int count = 0;
-                                                        string user_tmp = "";
-                                                        foreach (var childSnapshot3 in snapshot3.Children)
+                                                IDictionary dictUser = (IDictionary)snapshot2.Value;
+
+                                                FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
+                                                    task3 => {
+                                                        if (task3.IsCompleted)
                                                         {
-                                                            user_tmp = childSnapshot3.Child("user").Value.ToString();
-                                                            if (user_tmp != "SYSTEEMBERICHT")
+
+                                                            DataSnapshot snapshot3 = task3.Result;
+                                                            if (snapshot3.ChildrenCount == 0)
                                                             {
-                                                                Debug.Log("Een systeembericht");
-                                                                lastMessage = childSnapshot3.Child("content").Value.ToString();
-                                                                lastMessageTime = childSnapshot3.Child("date").Value.ToString();
-                                                                count++;
-                                                                messages++; // count messages to see if something changed
+                                                                releaseLock();
+                                                            }
+
+                                                            int count = 0;
+                                                            string user_tmp = "";
+                                                            foreach (var childSnapshot3 in snapshot3.Children)
+                                                            {
+                                                                user_tmp = childSnapshot3.Child("user").Value.ToString();
+                                                                //Debug.Log("user_tmp: " + user_tmp);
+                                                                if (user_tmp != "SYSTEEMBERICHT")
+                                                                {
+                                                                    //Debug.Log("Geen systeembericht");
+                                                                    lastMessage = childSnapshot3.Child("content").Value.ToString();
+                                                                    lastMessageTime = childSnapshot3.Child("date").Value.ToString();
+                                                                    
+                                                                }
+                                                                else
+                                                                {
+                                                                    // Systeembericht, doen we eerst nog niets mee
+                                                                    lastMessage = "";
+                                                                    lastMessageTime = childSnapshot3.Child("date").Value.ToString();
+                                                                    count++;
+                                                                    messages++; // count messages to see if something changed
+                                                                }
+
+
+                                                            }
+                                                            //Debug.Log("Count: " + count);
+                                                            if (count > 0)
+                                                            {
+                                                                
+                                                                ChatRoomBerichtenLijst.Add(
+                                                                    new ChatRoomBerichtList(
+                                                                        lastMessageTime.ToString(),
+                                                                        lastMessage.ToString(),
+                                                                        dictUser["Name"].ToString(),
+                                                                        childSnapshot.Key.ToString(),
+                                                                        "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user_id_partner + "%2FProfilePicture.png?alt=media",
+                                                                        user_tmp
+                                                                    )
+                                                                );
+
                                                             }
                                                             else
                                                             {
-                                                                lastMessage = "";
-                                                                lastMessageTime = "";
+                                                                //Debug.Log("Leeg bericht");
+                                                                //Debug.Log("user_id_partner: " + user_id_partner);
+                                                                //Debug.Log("Name: " + dictUser["Name"].ToString());
+
+                                                                ChatRoomBerichtenLijst.Add(
+                                                                    new ChatRoomBerichtList(
+                                                                        lastMessageTime.ToString(),
+                                                                        lastMessage.ToString(),
+                                                                        dictUser["Name"].ToString(),
+                                                                        childSnapshot.Key.ToString(),
+                                                                        "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user_id_partner + "%2FProfilePicture.png?alt=media",
+                                                                        user_tmp
+                                                                    )
+                                                                );
                                                             }
 
+                                                            //Debug.Log("chatroomBerichtenLijst Count: " + ChatRoomBerichtenLijst.Count + " - ChildrenCount: " + snapshot.ChildrenCount);
+                                                            if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
+                                                            {
+                                                                // In het einde van getAllChatrooms aangekomen
+                                                                releaseLock();
+                                                                
 
-                                                        }
-                                                        Debug.Log("Count: " + count);
-                                                        if (count > 0)
-                                                        {
+                                                                if (totalMessages != messages)
+                                                                { // Check if the amount of messages is different from the previous time
+                                                                    //Debug.Log("Sort");
+                                                                    ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date));
 
-                                                            ChatRoomBerichtenLijst.Add(
-                                                                new ChatRoomBerichtList(
-                                                                    lastMessageTime.ToString(),
-                                                                    lastMessage.ToString(),
-                                                                    dictUser["Name"].ToString(),
-                                                                    childSnapshot.Key.ToString(),
-                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user_id_partner + "%2FProfilePicture.png?alt=media",
-                                                                    user_tmp
-                                                                )
-                                                            );
+                                                                    totalMessages = messages;
+                                                                    buildChatroom();
+                                                                }
 
-                                                        }
-                                                        else
-                                                        {
-                                                            Debug.Log("Leeg bericht");
-
-                                                            ChatRoomBerichtenLijst.Add(
-                                                                new ChatRoomBerichtList(
-                                                                    (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString(),
-                                                                    "Er is nog niets gezegd",
-                                                                    dictUser["Name"].ToString(),
-                                                                    childSnapshot.Key.ToString(),
-                                                                    "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + user_id_partner + "%2FProfilePicture.png?alt=media",
-                                                                    user_tmp
-                                                                )
-                                                            );
-                                                        }
-
-                                                        Debug.Log("chatroomBerichtenLijst Count: " + ChatRoomBerichtenLijst.Count + " - ChildrenCount: " + snapshot.ChildrenCount);
-                                                        if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
-                                                        {
-                                                            Debug.Log("Sort");
-                                                            ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date));
-
-                                                            if (totalMessages != messages)
-                                                            { // Check if the amount of messages is different from the previous time
-                                                                totalMessages = messages;
-                                                                buildChatroom();
                                                             }
 
                                                         }
 
-                                                    }
 
-
-                                                });
-                                        }
-                                    });
+                                                    });
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-
-        Invoke("getAllChatrooms", 5); // Invoke every 5 seconds
+                    });
+        }
+        
     }
 
     public void buildChatroom()
@@ -263,14 +296,16 @@ public class chatroomList : MonoBehaviour
 
             newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
 
-            //if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
-            //{
-            //    newObj.transform.Find("naam").GetComponent<Text>().text = "System said ";
-            //
-            //} else
-            //{
-            newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
-            //}
+            if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
+            {
+                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString();
+                newObj.transform.Find("time").GetComponent<Text>().text = "";
+
+            } else
+            {
+                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
+                newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+            }
 
             newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
             newObj.SetActive(true);
