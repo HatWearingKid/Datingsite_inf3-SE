@@ -89,11 +89,11 @@ public class RegisterUser : MonoBehaviour {
 			// A Firebase method to send a verification email asynchrone
 			user.SendEmailVerificationAsync ().ContinueWith (task => {
 				if (task.IsCanceled) {
-					Debug.LogError (task.Exception.InnerExceptions [0].Message);
+					toast.MyShowToastMethod (task.Exception.InnerExceptions [0].Message);
 					return;
 				}
 				if (task.IsFaulted) {
-					Debug.LogError (task.Exception.InnerExceptions [0].Message);
+					toast.MyShowToastMethod (task.Exception.InnerExceptions [0].Message);
 					return;
 				}
 

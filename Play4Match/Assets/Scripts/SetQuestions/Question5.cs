@@ -37,9 +37,6 @@ public class Question5 : MonoBehaviour
         // Get the root reference location of the database.
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        //string userId = "TestGebruiker";
-        //string userId = auth.CurrentUser.UserId;
-
-        reference.Child("Users").Child("Bs8KA32ZjRdIFCbgBkkZjUVvi753").Child("Distance").SetValueAsync(distance);
+        reference.Child("Users").Child(auth.CurrentUser.UserId).Child("Distance").SetValueAsync(distance);
     }
 }

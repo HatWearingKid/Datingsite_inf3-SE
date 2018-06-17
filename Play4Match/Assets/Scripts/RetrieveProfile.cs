@@ -99,7 +99,6 @@ public class RetrieveProfile : MonoBehaviour {
 		{
 			string minAge = node["Preferences"]["AgeMin"];
 			slider.value = int.Parse(minAge);
-            Debug.Log(slider.value + " -- " + minAge);
 		}
 	}
 

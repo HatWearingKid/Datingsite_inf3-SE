@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class CreateMatchPopup : MonoBehaviour {
     public GameObject matchPanel;
-    private Image image;
 
+    public Image image;
     public GameObject nameObj;
     public GameObject locationObj;
     public GameObject matchRateObj;
@@ -30,6 +30,7 @@ public class CreateMatchPopup : MonoBehaviour {
 
 	public string buttonName;
 
+    Sprite sprite;
     public string userId;
     public string nameString;
     public string locationString;
@@ -40,10 +41,35 @@ public class CreateMatchPopup : MonoBehaviour {
 	void Start () {
 		sr = impact.GetComponent<SpriteRenderer>();
 		startingTime = fadeOutTime;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        string ppUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + userId + "%2FProfilePicture.png?alt=media";
+        StartCoroutine(FinishDownload(ppUrl));
+    }
+
+    IEnumerator FinishDownload(string url)
+    {
+        WWW imageUrl = new WWW(url);
+
+        while (!imageUrl.isDone)
+        {
+            yield return null;
+        }
+
+        if (!string.IsNullOrEmpty(imageUrl.error))
+        {
+            Debug.Log("Download failed");
+        }
+        else
+        {
+            yield return new WaitForSecondsRealtime(1);
+            Debug.Log("Download succes");
+            sprite = Sprite.Create(imageUrl.texture, new Rect(0, 0, imageUrl.texture.width, imageUrl.texture.height), new Vector2(0, 0));
+        }
+
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (Input.GetMouseButton(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit;
@@ -59,6 +85,7 @@ public class CreateMatchPopup : MonoBehaviour {
                     matchRateObj.GetComponent<Text>().text = matchRateString;
 					descriptionObj.GetComponent<Text>().text = descriptionString;
 					crushButtonObj.GetComponent<Crush>().matchButton = GameObject.Find(buttonName);
+                    image.GetComponent<Image>().sprite = sprite;
 
                     matchPanel.SetActive(true);
                 }

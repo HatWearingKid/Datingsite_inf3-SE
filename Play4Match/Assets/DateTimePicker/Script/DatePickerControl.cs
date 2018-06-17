@@ -287,7 +287,6 @@ public class DatePickerControl : MonoBehaviour {
 				}catch{
 				}
 			}
-			Debug.Log ("(+) No hay mas años");
 		}
 		actualizarFecha ();
 	}
