@@ -75,7 +75,8 @@ public class GetGPSLocation : MonoBehaviour {
 			longitude = Input.location.lastData.longitude;
             www = new WWW("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=AIzaSyAcd1isbfsa7-pRLkmM6UTqqDtNTRf-O0A&language=en");
             StartCoroutine(WaitForRequest(www));
-		}
+            toast.MyShowToastMethod("Location synced");
+        }
 
 		// Stop service if there is no need to query location updates continuously
 		Input.location.Stop();
