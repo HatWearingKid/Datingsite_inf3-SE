@@ -44,7 +44,7 @@ public class UploadPicture : MonoBehaviour {
 			profilePictureRef.GetDownloadUrlAsync().ContinueWith((Task<Uri> task) => {
 				if (task.IsFaulted || task.IsCanceled)
 				{
-					toast.MyShowToastMethod("Something wrent wrong with retrieving your profile picture.");
+					//toast.MyShowToastMethod("Something wrent wrong with retrieving your profile picture.");
 				}
 				else
 				{
