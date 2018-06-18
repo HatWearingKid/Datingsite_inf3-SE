@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1452,56 +1452,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 980d4f5450bcaf24ab34b40a5db6132d, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &95552829 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1467678880322584, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552830 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1219413912008608, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552831 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1628649389040230, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552832 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1703495083051338, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552833 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1902170347742572, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552834 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1556537757273978, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552835 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1098125996502674, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552836 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1602493011189710, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552837 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1797148539970036, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
---- !u!1 &95552838 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1593540465862966, guid: 980d4f5450bcaf24ab34b40a5db6132d,
-    type: 2}
-  m_PrefabInternal: {fileID: 95552828}
 --- !u!1 &134363894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,7 +1703,6 @@ Transform:
   - {fileID: 1544494390}
   - {fileID: 1066475055}
   - {fileID: 1438336813}
-  - {fileID: 393375635}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1845,72 +1794,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 367176608}
   m_Mesh: {fileID: 4300000, guid: 51a0e4f275ed71e4ea851da7816d8779, type: 3}
---- !u!1001 &393375634
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 343125305}
-    m_Modifications:
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1492
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 2241
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &393375635 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 481554, guid: c6b7fb383a3534b039692b5485b6e739, type: 2}
-  m_PrefabInternal: {fileID: 393375634}
 --- !u!1 &434037020
 GameObject:
   m_ObjectHideFlags: 0
@@ -5149,17 +5032,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 95552829}
+  loadingScreen: {fileID: 0}
   NumberOfQuestions: 9
-  QuestionPanel: {fileID: 95552838}
-  QuestionText: {fileID: 95552837}
-  Answers2: {fileID: 95552836}
-  Answers3: {fileID: 95552835}
-  Answers4: {fileID: 95552834}
-  Answers5: {fileID: 95552833}
-  Answers6: {fileID: 95552832}
-  weightSlider: {fileID: 95552831}
-  NoQuestion: {fileID: 95552830}
+  QuestionPanel: {fileID: 0}
+  QuestionText: {fileID: 0}
+  Answers2: {fileID: 0}
+  Answers3: {fileID: 0}
+  Answers4: {fileID: 0}
+  Answers5: {fileID: 0}
+  Answers6: {fileID: 0}
+  weightSlider: {fileID: 0}
+  NoQuestion: {fileID: 0}
 --- !u!114 &1869673597
 MonoBehaviour:
   m_ObjectHideFlags: 0
