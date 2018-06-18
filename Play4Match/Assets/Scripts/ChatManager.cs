@@ -52,7 +52,7 @@ public class ChatManager : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        //keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
+        keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
         Button btn = backButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
