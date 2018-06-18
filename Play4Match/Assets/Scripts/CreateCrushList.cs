@@ -47,7 +47,11 @@ public class CreateCrushList : MonoBehaviour {
 				foreach (var childSnapshot in snapshot.Children)
 				{
 					string crushId = childSnapshot.Key.ToString();
-					long timestamp = (long)childSnapshot.Value;
+
+                    string ppUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + crushId + "%2FProfilePicture.png?alt=media";
+                    StartCoroutine(FinishDownload(ppUrl));
+
+                    long timestamp = (long)childSnapshot.Value;
  
 					string dateText = getDateAgo(timestamp);
 
@@ -56,26 +60,26 @@ public class CreateCrushList : MonoBehaviour {
 					{
                         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(crushId).GetValueAsync().ContinueWith(
                         task2 => {
-                            if (task2.IsCompleted)
+                        if (task2.IsCompleted)
+                        {
+                            DataSnapshot snapshot2 = task2.Result;
+
+                            string crushName = snapshot2.Child("Name").Value.ToString();
+                            string crushAge = getAge(snapshot2.Child("DateOfBirth").Value.ToString());
+                            string crushDescription = snapshot2.Child("Description").Value.ToString();
+                            string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
+                            Sprite ppSprite = sprite;
+
+                            if (crushName != "" && crushAge != "")
                             {
-                                DataSnapshot snapshot2 = task2.Result;
+                                GameObject newObj = (GameObject)Instantiate(prefab, transform);
+                                newObj.name = CrushItem.ToString();
+                                newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
+                                newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
 
-                                string crushName = snapshot2.Child("Name").Value.ToString();
-                                string crushAge = getAge(snapshot2.Child("DateOfBirth").Value.ToString());
-                                string crushDescription = snapshot2.Child("Description").Value.ToString();
-                                string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
-                                Sprite ppSprite = sprite;
-
-                                if (crushName != "" && crushAge != "")
-                                {
-                                    GameObject newObj = (GameObject)Instantiate(prefab, transform);
-                                    newObj.name = CrushItem.ToString();
-                                    newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
-                                    newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
-
-                                    newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
-                                    newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
-
+                                newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
+                                newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
+                                newObj.transform.Find("ProfilePicture").GetComponent<Image>().sprite = sprite;
                                     CrushItem++;
                                 }
                             }
