@@ -173,16 +173,19 @@ public class chatroomList : MonoBehaviour
                                                 DataSnapshot snapshot2 = task2.Result;
                                                 if (snapshot2.ChildrenCount == 0)
                                                 {
-                                                    releaseLock();
+                                                    //Debug.Log("snapshot2.ChildrenCount: " + snapshot2.ChildrenCount);
+                                                    //releaseLock();
                                                 }
 
-                                                IDictionary dictUser = (IDictionary)snapshot2.Value;
+                                                
 
+                                                if (snapshot2.ChildrenCount > 0) {
                                                 FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(childSnapshot.Key).GetValueAsync().ContinueWith(
-                                                    task3 => {
+                                                    task3 =>
+                                                    {
                                                         if (task3.IsCompleted)
                                                         {
-
+                                                            IDictionary dictUser = (IDictionary)snapshot2.Value;
                                                             DataSnapshot snapshot3 = task3.Result;
                                                             if (snapshot3.ChildrenCount == 0)
                                                             {
@@ -200,7 +203,7 @@ public class chatroomList : MonoBehaviour
                                                                     //Debug.Log("Geen systeembericht");
                                                                     lastMessage = childSnapshot3.Child("content").Value.ToString();
                                                                     lastMessageTime = childSnapshot3.Child("date").Value.ToString();
-                                                                    
+
                                                                 }
                                                                 else
                                                                 {
@@ -216,7 +219,7 @@ public class chatroomList : MonoBehaviour
                                                             //Debug.Log("Count: " + count);
                                                             if (count > 0)
                                                             {
-                                                                
+
                                                                 ChatRoomBerichtenLijst.Add(
                                                                     new ChatRoomBerichtList(
                                                                         lastMessageTime.ToString(),
@@ -252,7 +255,7 @@ public class chatroomList : MonoBehaviour
                                                             {
                                                                 // In het einde van getAllChatrooms aangekomen
                                                                 releaseLock();
-                                                                
+
 
                                                                 if (totalMessages != messages)
                                                                 { // Check if the amount of messages is different from the previous time
@@ -269,6 +272,23 @@ public class chatroomList : MonoBehaviour
 
 
                                                     });
+                                                } else
+                                                {
+                                                    Debug.Log("Niets gevonden voor: " + user);
+
+
+                                                        ChatRoomBerichtenLijst.Add(
+                                                            new ChatRoomBerichtList(
+                                                                "123456798".ToString(),
+                                                                "DELETED".ToString(),
+                                                                "DELETED".ToString(),
+                                                                childSnapshot.Key.ToString(),
+                                                                "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + userID + "%2FProfilePicture.png?alt=media",
+                                                                "DELETED"
+                                                            )
+                                                        );
+                                                    messages++;
+                                                }
                                             }
                                         });
                                     }
@@ -291,31 +311,33 @@ public class chatroomList : MonoBehaviour
 
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++)
         {
-            GameObject newObj = (GameObject)Instantiate(prefab, transform);
-            newObj.name = chatroomNumber.ToString();
+            if (ChatRoomBerichtenLijst[i].ID.ToString() != "DELETED") {
+                GameObject newObj = (GameObject)Instantiate(prefab, transform);
+                newObj.name = chatroomNumber.ToString();
 
-            newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
-
-            if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
-            {
-                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString();
-                newObj.transform.Find("time").GetComponent<Text>().text = "";
-
-            } else
-            {
-                newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
                 newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+
+                if (ChatRoomBerichtenLijst[i].ID.ToString() == "SYSTEEMBERICHT")
+                {
+                    newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString();
+                    newObj.transform.Find("time").GetComponent<Text>().text = "";
+
+                } else
+                {
+                    newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
+                    newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                }
+
+                newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
+                newObj.SetActive(true);
+
+                string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
+                newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
+
+                string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
+                StartCoroutine(LoadImg(PhotoURL, newObj));
+                chatroomNumber++;
             }
-
-            newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString();
-            newObj.SetActive(true);
-
-            string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
-            newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); });
-
-            string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString();
-            StartCoroutine(LoadImg(PhotoURL, newObj));
-            chatroomNumber++;
         }
         ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
 
