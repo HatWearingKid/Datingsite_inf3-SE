@@ -348,7 +348,7 @@ public class chatroomList : MonoBehaviour
         chatroomID = data;
 
         // Set chatroomid
-        Camera.GetComponent<ChatManager>().chatroomID = data;
+        chatviewPanel.GetComponent<ChatManager>().chatroomID = data;
 
         // Zet chatviewPanel actief
         chatviewPanel.SetActive(true);

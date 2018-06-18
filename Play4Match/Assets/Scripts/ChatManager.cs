@@ -16,6 +16,7 @@ public class ChatManager : MonoBehaviour
     public GameObject chatPanel;
     public GameObject textPrefab;
     public GameObject textPrefabUser;
+    public GameObject whiteSpace;
     public Text partnerName;
     Boolean firstChatMessage = true;
     public Button backButton;
@@ -34,6 +35,7 @@ public class ChatManager : MonoBehaviour
     public string lastMessageTime;
     List<ChatRoomBericht> ChatRoomBerichten = new List<ChatRoomBericht>();
     public GameObject chatReportPanel;
+    public GameObject chatViewScroll; // matchpanel > chatviewpanel > chatview
 
     private string usersTabel = "Users"; // Na het testen "Users" gebruiken
 
@@ -51,12 +53,19 @@ public class ChatManager : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        //keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
+        keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
 
         Button btn = backButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
         //addChatReport();
 
+        scrollDown();
+
+    }
+
+    public void scrollDown()
+    {
+        GameObject.Find("ChatView").GetComponent<ScrollRect>().verticalNormalizedPosition = -0.1f;
     }
 
     void Update()
@@ -64,6 +73,7 @@ public class ChatManager : MonoBehaviour
         if (chatroomID.ToString() != "" && chatroomFound == false)
         {
 
+            Debug.Log("ChatroomID: " + chatroomID.ToString());
             foreach (Transform child in chatPanel.transform)
             {
                 GameObject.Destroy(child.gameObject);
@@ -75,6 +85,7 @@ public class ChatManager : MonoBehaviour
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
             getPartnerName();
+            scrollDown();
         }
 
         if (chatBox.text != "")
@@ -97,6 +108,8 @@ public class ChatManager : MonoBehaviour
         {
             GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 
+            //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
+
             float sum = 400 - (text.Length * text.Length) + 50;
 
             if (sum < 100f)
@@ -107,6 +120,7 @@ public class ChatManager : MonoBehaviour
             if (sum > 400f)
             {
                 sum = 400f;
+               // newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
             }
 
             newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
@@ -115,10 +129,11 @@ public class ChatManager : MonoBehaviour
         }
         else
         {
-                andereUser = user;
-                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+            andereUser = user;
+            GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+            //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
 
-                float sum = 400 - (text.Length * text.Length) + 50;
+            float sum = 400 - (text.Length * text.Length) + 50;
 
                 if (sum < 100f)
                 {
@@ -128,7 +143,9 @@ public class ChatManager : MonoBehaviour
                 if (sum > 400f)
                 {
                     sum = 400f;
+                    //newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
                 }
+
 
                 newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
@@ -144,7 +161,11 @@ public class ChatManager : MonoBehaviour
         string json = JsonUtility.ToJson(Message);
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
+
+        scrollDown();
     }
+
+
 
     public void getPartnerName()
     {

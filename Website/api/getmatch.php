@@ -28,10 +28,11 @@ if($id !== false && $id !== '')
 				unset($dataArray['Users'][$likedId]);
 			}	
 		}
-
-
+		
 		$users = $dataArray['Users'];
-
+		
+		$users = removeDefaultProfiles($users);
+		
 		// Filter based on user's preferences
 		$users = filterUsersByUserPref($user, $users);
 
@@ -56,16 +57,32 @@ else
 	echo(json_encode(false));
 }
 
+function removeDefaultProfiles($users)
+{
+	$result = [];
+	
+	foreach($users as $userId => $tempUser)
+	{
+		if($tempUser['DateOfBirth'] != '' && $tempUser['Preferences'] != 'false')
+		{
+			// $tempUser meets specifications for $user, add to $result
+			$result[$userId] = $tempUser;
+		}
+	}
+	
+	return $result;
+}
+
 function filterUsersByUserPref($user, $users)
 {
 	$result = [];
 
 	foreach($users as $userId => $tempUser)
 	{
-		$userAge = getAge($tempUser['DateOfBirth']);
+		$tempUserAge = getAge($tempUser['DateOfBirth']);
 
-		if(	$userAge >= $user['Preferences']['AgeMin'] &&
-			$userAge <= $user['Preferences']['AgeMax'] &&
+		if(	$tempUserAge >= (int)$user['Preferences']['AgeMin'] &&
+			$tempUserAge <= (int)$user['Preferences']['AgeMax'] &&
 			$tempUser['Gender'] == $user['Preferences']['Gender'])
 		{
 			// $tempUser meets specifications for $user, add to $result
@@ -83,15 +100,16 @@ function filterUsersByUserPref($user, $users)
 function filterUsersByOthersPref($user, $users)
 {
 	$result = [];
-
+	
+	$userAge = getAge($user['DateOfBirth']);
+	
 	foreach($users as $userId => $tempUser)
 	{
-		$userAge = getAge($tempUser['DateOfBirth']);
-
-		if(	$tempUser['Preferences']['AgeMin'] <= $userAge &&
-			$tempUser['Preferences']['AgeMax'] >= $userAge &&
+		if(	(int)$tempUser['Preferences']['AgeMin'] <= $userAge &&
+			(int)$tempUser['Preferences']['AgeMax'] >= $userAge &&
 			$tempUser['Preferences']['Gender'] == $user['Gender'] )
 		{
+			
 			// $user meets specifications for $tempUser, add to $result
 			$result[$userId] = $tempUser;
 		}

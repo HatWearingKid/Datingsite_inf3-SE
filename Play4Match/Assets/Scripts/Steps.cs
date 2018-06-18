@@ -69,7 +69,7 @@ public class Steps : MonoBehaviour {
         }
 
         //wanneer de pion bijna op positie is
-        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 5)
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 10)
         {
             //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
@@ -129,7 +129,7 @@ public class Steps : MonoBehaviour {
                     float deltaZ = initTouch.position.y - touch.position.y;
                     movZ = deltaZ * Time.deltaTime * moveSpeed * direction;
                     movZ = movZ + cameraPos.transform.position.z;
-                    if(movZ >= -44 && movZ <= maxCameraPlace)
+                    if(movZ >= -44 && movZ <= maxCameraPlace && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                     {
                         cameraPos.transform.position = new Vector3(cameraStand.x, 1481, movZ);
                     }
