@@ -39,10 +39,6 @@ public class ChatManager : MonoBehaviour
 
     public string andereUser;
 
-
-    [SerializeField]
-    List<Message> messagelist = new List<Message>();
-
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -193,14 +189,6 @@ public class ChatManager : MonoBehaviour
             content = args.Snapshot.Child("content").Value.ToString();
             date = args.Snapshot.Child("date").Value.ToString();
             user = args.Snapshot.Child("user").Value.ToString();
-            //Debug.Log("gebruikers ID" + chatroomID);
-            //if (user == userID)
-            //{
-            //    user = "Jij stuurde "; // Tekst rechts uitlijnen
-            //} else
-            //{
-            //    user = "Je chatpartner stuurde "; // Tekst rechts uitlijnen
-            //}
 
             //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
             SendMessageToChat(content, user);
