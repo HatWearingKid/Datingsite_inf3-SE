@@ -5553,7 +5553,7 @@ Prefab:
     - target: {fileID: 224411999981880530, guid: a225a6ccc43ef9d468bf1dab215d54be,
         type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 224411999981880530, guid: a225a6ccc43ef9d468bf1dab215d54be,
         type: 2}
@@ -11397,7 +11397,7 @@ Prefab:
     - target: {fileID: 224643643410375140, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 224643643410375140, guid: f34d727f82f96cc44b526e17c9a5fd07,
         type: 2}
@@ -13038,7 +13038,7 @@ Prefab:
     - target: {fileID: 224832123418922098, guid: 45d640fc12ffa974991ed6b8bd703816,
         type: 2}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 224832123418922098, guid: 45d640fc12ffa974991ed6b8bd703816,
         type: 2}
@@ -15221,6 +15221,7 @@ GameObject:
   - component: {fileID: 1251325239}
   - component: {fileID: 1251325241}
   - component: {fileID: 1251325243}
+  - component: {fileID: 1251325240}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -15341,6 +15342,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8767338c0775046b158417b328782d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1251325240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1251325233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab6b2ae191790d4d93c1d47334dbdab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
 --- !u!114 &1251325241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21900,7 +21913,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1251325240}
         m_MethodName: LogOut
         m_Mode: 1
         m_Arguments:
