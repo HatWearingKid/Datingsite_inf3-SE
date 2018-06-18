@@ -24,6 +24,8 @@ public class GetGPSLocation : MonoBehaviour {
 	WWW www;
 	private JSONNode jsonNode;
 
+    public GameObject ProgressBar;
+
 	void Start(){
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -32,7 +34,7 @@ public class GetGPSLocation : MonoBehaviour {
 		user = auth.CurrentUser;
 		locRef = FirebaseDatabase.DefaultInstance.RootReference.Child ("Users").Child (user.UserId).Child ("Location");
 
-		StartCoroutine (GetLocation());
+		//StartCoroutine (GetLocation());
     }
 
 	public void GetLocationOnClick(){
@@ -70,12 +72,14 @@ public class GetGPSLocation : MonoBehaviour {
 		}
 		else
 		{
-			// Access granted and location value could be retrieved
+            // Access granted and location value could be retrieved
+            ProgressBar.SetActive(true);
 			latitude = Input.location.lastData.latitude;
 			longitude = Input.location.lastData.longitude;
             www = new WWW("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=AIzaSyAcd1isbfsa7-pRLkmM6UTqqDtNTRf-O0A&language=en");
             StartCoroutine(WaitForRequest(www));
             toast.MyShowToastMethod("Location synced");
+            ProgressBar.SetActive(false);
         }
 
 		// Stop service if there is no need to query location updates continuously

@@ -23,7 +23,6 @@ public class RPB : MonoBehaviour
         }
         else
         {
-            ProgressBar.SetActive(false);
             LoadingBar.GetComponent<Image>().fillAmount = 0;
             currentAmount = 0;
         }
