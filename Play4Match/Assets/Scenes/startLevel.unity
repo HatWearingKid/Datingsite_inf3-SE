@@ -13682,7 +13682,6 @@ MonoBehaviour:
   lastMessageTime: 
   chatReportPanel: {fileID: 0}
   andereUser: 
-  messagelist: []
 --- !u!114 &963607102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21681,7 +21680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 72.6, y: -31.9}
+  m_AnchoredPosition: {x: 72.6, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1545683611
@@ -26824,11 +26823,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0a7020ecb64f34fa7c5375b1146241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 1434054950}
+  LoadingBar: {fileID: 1434054949}
   TextIndicator: {fileID: 1545683610}
   ProgressBar: {fileID: 1841410506}
   currentAmount: 0
-  speed: 30
+  speed: 125
 --- !u!114 &1841410509
 MonoBehaviour:
   m_ObjectHideFlags: 0
