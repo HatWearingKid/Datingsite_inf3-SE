@@ -21,10 +21,14 @@ if($id !== false && $id !== '')
 		// Create users array excluding $user and any already liked users
 		unset($dataArray['Users'][$id]);
 
-		foreach($user['Liked'] as $likedId => $value)
+		if(isset($user['Liked']))
 		{
-			unset($dataArray['Users'][$likedId]);
+			foreach($user['Liked'] as $likedId => $value)
+			{
+				unset($dataArray['Users'][$likedId]);
+			}	
 		}
+
 
 		$users = $dataArray['Users'];
 
