@@ -333,9 +333,14 @@ public class chatroomList : MonoBehaviour
                     newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString();
                     newObj.transform.Find("time").GetComponent<Text>().text = "";
 
-                } else
+                } else if(ChatRoomBerichtenLijst[i].ID.ToString() != userID)
+
                 {
                     newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
+                    newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                } else
+                {
+                    newObj.transform.Find("naam").GetComponent<Text>().text = "You said ";
                     newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
                 }
 
