@@ -72,6 +72,7 @@ public class ChatManager : MonoBehaviour
         if (chatroomID.ToString() != "" && chatroomFound == false)
         {
 
+            Debug.Log("ChatroomID: " + chatroomID.ToString());
             foreach (Transform child in chatPanel.transform)
             {
                 GameObject.Destroy(child.gameObject);
