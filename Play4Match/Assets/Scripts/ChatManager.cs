@@ -16,6 +16,7 @@ public class ChatManager : MonoBehaviour
     public GameObject chatPanel;
     public GameObject textPrefab;
     public GameObject textPrefabUser;
+    public GameObject whiteSpace;
     public Text partnerName;
     Boolean firstChatMessage = true;
     public Button backButton;
@@ -107,6 +108,8 @@ public class ChatManager : MonoBehaviour
         {
             GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 
+            GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
+
             float sum = 400 - (text.Length * text.Length) + 50;
 
             if (sum < 100f)
@@ -117,6 +120,7 @@ public class ChatManager : MonoBehaviour
             if (sum > 400f)
             {
                 sum = 400f;
+                newObjUser.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
             }
 
             newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
@@ -125,10 +129,11 @@ public class ChatManager : MonoBehaviour
         }
         else
         {
-                andereUser = user;
-                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+            andereUser = user;
+            GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+            GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
 
-                float sum = 400 - (text.Length * text.Length) + 50;
+            float sum = 400 - (text.Length * text.Length) + 50;
 
                 if (sum < 100f)
                 {
@@ -138,7 +143,9 @@ public class ChatManager : MonoBehaviour
                 if (sum > 400f)
                 {
                     sum = 400f;
+                    newObjUser.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
                 }
+
 
                 newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
