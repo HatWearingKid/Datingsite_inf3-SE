@@ -1549,6 +1549,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224197699909333854}
+  - component: {fileID: 114858719535013034}
   m_Layer: 5
   m_Name: ChatViewPanel
   m_TagString: Untagged
@@ -14579,7 +14580,7 @@ MonoBehaviour:
   chatList: {fileID: 1369901128303198}
   chatviewPanel: {fileID: 0}
   loadingScreen: {fileID: 0}
-  Camera: {fileID: 0}
+  Camera: {fileID: 1269646538763264}
   totalMessages: 0
 --- !u!114 &114539793944417982
 MonoBehaviour:
@@ -18835,6 +18836,37 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Question
+--- !u!114 &114858719535013034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269646538763264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba355c07beef9340ae9649b608879f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: User
+  chatPanel: {fileID: 1171198446562002}
+  textPrefab: {fileID: 1277756832398582, guid: f3a221cd8035d3248b47b7e5524e5fa3, type: 2}
+  textPrefabUser: {fileID: 1944644003381550, guid: 65e9bd2b169813146bb46fd44c0c2d8e,
+    type: 2}
+  whiteSpace: {fileID: 0}
+  partnerName: {fileID: 114725259809133836}
+  backButton: {fileID: 114955910452450908}
+  chatBox: {fileID: 114173640199300964}
+  userID: 
+  chatroomID: 
+  content: 
+  date: 
+  user: 
+  chatroomFound: 0
+  lastMessage: 
+  lastMessageTime: 
+  chatReportPanel: {fileID: 1790156405825586}
+  chatViewScroll: {fileID: 1884172573838704}
+  andereUser: 
 --- !u!114 &114860708838598804
 MonoBehaviour:
   m_ObjectHideFlags: 1
