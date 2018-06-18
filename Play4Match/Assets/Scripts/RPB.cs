@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class RPB : MonoBehaviour
 {
-
-    public Transform LoadingBar;
+    public GameObject LoadingBar;
     public Transform TextIndicator;
     public GameObject ProgressBar;
     //public Transform TextLoading;

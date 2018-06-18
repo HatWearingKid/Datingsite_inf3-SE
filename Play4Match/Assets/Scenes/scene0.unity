@@ -6076,11 +6076,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0a7020ecb64f34fa7c5375b1146241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 1327667655}
+  LoadingBar: {fileID: 1327667654}
   TextIndicator: {fileID: 1814999039}
   ProgressBar: {fileID: 315514432}
   currentAmount: 0
-  speed: 30
+  speed: 125
 --- !u!114 &315514435
 MonoBehaviour:
   m_ObjectHideFlags: 0

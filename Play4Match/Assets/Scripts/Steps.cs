@@ -69,7 +69,7 @@ public class Steps : MonoBehaviour {
         }
 
         //wanneer de pion bijna op positie is
-        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 15)
+        if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 5)
         {
             //stop beweging
             splineController.mSplineInterp.mState = "Stopped";
