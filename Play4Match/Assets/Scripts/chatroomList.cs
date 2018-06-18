@@ -130,12 +130,14 @@ public class chatroomList : MonoBehaviour
 
     public void getAllChatrooms()
     {
+        int messages = 0;
         Debug.Log("getAllChatrooms");
         if (getChatroomsLock == false)
         {
             getChatroomsLock = true;
+            ChatRoomBerichtenLijst = null;
             ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
-            int messages = 0;
+            
 
             FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").GetValueAsync().ContinueWith(
                     task => {
@@ -250,13 +252,13 @@ public class chatroomList : MonoBehaviour
                                                                 );
                                                             }
 
-                                                            //Debug.Log("chatroomBerichtenLijst Count: " + ChatRoomBerichtenLijst.Count + " - ChildrenCount: " + snapshot.ChildrenCount);
+                                                            Debug.Log("chatroomBerichtenLijst Count: " + ChatRoomBerichtenLijst.Count + " - ChildrenCount: " + snapshot.ChildrenCount);
                                                             if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                             {
                                                                 // In het einde van getAllChatrooms aangekomen
                                                                 releaseLock();
 
-
+                                                                Debug.Log("totalMessages: "+totalMessages+" - messages: " + messages);
                                                                 if (totalMessages != messages)
                                                                 { // Check if the amount of messages is different from the previous time
                                                                     //Debug.Log("Sort");
@@ -296,8 +298,17 @@ public class chatroomList : MonoBehaviour
                             }
                         }
                     });
+            
+        } else
+        {
+            Debug.Log("Lock = true");
         }
-        
+        getChatroomsLock = false;
+        ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
+        totalMessages = 0;
+        messages = 0;
+
+
     }
 
     public void buildChatroom()

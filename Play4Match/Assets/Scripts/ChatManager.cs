@@ -130,27 +130,31 @@ public class ChatManager : MonoBehaviour
         else
         {
             andereUser = user;
-            GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
-            //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
+            if (user != "SYSTEEMBERICHT")
+            {
 
-            float sum = 400 - (text.Length * text.Length) + 50;
+                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+                //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
 
-                if (sum < 100f)
-                {
-                    sum = 100f;
-                }
+                float sum = 400 - (text.Length * text.Length) + 50;
 
-                if (sum > 400f)
-                {
-                    sum = 400f;
-                    //newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
-                }
+                    if (sum < 100f)
+                    {
+                        sum = 100f;
+                    }
+
+                    if (sum > 400f)
+                    {
+                        sum = 400f;
+                        //newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
+                    }
 
 
-                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
+                    newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
-                newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
-            
+                    newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+            }
+
 
         }
     }
