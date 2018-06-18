@@ -57,15 +57,12 @@ public class CreateMatchPopup : MonoBehaviour {
 
         if (!string.IsNullOrEmpty(imageUrl.error))
         {
-            Debug.Log("Download failed");
         }
         else
         {
             yield return new WaitForSecondsRealtime(1);
-            Debug.Log("Download succes");
             sprite = Sprite.Create(imageUrl.texture, new Rect(0, 0, imageUrl.texture.width, imageUrl.texture.height), new Vector2(0, 0));
         }
-
     }
 
     // Update is called once per frame
