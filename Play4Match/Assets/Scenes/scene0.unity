@@ -6076,11 +6076,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0a7020ecb64f34fa7c5375b1146241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 1327667655}
+  LoadingBar: {fileID: 1327667654}
   TextIndicator: {fileID: 1814999039}
   ProgressBar: {fileID: 315514432}
   currentAmount: 0
-  speed: 30
+  speed: 125
 --- !u!114 &315514435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7572,7 +7572,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627436570}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11063,7 +11063,7 @@ Prefab:
       objectReference: {fileID: 1846859198}
     - target: {fileID: 1724939115784438, guid: 3ac7a14168ec3a04d8252c05b31fa4d7, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 212389540037235476, guid: 3ac7a14168ec3a04d8252c05b31fa4d7,
         type: 2}
@@ -11199,8 +11199,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
-  - {fileID: 659496714}
   - {fileID: 405249516}
+  - {fileID: 659496714}
   - {fileID: 599009834}
   m_Father: {fileID: 662859775}
   m_RootOrder: 0
@@ -11999,7 +11999,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627436570}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -14261,11 +14261,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -15491,11 +15491,11 @@ MonoBehaviour:
   NumberOfQuestions: 7
   QuestionPanel: {fileID: 2001259559}
   QuestionText: {fileID: 591505347}
-  Answers2: {fileID: 0}
-  Answers3: {fileID: 0}
-  Answers4: {fileID: 0}
-  Answers5: {fileID: 0}
-  Answers6: {fileID: 0}
+  Answers2: {fileID: 1439974678}
+  Answers3: {fileID: 1850231910}
+  Answers4: {fileID: 1142559365}
+  Answers5: {fileID: 374429166}
+  Answers6: {fileID: 2084033636}
   weightSlider: {fileID: 1880477255}
   NoQuestion: {fileID: 459554310}
 --- !u!114 &963607098
@@ -15565,7 +15565,6 @@ MonoBehaviour:
   lastMessageTime: 
   chatReportPanel: {fileID: 2085325988}
   andereUser: 
-  messagelist: []
 --- !u!114 &963607102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20346,11 +20345,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

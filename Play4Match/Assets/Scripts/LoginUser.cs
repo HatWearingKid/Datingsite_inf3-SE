@@ -40,6 +40,9 @@ public class LoginUser : MonoBehaviour {
 
     // Method to log the user in
     public void LoginUserOnClick(){
+		
+		toast.MyShowToastMethod("Trying to log in...");
+		
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
 		// A method from Firebase to login the user asynchrone
