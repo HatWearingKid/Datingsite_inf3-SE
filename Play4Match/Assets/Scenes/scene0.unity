@@ -15491,11 +15491,11 @@ MonoBehaviour:
   NumberOfQuestions: 7
   QuestionPanel: {fileID: 2001259559}
   QuestionText: {fileID: 591505347}
-  Answers2: {fileID: 0}
-  Answers3: {fileID: 0}
-  Answers4: {fileID: 0}
-  Answers5: {fileID: 0}
-  Answers6: {fileID: 0}
+  Answers2: {fileID: 1439974678}
+  Answers3: {fileID: 1850231910}
+  Answers4: {fileID: 1142559365}
+  Answers5: {fileID: 374429166}
+  Answers6: {fileID: 2084033636}
   weightSlider: {fileID: 1880477255}
   NoQuestion: {fileID: 459554310}
 --- !u!114 &963607098
