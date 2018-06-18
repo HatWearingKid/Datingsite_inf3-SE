@@ -123,7 +123,7 @@ public class Steps : MonoBehaviour {
             else if(touch.phase == TouchPhase.Moved)
             {
                 //if there is no popup over the level or if the camera is not locked
-                if (!movecamera && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                if (!movecamera && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() || Input.touchCount > 0 && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                 {
                     //move camera according to finger movement
                     float deltaZ = initTouch.position.y - touch.position.y;
