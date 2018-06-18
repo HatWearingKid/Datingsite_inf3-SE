@@ -84,7 +84,7 @@ public class Steps : MonoBehaviour {
             //anders follow curve
             next = false;
             GameObject pion = pawn.gameObject.transform.GetChild(0).gameObject;
-            pion.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
+            //pion.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
         }
 
         //wanneer volgende stap wordt geselecteerd
