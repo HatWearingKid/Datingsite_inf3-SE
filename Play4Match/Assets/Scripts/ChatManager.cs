@@ -27,6 +27,7 @@ public class ChatManager : MonoBehaviour
     public string userID;
     public string chatroomID;
     public string content;
+    public bool addmsg = true;
     public string date;
     public string user;
     public bool chatroomFound = false;
@@ -90,7 +91,8 @@ public class ChatManager : MonoBehaviour
 
         if (chatBox.text != "")
         {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done))
+            // || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done)
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 if (chatroomFound == true)
                 {
@@ -104,39 +106,41 @@ public class ChatManager : MonoBehaviour
 
     public void SendMessageToChat(string text, string user)
     {
-        if (userID == user)
+        if (!addmsg)
         {
-            GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
-
-            //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
-
-            float sum = 400 - (text.Length * text.Length) + 50;
-
-            if (sum < 100f)
+            if (userID == user)
             {
-                sum = 100f;
-            }
+                GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 
-            if (sum > 400f)
-            {
-                sum = 400f;
-               // newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
-            }
-
-            newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
-
-            newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
-        }
-        else
-        {
-            andereUser = user;
-            if (user != "SYSTEEMBERICHT")
-            {
-
-                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
                 //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
 
                 float sum = 400 - (text.Length * text.Length) + 50;
+
+                if (sum < 100f)
+                {
+                    sum = 100f;
+                }
+
+                if (sum > 400f)
+                {
+                    sum = 400f;
+                    // newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
+                }
+
+                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
+
+                newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+            }
+            else
+            {
+                andereUser = user;
+                if (user != "SYSTEEMBERICHT")
+                {
+
+                    GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+                    //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
+
+                    float sum = 400 - (text.Length * text.Length) + 50;
 
                     if (sum < 100f)
                     {
@@ -153,10 +157,12 @@ public class ChatManager : MonoBehaviour
                     newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
 
                     newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+                }
+
+
             }
-
-
         }
+        addmsg = true;
     }
 
     void sendMessage(string from, string content)
@@ -217,6 +223,7 @@ public class ChatManager : MonoBehaviour
 
             //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
             SendMessageToChat(content, user);
+            addmsg = false;
             // Dit tonen in de GUI
         }
     }
