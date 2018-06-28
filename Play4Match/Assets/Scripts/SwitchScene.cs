@@ -28,14 +28,16 @@ public class SwitchScene : MonoBehaviour {
     {
         //get random  int
         int tempInt;
-        tempInt = GetRandom();
+        //tempInt = GetRandom();
 
         // as long as new scene is equeal to current scene get new int
-        while(m_Scene.name == Scenes[tempInt])
+        /*while(m_Scene.name == Scenes[tempInt])  currently bugged
         {
             tempInt = GetRandom();
-        }
+        }*/
 
+
+        tempInt = Random.Range(0, 3);
         //load new scene
         SceneManager.LoadScene(Scenes[tempInt]);
     }
@@ -56,14 +58,14 @@ public class SwitchScene : MonoBehaviour {
         {
             //return random number
             random = Random.Range(0, Scenes.Count - 1);
-            SceneManager.LoadScene(Scenes[random]);
+            //SceneManager.LoadScene(Scenes[random]);
         }
         //if there are over to seven questions 
        else if (questions.Count >= 7)
         {
             //return random number
             random = Random.Range(0, 1);
-            SceneManager.LoadScene(Scenes[random]);
+            //SceneManager.LoadScene(Scenes[random]);
         }
         //else load return number one
         else
