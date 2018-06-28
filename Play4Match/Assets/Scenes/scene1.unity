@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.3228397, g: 0.7332232, b: 0.86286944, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21722,6 +21722,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ac7a14168ec3a04d8252c05b31fa4d7, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1279583649 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1504701371580142, guid: 3ac7a14168ec3a04d8252c05b31fa4d7,
+    type: 2}
+  m_PrefabInternal: {fileID: 1279583648}
 --- !u!1 &1282702752
 GameObject:
   m_ObjectHideFlags: 0
@@ -32003,7 +32008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ea9ac46a053074bbc8ed3aec594083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchButton: {fileID: 0}
+  matchButton: {fileID: 1279583649}
   matchButtonSpawns: {fileID: 2127664206}
   startTime: 5
   UpdateTime: 30
