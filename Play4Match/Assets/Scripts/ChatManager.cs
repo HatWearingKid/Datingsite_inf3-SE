@@ -63,8 +63,6 @@ public class ChatManager : MonoBehaviour
 
     void OnEnable()
     {
-        BerichtenLijst = null;
-        BerichtenLijst = new List<BerichtenLijst>();
 
         if (initialStart == false) // When enabled after reopening, not for the first load
         {
@@ -286,8 +284,7 @@ public void SendMessageToChat(string text, string user)
             SendMessageToChat(BerichtenLijst[i].content.ToString(), BerichtenLijst[i].user.ToString());
         }
 
-        BerichtenLijst = null;
-        BerichtenLijst = new List<BerichtenLijst>();
+        
     }
 
     //empty chatroom ID on click
