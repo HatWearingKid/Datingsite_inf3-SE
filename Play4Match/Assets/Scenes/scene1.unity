@@ -12766,7 +12766,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1869673594}
         m_MethodName: RandomScene
         m_Mode: 1
         m_Arguments:
@@ -31993,7 +31993,7 @@ MonoBehaviour:
   getQuestions: {fileID: 1869673596}
   SetQuestions: {fileID: 0}
   splineController: {fileID: 1940072641}
-  NextSceneButton: {fileID: 0}
+  NextSceneButton: {fileID: 1986413280}
   moveSpeed: 10
   direction: 1
   maxCameraPlace: 2000

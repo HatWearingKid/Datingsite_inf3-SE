@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3228397, g: 0.7332232, b: 0.86286944, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18355,6 +18355,7 @@ MonoBehaviour:
   chatReportPanel: {fileID: 1539436202}
   chatViewScroll: {fileID: 853213756}
   otherUser: 
+  messageExist: 1
 --- !u!1 &1070939155
 GameObject:
   m_ObjectHideFlags: 0
