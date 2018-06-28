@@ -33,7 +33,6 @@ public class UploadPicture : MonoBehaviour {
 			profilePictureRef = storageRef.Child("ProfilePictures/" + user.UserId + "/ProfilePicture.png");
 
 			RetrievePicture();
-			//SetHUDPicture();
 		}
 	}
 
@@ -44,7 +43,6 @@ public class UploadPicture : MonoBehaviour {
 			profilePictureRef.GetDownloadUrlAsync().ContinueWith((Task<Uri> task) => {
 				if (task.IsFaulted || task.IsCanceled)
 				{
-					//toast.MyShowToastMethod("Something wrent wrong with retrieving your profile picture.");
 				}
 				else
 				{
@@ -96,7 +94,7 @@ public class UploadPicture : MonoBehaviour {
 			// Upload the file to the path "images/rivers.jpg"
 			profilePictureRef.PutFileAsync ("file://" + imagePath).ContinueWith ((Task<StorageMetadata> task) => {
 				if (task.IsFaulted || task.IsCanceled) {
-					toast.MyShowToastMethod ("Something wrent wrong, try again.");
+					toast.MyShowToastMethod ("Something wrent wrong with uploading the picture, try again.");
 				} else {
 					// Metadata contains file metadata such as size, content-type, and download URL.
 					Firebase.Storage.StorageMetadata metadata = task.Result;
