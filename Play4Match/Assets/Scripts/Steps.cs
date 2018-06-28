@@ -179,7 +179,7 @@ public class Steps : MonoBehaviour {
                 next = false;
 
                 //if pawn is on last position show the next scene button
-                if (Pawnpositions.Count - 1 == position)
+                if (Pawnpositions.Count - 3 == position)
                 {
                     NextSceneButton.SetActive(true);
                 }
