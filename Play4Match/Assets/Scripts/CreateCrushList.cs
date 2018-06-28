@@ -54,6 +54,7 @@ public class CreateCrushList : MonoBehaviour {
 
                     long timestamp = (long)childSnapshot.Value;
  
+					string dateText = GetDateAgo(timestamp);
 
 
                     if (crushId != userId)
@@ -65,6 +66,7 @@ public class CreateCrushList : MonoBehaviour {
                             DataSnapshot snapshot2 = task2.Result;
 
                             string crushName = snapshot2.Child("Name").Value.ToString();
+                            string crushAge = GetAge(snapshot2.Child("DateOfBirth").Value.ToString());
                             string crushDescription = snapshot2.Child("Description").Value.ToString();
                             string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
 <<<<<<< HEAD
@@ -179,6 +181,7 @@ public class CreateCrushList : MonoBehaviour {
 		}
 	}
 
+	string GetDateAgo(long timestamp)
 	{
 		string result = "";
 
@@ -228,6 +231,7 @@ public class CreateCrushList : MonoBehaviour {
 		return result;
 	}
 
+    string GetAge(string date)
     {
 
         string[] seperateNumbers = date.Split('/');
