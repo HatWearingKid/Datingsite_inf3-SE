@@ -12016,7 +12016,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1869673596}
         m_MethodName: SendAnswer
         m_Mode: 1
         m_Arguments:
@@ -14596,6 +14596,7 @@ MonoBehaviour:
   chatReportPanel: {fileID: 1039176247}
   chatViewScroll: {fileID: 643274083}
   otherUser: 
+  messageExist: 1
 --- !u!1 &863117293
 GameObject:
   m_ObjectHideFlags: 0
@@ -35575,7 +35576,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1869673596}
         m_MethodName: ReportQuestion
         m_Mode: 1
         m_Arguments:
