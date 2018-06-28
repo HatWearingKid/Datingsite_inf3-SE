@@ -12016,7 +12016,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1869673596}
         m_MethodName: SendAnswer
         m_Mode: 1
         m_Arguments:
@@ -14596,6 +14596,7 @@ MonoBehaviour:
   chatReportPanel: {fileID: 1039176247}
   chatViewScroll: {fileID: 643274083}
   otherUser: 
+  messageExist: 1
 --- !u!1 &863117293
 GameObject:
   m_ObjectHideFlags: 0
@@ -21721,6 +21722,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ac7a14168ec3a04d8252c05b31fa4d7, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1279583649 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1504701371580142, guid: 3ac7a14168ec3a04d8252c05b31fa4d7,
+    type: 2}
+  m_PrefabInternal: {fileID: 1279583648}
 --- !u!1 &1282702752
 GameObject:
   m_ObjectHideFlags: 0
@@ -31940,17 +31946,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
+  loadingScreen: {fileID: 1315707012}
   NumberOfQuestions: 9
-  QuestionPanel: {fileID: 0}
-  QuestionText: {fileID: 0}
-  Answers2: {fileID: 0}
-  Answers3: {fileID: 0}
-  Answers4: {fileID: 0}
-  Answers5: {fileID: 0}
-  Answers6: {fileID: 0}
-  weightSlider: {fileID: 0}
-  NoQuestion: {fileID: 0}
+  QuestionPanel: {fileID: 2105164852}
+  QuestionText: {fileID: 1862739350}
+  Answers2: {fileID: 1948667680}
+  Answers3: {fileID: 1496848637}
+  Answers4: {fileID: 1584967195}
+  Answers5: {fileID: 1532586669}
+  Answers6: {fileID: 1673199136}
+  weightSlider: {fileID: 2135317200}
+  NoQuestion: {fileID: 737954647}
 --- !u!114 &1869673597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32002,7 +32008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ea9ac46a053074bbc8ed3aec594083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchButton: {fileID: 0}
+  matchButton: {fileID: 1279583649}
   matchButtonSpawns: {fileID: 2127664206}
   startTime: 5
   UpdateTime: 30
@@ -35575,7 +35581,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1869673596}
         m_MethodName: ReportQuestion
         m_Mode: 1
         m_Arguments:
