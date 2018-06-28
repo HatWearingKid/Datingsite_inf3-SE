@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.32591718, g: 0.7428496, b: 0.87444997, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1449,6 +1449,11 @@ Prefab:
       propertyPath: m_AnchoredPosition.y
       value: 0.000030479885
       objectReference: {fileID: 0}
+    - target: {fileID: 224429947242842016, guid: 980d4f5450bcaf24ab34b40a5db6132d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 980d4f5450bcaf24ab34b40a5db6132d, type: 2}
   m_IsPrefabParent: 0
@@ -1704,7 +1709,7 @@ Transform:
   - {fileID: 1066475055}
   - {fileID: 1438336813}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &367176608
 GameObject:
@@ -1866,7 +1871,7 @@ Transform:
   m_LocalScale: {x: 200, y: 200, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &434037020
 GameObject:
@@ -1968,7 +1973,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &512856739
 GameObject:
@@ -2438,7 +2443,7 @@ Transform:
   - {fileID: 1179861007}
   - {fileID: 1506560526}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &731253984
 GameObject:
@@ -2901,7 +2906,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1066475054
 GameObject:
@@ -3650,11 +3655,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ac7a14168ec3a04d8252c05b31fa4d7, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1279583649 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1724939115784438, guid: 3ac7a14168ec3a04d8252c05b31fa4d7,
-    type: 2}
-  m_PrefabInternal: {fileID: 1279583648}
 --- !u!1 &1345959683
 GameObject:
   m_ObjectHideFlags: 0
@@ -5094,7 +5094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ea9ac46a053074bbc8ed3aec594083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchButton: {fileID: 1279583649}
+  matchButton: {fileID: 0}
   matchButtonSpawns: {fileID: 2127664206}
   startTime: 5
   UpdateTime: 30
@@ -5159,7 +5159,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!1 &1888077405
 GameObject:
