@@ -13,12 +13,14 @@ public class SoundScript : MonoBehaviour {
 	
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		source = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		
 		// Deze input kan weg, anders krijg je elke klik een sound
 		if(Input.GetMouseButtonDown(0))
@@ -27,17 +29,19 @@ public class SoundScript : MonoBehaviour {
 		}
 	}
 	
+	// Reverse mute state
 	public void SetMute()
 	{
 		source.mute = !source.mute;
 	}
 	
+	// Set volume
 	public void SetVolume(float volume)
 	{
 		source.volume = volume;
 	}
 		
-	
+	// Play sound depending on string
 	public void PlaySound(string soundName)
 	{
 		switch(soundName)

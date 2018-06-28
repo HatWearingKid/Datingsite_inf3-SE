@@ -20,7 +20,8 @@ public class RetrieveProfile : MonoBehaviour {
 	float timer;
 	JSONNode node;
 
-	void Start () {
+	void Start () 
+	{
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
@@ -32,15 +33,18 @@ public class RetrieveProfile : MonoBehaviour {
 		GetProfile();
 	}
 
-	void Update() {
-		if (Time.fixedTime >= timer) {
+	void Update() 
+	{
+		if (Time.fixedTime >= timer) 
+		{
 			GetProfile();
 			timer = Time.fixedTime + 2.0f;
 		}
 	}
 
     #region Retrieve data to set
-    public void SetName(InputField input){
+    public void SetName(InputField input)
+	{
 		if(node != null)
 		{
 			input.text = node["Name"];
@@ -62,7 +66,8 @@ public class RetrieveProfile : MonoBehaviour {
         input.text = dateOfBirth[2];
     }
 
-    public void SetGender(Dropdown dropdown){
+    public void SetGender(Dropdown dropdown)
+	{
 		if (node != null)
 		{
 			string gender = node["Gender"];
@@ -81,8 +86,10 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetGenderPref(Dropdown dropdown){
-		if (node != null) {
+	public void SetGenderPref(Dropdown dropdown)
+	{
+		if (node != null) 
+		{
 			string gender = node ["Preferences"] ["Gender"];
 			if (gender.Equals ("Male")) {
 				dropdown.value = 0;
@@ -94,7 +101,8 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetMinAge(Slider slider){
+	public void SetMinAge(Slider slider)
+	{
 		if (node != null)
 		{
 			string minAge = node["Preferences"]["AgeMin"];
@@ -102,7 +110,8 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetMaxAge(Slider slider){
+	public void SetMaxAge(Slider slider)
+	{
 		if (node != null)
 		{
 			string maxAge = node["Preferences"]["AgeMax"];
@@ -110,7 +119,8 @@ public class RetrieveProfile : MonoBehaviour {
 		}
 	}
 
-	public void SetDescription(InputField input){
+	public void SetDescription(InputField input)
+	{
 		if(node != null)
 		{
 			input.text = node["Description"];
@@ -140,7 +150,8 @@ public class RetrieveProfile : MonoBehaviour {
     #endregion
 
     // Method to retrieve the user data
-    public void GetProfile(){
+    public void GetProfile()
+	{
         // Check if user is logged in
         if (user != null)
         {
@@ -148,14 +159,17 @@ public class RetrieveProfile : MonoBehaviour {
 
             // Firebase method to make connection with the database and get the user's information
             FirebaseDatabase.DefaultInstance.GetReference("Users").GetValueAsync().ContinueWith(task => {
-                if (task.IsFaulted) {
+                if (task.IsFaulted) 
+				{
                     toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
                 }
-                if (task.IsCanceled) {
+                if (task.IsCanceled) 
+				{
                     toast.MyShowToastMethod(task.Exception.InnerExceptions[0].Message);
                 }
                 // If task succeeds
-                else if (task.IsCompleted) {
+                else if (task.IsCompleted) 
+				{
                     DataSnapshot snapshot = task.Result;
 
                     // Itterate through all the users

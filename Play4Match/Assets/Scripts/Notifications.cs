@@ -26,14 +26,11 @@ public class Notifications : MonoBehaviour {
 
 		userId = auth.CurrentUser.UserId;
 
+		// Repeat method every 5 seconds
 		InvokeRepeating("GetNotifications", 5, 5);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	
+	// Create notification ask a string. 
 	void CreateNotification(string message)
 	{
 		GameObject newNotification = Instantiate(notification, canvas.transform);

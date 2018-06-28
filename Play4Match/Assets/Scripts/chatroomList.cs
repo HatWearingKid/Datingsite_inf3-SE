@@ -15,7 +15,7 @@ public class chatroomList : MonoBehaviour
     public string username, content, date, user, lastMessage, lastMessageTime, userID, chatroomID;
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
-    public GameObject prefab, chatList, chatviewPanel, loadingScreen, Camera;
+    public GameObject prefab, chatviewPanel, loadingScreen;
     private int chatroomNumber = 0;
     public int totalMessages = 0;
 
@@ -33,9 +33,8 @@ public class chatroomList : MonoBehaviour
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         userID = auth.CurrentUser.UserId; // Grab userID
-
-        getAllChatrooms(); // Load all chatrooms from matches, only for matches that exist on both sides
-
+        CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
+        GetAllChatrooms(); // Load all chatrooms from matches, only for matches that exist on both sides
         loadingScreen.GetComponent<LoadingScreen>().fadeOut = true; // Remove loading screen when everything is done
 
     }
@@ -53,18 +52,18 @@ public class chatroomList : MonoBehaviour
             {
                 GameObject.Destroy(child.gameObject); // Delete all existing chats from the content
             }
-            CancelInvoke("getAllChatrooms"); // Cancel previous Invoke to prevent double invokes
+            CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
             Start(); // Start the canvas like normal, because we dit reset everything
         }
     }
 
     void OnDisable()
     {
-        CancelInvoke("getAllChatrooms"); // Cancel previous Invoke to prevent double invokes
+        CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
     }
 
 
-    public string tijdVerschil(int tijd) // Calculate the time past since the message was send
+    public string TijdVerschil(int tijd) // Calculate the time past since the message was send
     {
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         int tijdVerschil = huidigeTijd - tijd;
@@ -124,18 +123,18 @@ public class chatroomList : MonoBehaviour
 
     }
 
-    public void releaseLock() // Release the lock on getAllChatrooms, to prevent it from running multiple times
+    public void ReleaseLock() // Release the lock on getAllChatrooms, to prevent it from running multiple times
     {
-        Debug.Log("releaseLock na " + Time.time.ToString("0.0"));
         getChatroomsLock = false;
-        Invoke("getAllChatrooms", 5); // Invoke after 5 seconds, since releaseLock is called immediately after we did get all the chatrooms
+        CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
+        Invoke("GetAllChatrooms", 2); // Invoke after 2 seconds, since releaseLock is called immediately after we did get all the chatrooms
     }
 
 
-    public void getAllChatrooms() // Get all existing chatrooms from the current user
+    public void GetAllChatrooms() // Get all existing chatrooms from the current user
     {
         int messages = 0;
-        Debug.Log("getAllChatrooms");
+        CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
         if (getChatroomsLock == false) // Only when the function isnt locked
         {
             getChatroomsLock = true; // Set a lock as soon as this runs, to prevent is from running multiple times
@@ -149,8 +148,8 @@ public class chatroomList : MonoBehaviour
                         {
                             DataSnapshot snapshot = task.Result;
 
-                            if (snapshot.ChildrenCount == 0) { // No chatrooms found, do it will not continue, and release the lock so it will look again in 5 seconds
-                                releaseLock();
+                            if (snapshot.ChildrenCount == 0) { // No chatrooms found, do it will not continue, and release the lock so it will look again after the Invoke
+                                ReleaseLock();
                             }
 
                             foreach (var childSnapshot in snapshot.Children) // Look through all the chats
@@ -189,7 +188,7 @@ public class chatroomList : MonoBehaviour
                                                             DataSnapshot snapshot3 = task3.Result;
                                                             if (snapshot3.ChildrenCount == 0)
                                                             {
-                                                                releaseLock();
+                                                                ReleaseLock();
                                                             }
 
                                                             int count = 0;
@@ -228,20 +227,17 @@ public class chatroomList : MonoBehaviour
                                                                     )
                                                                 );
 
-                                                            Debug.Log("chatroomBerichtenLijst Count: " + ChatRoomBerichtenLijst.Count + " - ChildrenCount: " + snapshot.ChildrenCount);
                                                             if (ChatRoomBerichtenLijst.Count == snapshot.ChildrenCount)
                                                             { // All the messages are loaded, so we can build on the canvas, only building this when needed
                                                               // Also used for later checks so it only rebuilds it when there are new messages
 
-                                                                releaseLock();
-
-                                                                Debug.Log("totalMessages: "+totalMessages+" - messages: " + messages);
+                                                                ReleaseLock();
                                                                 if (totalMessages != messages)
                                                                 { // Check if the amount of messages is different from the previous time
                                                                     ChatRoomBerichtenLijst.Sort((s1, s2) => s2.date.CompareTo(s1.date)); // Sort the messageslist on time
 
                                                                     totalMessages = messages;
-                                                                    buildChatroom(); // Build the GUI of all the messages
+                                                                    BuildChatroom(); // Build the GUI of all the messages
                                                                 }
 
                                                             }
@@ -253,7 +249,6 @@ public class chatroomList : MonoBehaviour
                                                 } else
                                                 {
                                                     // Chat from a user that is already deleted from the system, will add a placeholder message that wont be shown, but needed for the correct cound of messages
-
                                                         ChatRoomBerichtenLijst.Add(
                                                             new ChatRoomBerichtList(
                                                                 "123456798".ToString(),
@@ -285,7 +280,7 @@ public class chatroomList : MonoBehaviour
 
     }
 
-    public void buildChatroom()
+    public void BuildChatroom()
     {
         loadingScreen.SetActive(true); // Show loadscreen when we are (re)building everything
 
@@ -296,7 +291,8 @@ public class chatroomList : MonoBehaviour
 
         for (int i = 0; i < ChatRoomBerichtenLijst.Count; i++) // Loop through all the messages
         {
-            if (ChatRoomBerichtenLijst[i].ID.ToString() != "DELETED") { // When it isnt a chat leftover from a deleted user
+            if (ChatRoomBerichtenLijst[i].ID.ToString() != "DELETED")
+            { // When it isnt a chat leftover from a deleted user
                 GameObject newObj = (GameObject)Instantiate(prefab, transform); // Create object from prefab
                 newObj.name = chatroomNumber.ToString(); // Set the name of the object, this is unique
 
@@ -308,18 +304,18 @@ public class chatroomList : MonoBehaviour
                 } else if(ChatRoomBerichtenLijst[i].ID.ToString() != userID)
                 { // Message from the chatpartner
                     newObj.transform.Find("naam").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].name.ToString() + " said ";
-                    newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                    newObj.transform.Find("time").GetComponent<Text>().text = TijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
                 } else
                 { // Message from your own user
                     newObj.transform.Find("naam").GetComponent<Text>().text = "You said ";
-                    newObj.transform.Find("time").GetComponent<Text>().text = tijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
+                    newObj.transform.Find("time").GetComponent<Text>().text = TijdVerschil(int.Parse(ChatRoomBerichtenLijst[i].date.ToString()));
                 }
 
                 newObj.transform.Find("bericht").GetComponent<Text>().text = ChatRoomBerichtenLijst[i].message.ToString(); // Set the message
                 newObj.SetActive(true); // Make the prefab object active
 
                 string chatroomID_TMP = ChatRoomBerichtenLijst[i].chatroomID.ToString();
-                newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { setChatroomID(chatroomID_TMP); }); // Set the onclick off the button, and pass the chatroomID, so the chatmanager knows what chat to open
+                newObj.transform.Find("ActivateButton").GetComponent<Button>().onClick.AddListener(delegate { SetChatroomID(chatroomID_TMP); }); // Set the onclick off the button, and pass the chatroomID, so the chatmanager knows what chat to open
 
                 string PhotoURL = ChatRoomBerichtenLijst[i].PhotoUrl.ToString(); // Get the Photo URL
                 StartCoroutine(LoadImg(PhotoURL, newObj)); // Load the avatar in the background, to speed up the loading, so the user sees less of the loading screen
@@ -331,7 +327,7 @@ public class chatroomList : MonoBehaviour
 
     }
 
-    public void setChatroomID(string data)
+    public void SetChatroomID(string data)
     {
         chatroomID = data;
 
@@ -342,7 +338,7 @@ public class chatroomList : MonoBehaviour
         chatviewPanel.SetActive(true);
     }
 
-    void addReport(string who, string type, string data = "")
+    void AddReport(string who, string type, string data = "")
     {
         reportData report = new reportData(who, userID, data);
         string json = JsonUtility.ToJson(report);
@@ -350,7 +346,7 @@ public class chatroomList : MonoBehaviour
         // The chat is reported
     }
 
-    void sendMessage(string from, string content)
+    void SendMessage(string from, string content)
     { // Add the message to the database
         chatMessage2 Message = new chatMessage2(from, content); // Put everything in a object to jsonify, and insert in the database
         string json = JsonUtility.ToJson(Message);

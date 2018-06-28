@@ -20,31 +20,26 @@ public class Hud : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		menuButton.GetComponent<Button>();
-		menuButton.onClick.AddListener(buttonClicked);
+		
+		// Add button click
+		menuButton.onClick.AddListener(ButtonClicked);
 		
 		Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
-		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
 		string userId = auth.CurrentUser.UserId;
-        Debug.Log(userId);
+		
 		FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId).GetValueAsync().ContinueWith(
 		task => {
 			if (task.IsCompleted)
 			{
 				DataSnapshot snapshot = task.Result;
-
                 nameText.text = snapshot.Child("Name").Value.ToString();
 			}
 		});
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	
-	void buttonClicked()
+	void ButtonClicked()
 	{
 		if(menuPanel.active)
 		{
