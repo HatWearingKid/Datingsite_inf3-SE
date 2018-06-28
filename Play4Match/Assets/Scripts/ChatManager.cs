@@ -113,6 +113,9 @@ public class ChatManager : MonoBehaviour
                 }
             }
         }
+
+        BerichtenLijst = null;
+        BerichtenLijst = new List<BerichtenLijst>();
     }
 
     void OnDisable()
