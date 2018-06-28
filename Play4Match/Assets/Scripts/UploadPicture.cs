@@ -39,15 +39,16 @@ public class UploadPicture : MonoBehaviour {
 	public void RetrievePicture(){
 		if(profilePictureRef != null)
 		{
-			// Fetch the download URL
+			// Fetch the download URL from Firebase
 			profilePictureRef.GetDownloadUrlAsync().ContinueWith((Task<Uri> task) => {
 				if (task.IsFaulted || task.IsCanceled)
 				{
 				}
 				else
-				{
+				{   // if no errors occur
 					if (task.Result != null)
 					{
+                        // Start the corountine with GetImage method
 						www = new WWW(task.Result.ToString());
 						StartCoroutine(GetImage(www));
 					}
@@ -63,6 +64,9 @@ public class UploadPicture : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Download and create sprite from an URL
+    /// </summary>
 	public IEnumerator GetImage(WWW www){
 		yield return www;
 		if (www.isDone) {
@@ -83,6 +87,7 @@ public class UploadPicture : MonoBehaviour {
 					var tex = new Texture2D(1, 1);
 					tex.LoadImage(bytes);
 
+                    // Set the button sprite in the panel to the selected image sprite
 					button.image.sprite = Sprite.Create(tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0, 0));
 				}
 			}, maxSize: maxSize );

@@ -56,7 +56,6 @@ public class CreateCrushList : MonoBehaviour {
  
 					string dateText = GetDateAgo(timestamp);
 
-
                     if (crushId != userId)
 					{
                         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(crushId).GetValueAsync().ContinueWith(
@@ -64,11 +63,18 @@ public class CreateCrushList : MonoBehaviour {
                         if (task2.IsCompleted)
                         {
                             DataSnapshot snapshot2 = task2.Result;
-
                             string crushName = snapshot2.Child("Name").Value.ToString();
                             string crushAge = GetAge(snapshot2.Child("DateOfBirth").Value.ToString());
                             string crushDescription = snapshot2.Child("Description").Value.ToString();
-                            string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
+
+                            string crushLocation = null;
+                            if(snapshot2.Child("Location").Child("Longitude").Value.ToString() != "0" && snapshot2.Child("Location").Child("Latitude").Value.ToString() != "0")
+                            {
+                                crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
+                            } else
+                            {
+                                crushLocation = "No location found.";
+                            }
 
                             //Create Crushobject in crushlist
                             if (crushName != "" && crushAge != "")
@@ -136,7 +142,6 @@ public class CreateCrushList : MonoBehaviour {
             {
                 Debug.Log("Download succes");
                 sprite = Sprite.Create(imageUrl.texture, new Rect(0, 0, imageUrl.texture.width, imageUrl.texture.height), new Vector2(0, 0));
-                yield return new WaitForSecondsRealtime(1);
                 CrushViewPanel_ProfilePicture.GetComponent<Image>().sprite = sprite;
                 Check = false;
             }

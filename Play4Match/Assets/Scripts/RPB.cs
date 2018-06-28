@@ -15,13 +15,14 @@ public class RPB : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If bar is not full, fill it
         if (currentAmount < 100)
         {
             currentAmount += speed * Time.deltaTime;
             TextIndicator.GetComponent<Text>().text = ((int)currentAmount).ToString() + "%";
         }
         else
-        {
+        {   // if bar is full reset it
             LoadingBar.GetComponent<Image>().fillAmount = 0;
             currentAmount = 0;
         }
