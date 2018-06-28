@@ -18,6 +18,7 @@ public class ChatManager : MonoBehaviour
     public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
+    Boolean addMessage = true;
     public string userID;
     public string chatroomID;
     public string content;
@@ -92,38 +93,12 @@ public class ChatManager : MonoBehaviour
     
     public void SendMessageToChat(string text, string user)
     {
-        //message from user
-        if (userID == user)
+        if (addMessage = true)
         {
-            GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
-
-            float sum = 400 - (text.Length * text.Length) + 50;
-
-            //minimal chatmessage width
-            if (sum < 100f)
+            //message from user
+            if (userID == user)
             {
-                sum = 100f;
-            }
-
-            //maximal chatmessage width
-            if (sum > 400f)
-            {
-                sum = 400f;
-            }
-
-            //set textpanel position
-            newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
-            //set text in message
-            newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
-        }
-        else
-        {
-            //message from chat partner
-            otherUser = user;
-            if (user != "SYSTEEMBERICHT")
-            {
-
-                GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+                GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 
                 float sum = 400 - (text.Length * text.Length) + 50;
 
@@ -132,6 +107,7 @@ public class ChatManager : MonoBehaviour
                 {
                     sum = 100f;
                 }
+
                 //maximal chatmessage width
                 if (sum > 400f)
                 {
@@ -139,12 +115,41 @@ public class ChatManager : MonoBehaviour
                 }
 
                 //set textpanel position
-                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
+                newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
                 //set text in message
                 newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
             }
+            else
+            {
+                //message from chat partner
+                otherUser = user;
+                if (user != "SYSTEEMBERICHT")
+                {
+
+                    GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
+
+                    float sum = 400 - (text.Length * text.Length) + 50;
+
+                    //minimal chatmessage width
+                    if (sum < 100f)
+                    {
+                        sum = 100f;
+                    }
+                    //maximal chatmessage width
+                    if (sum > 400f)
+                    {
+                        sum = 400f;
+                    }
+
+                    //set textpanel position
+                    newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
+                    //set text in message
+                    newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
+                }
 
 
+            }
+            addMessage = true;
         }
     }
     //send message to firebase
@@ -210,6 +215,7 @@ public class ChatManager : MonoBehaviour
             user = args.Snapshot.Child("user").Value.ToString();
             //put data in sendmessage
             SendMessageToChat(content, user);
+            addMessage = false;
         }
     }
 
