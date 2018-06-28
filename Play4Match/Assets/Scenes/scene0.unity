@@ -12320,27 +12320,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba355c07beef9340ae9649b608879f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: User
   chatPanel: {fileID: 568237047}
   textPrefab: {fileID: 1277756832398582, guid: f3a221cd8035d3248b47b7e5524e5fa3, type: 2}
   textPrefabUser: {fileID: 1944644003381550, guid: 65e9bd2b169813146bb46fd44c0c2d8e,
     type: 2}
-  whiteSpace: {fileID: 0}
   partnerName: {fileID: 2132901354}
   backButton: {fileID: 469234709}
   chatBox: {fileID: 415359658}
   userID: 
   chatroomID: 
   content: 
-  addmsg: 1
   date: 
   user: 
   chatroomFound: 0
-  lastMessage: 
-  lastMessageTime: 
   chatReportPanel: {fileID: 2085325988}
   chatViewScroll: {fileID: 1956215253}
-  andereUser: 
+  otherUser: 
 --- !u!1 &670332893
 GameObject:
   m_ObjectHideFlags: 0
@@ -21940,9 +21935,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1251325233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aae36392e1b11e43bd6e7ee45ede591, type: 3}
+  m_Script: {fileID: 11500000, guid: 68f06aa6d002c2f4e8e782b36127b90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEngine: {fileID: 88082141}
+  canvas: {fileID: 1251325233}
+  notification: {fileID: 1034484579789826, guid: 1bc6da6f5393ab847a2886284741acdc,
+    type: 2}
 --- !u!1 &1264548359
 GameObject:
   m_ObjectHideFlags: 0
