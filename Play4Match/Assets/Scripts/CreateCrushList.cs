@@ -25,14 +25,18 @@ public class CreateCrushList : MonoBehaviour {
     public GameObject crushViewPanel_UncrushButton;
     public GameObject crushViewPanel_CrushButton;
 
-	int CrushItem = 0;
+    public GameObject ProgressBar;
+
+    int CrushItem = 0;
     Sprite sprite;
+    bool Check;
 
     void Start()
 	{
+        // Enable loadingscreen
 		loadingScreen.SetActive(true);
 
-		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
@@ -48,12 +52,9 @@ public class CreateCrushList : MonoBehaviour {
 				{
 					string crushId = childSnapshot.Key.ToString();
 
-                    string ppUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + crushId + "%2FProfilePicture.png?alt=media";
-                    StartCoroutine(FinishDownload(ppUrl));
-
                     long timestamp = (long)childSnapshot.Value;
  
-					string dateText = getDateAgo(timestamp);
+					string dateText = GetDateAgo(timestamp);
 
 
                     if (crushId != userId)
@@ -65,21 +66,21 @@ public class CreateCrushList : MonoBehaviour {
                             DataSnapshot snapshot2 = task2.Result;
 
                             string crushName = snapshot2.Child("Name").Value.ToString();
-                            string crushAge = getAge(snapshot2.Child("DateOfBirth").Value.ToString());
+                            string crushAge = GetAge(snapshot2.Child("DateOfBirth").Value.ToString());
                             string crushDescription = snapshot2.Child("Description").Value.ToString();
                             string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
-                            Sprite ppSprite = sprite;
 
+                            //Create Crushobject in crushlist
                             if (crushName != "" && crushAge != "")
                             {
                                 GameObject newObj = (GameObject)Instantiate(prefab, transform);
                                 newObj.name = CrushItem.ToString();
                                 newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
                                 newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
-
                                 newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
+
+                                // Add click handler
                                 newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
-                                newObj.transform.Find("ProfilePicture").GetComponent<Image>().sprite = sprite;
                                     CrushItem++;
                                 }
                             }
@@ -95,7 +96,6 @@ public class CreateCrushList : MonoBehaviour {
 
     void CreateView(string name, string age, string location, string description, string crushId, GameObject crushObj)
     {
-
         string ppUrl = "https://firebasestorage.googleapis.com/v0/b/play4matc.appspot.com/o/ProfilePictures%2F" + crushId + "%2FProfilePicture.png?alt=media";
         StartCoroutine(FinishDownload(ppUrl));
 
@@ -111,14 +111,16 @@ public class CreateCrushList : MonoBehaviour {
 
 		crushViewPanel_CrushButton.GetComponent<Uncrush>().CrushId = crushId;
 		crushViewPanel_CrushButton.GetComponent<Uncrush>().CrushObj = crushObj;
+        CrushViewPanel_ProfilePicture.SetActive(true);
 
-		CrushViewPanel.SetActive(true);
+        CrushViewPanel.SetActive(true);
     }
 
     IEnumerator FinishDownload(string url)
     {
+        ProgressBar.SetActive(true);
+        Check = true;
         WWW imageUrl = new WWW(url);
-
         while (!imageUrl.isDone)
         {
             yield return null;
@@ -130,10 +132,21 @@ public class CreateCrushList : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Download succes");
-            sprite = Sprite.Create(imageUrl.texture, new Rect(0, 0, imageUrl.texture.width, imageUrl.texture.height), new Vector2(0, 0));
-            CrushViewPanel_ProfilePicture.GetComponent<Image>().sprite = sprite;
+            if (Check)
+            {
+                Debug.Log("Download succes");
+                sprite = Sprite.Create(imageUrl.texture, new Rect(0, 0, imageUrl.texture.width, imageUrl.texture.height), new Vector2(0, 0));
+                yield return new WaitForSecondsRealtime(1);
+                CrushViewPanel_ProfilePicture.GetComponent<Image>().sprite = sprite;
+                Check = false;
+            }
         }
+        ProgressBar.SetActive(false);
+    }
+
+    public void ResetSprite()
+    {
+        CrushViewPanel_ProfilePicture.GetComponent<Image>().sprite = null;
     }
 
     void OnEnable()
@@ -158,7 +171,7 @@ public class CreateCrushList : MonoBehaviour {
 		}
 	}
 
-	string getDateAgo(long timestamp)
+	string GetDateAgo(long timestamp)
 	{
 		string result = "";
 
@@ -208,7 +221,7 @@ public class CreateCrushList : MonoBehaviour {
 		return result;
 	}
 
-    string getAge(string date)
+    string GetAge(string date)
     {
 
         string[] seperateNumbers = date.Split('/');
