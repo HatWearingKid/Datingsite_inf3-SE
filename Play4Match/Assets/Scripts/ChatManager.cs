@@ -32,6 +32,10 @@ public class ChatManager : MonoBehaviour
     public GameObject chatViewScroll; 
     public string otherUser;
 
+    public Boolean messageExist = true;
+
+    List<BerichtenLijst> BerichtenLijst = new List<BerichtenLijst>();
+
     void Start()
     {
         //Connect to Firebase
@@ -214,8 +218,37 @@ public class ChatManager : MonoBehaviour
             date = args.Snapshot.Child("date").Value.ToString();
             user = args.Snapshot.Child("user").Value.ToString();
             //put data in sendmessage
-            SendMessageToChat(content, user);
+            //SendMessageToChat(content, user);
             addMessage = false;
+
+            Boolean messageExist = false;
+            for (int i = 0; i < BerichtenLijst.Count; i++)
+            {
+                if(BerichtenLijst[i].ID.ToString() == args.Snapshot.Key)
+                {
+                    messageExist = true;
+                }
+            }
+
+            if (messageExist == false)
+            {
+                BerichtenLijst.Add(new BerichtenLijst(content, user, date, args.Snapshot.Key));
+                Invoke("BuildChat", 1);
+            }
+            
+        }
+    }
+
+    void BuildChat()
+    {
+        foreach (Transform child in chatPanel.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < BerichtenLijst.Count; i++)
+        {
+            SendMessageToChat(BerichtenLijst[i].content.ToString(), BerichtenLijst[i].user.ToString());
         }
     }
 
@@ -311,3 +344,16 @@ public class report
     }
 }
 
+public class BerichtenLijst : MonoBehaviour
+{
+
+    public string content, user, date, ID;
+    public BerichtenLijst(string content, string user, string date, string ID)
+    {
+        this.date = date;
+        this.content = content;
+        this.user = user;
+        this.ID = ID;
+    }
+
+}
