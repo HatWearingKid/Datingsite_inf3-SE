@@ -10,11 +10,8 @@ public class BackButton : MonoBehaviour {
 	public GameObject resetPwd;
 	public GameObject instructions;
 
-	void Start () {
-		///
-	}
-	
 	void Update () {
+		// Get input and change the panels in the main
 		if(Input.GetKeyDown(KeyCode.Escape) ||	Input.GetMouseButton(1))
 		{
 			if(register.active)
