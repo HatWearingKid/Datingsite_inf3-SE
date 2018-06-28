@@ -43,6 +43,10 @@ public class ChatManager : MonoBehaviour
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         //Get the user ID
         userID = auth.CurrentUser.UserId;
+        if (initialStart == true)
+        {
+            keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
+        }
         initialStart = false;
 
         BerichtenLijst = null;
@@ -52,7 +56,7 @@ public class ChatManager : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        keyboard = TouchScreenKeyboard.Open(chatBox.text, TouchScreenKeyboardType.Default);
+        
 
         Button btn = backButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
