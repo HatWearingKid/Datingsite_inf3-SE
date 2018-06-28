@@ -126,6 +126,7 @@ public class chatroomList : MonoBehaviour
     public void ReleaseLock() // Release the lock on getAllChatrooms, to prevent it from running multiple times
     {
         getChatroomsLock = false;
+        CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
         Invoke("GetAllChatrooms", 2); // Invoke after 2 seconds, since releaseLock is called immediately after we did get all the chatrooms
     }
 
@@ -133,6 +134,7 @@ public class chatroomList : MonoBehaviour
     public void GetAllChatrooms() // Get all existing chatrooms from the current user
     {
         int messages = 0;
+        CancelInvoke("GetAllChatrooms"); // Cancel previous Invoke to prevent double invokes
         if (getChatroomsLock == false) // Only when the function isnt locked
         {
             getChatroomsLock = true; // Set a lock as soon as this runs, to prevent is from running multiple times
