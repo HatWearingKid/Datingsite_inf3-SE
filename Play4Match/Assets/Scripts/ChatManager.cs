@@ -10,47 +10,36 @@ using UnityEngine.UI;
 
 public class ChatManager : MonoBehaviour
 {
-
-    public string username;
-
     public GameObject chatPanel;
     public GameObject textPrefab;
     public GameObject textPrefabUser;
-    public GameObject whiteSpace;
     public Text partnerName;
-    Boolean firstChatMessage = true;
     public Button backButton;
-
     public TMP_InputField chatBox;
     public DatabaseReference chatRef;
     public DatabaseReference reference;
+    Boolean addMessage = true;
     public string userID;
     public string chatroomID;
     public string content;
-    public bool addmsg = true;
     public string date;
     public string user;
     public bool chatroomFound = false;
     private TouchScreenKeyboard keyboard;
-    public string lastMessage;
-    public string lastMessageTime;
     List<ChatRoomBericht> ChatRoomBerichten = new List<ChatRoomBericht>();
     public GameObject chatReportPanel;
-    public GameObject chatViewScroll; // matchpanel > chatviewpanel > chatview
-
-    private string usersTabel = "Users"; // Na het testen "Users" gebruiken
-
-    public string andereUser;
+    // matchpanel > chatviewpanel > chatview
+    public GameObject chatViewScroll; 
+    public string otherUser;
 
     void Start()
     {
+        //Connect to Firebase
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        // Deze settings later ophalen van de Auth en welke match je aanklikt
-        // TIJDELIJK: Maak 2 builds met deze 2 waardes omgedraait zodat ze met elkaar chatten
+        //Get the user ID
         userID = auth.CurrentUser.UserId;
 
-
+        //Connect to Firebase
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
 
@@ -58,23 +47,22 @@ public class ChatManager : MonoBehaviour
 
         Button btn = backButton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
-        //addChatReport();
 
         scrollDown();
 
     }
-
+    
     public void scrollDown()
     {
+        //Scroll to bottem of chat
         GameObject.Find("ChatView").GetComponent<ScrollRect>().verticalNormalizedPosition = -0.1f;
     }
 
     void Update()
-    {
+    {   
+        //Empty chatpanel when chat is changed
         if (chatroomID.ToString() != "" && chatroomFound == false)
         {
-
-            Debug.Log("ChatroomID: " + chatroomID.ToString());
             foreach (Transform child in chatPanel.transform)
             {
                 GameObject.Destroy(child.gameObject);
@@ -82,20 +70,19 @@ public class ChatManager : MonoBehaviour
 
             chatRef = null;
             chatRef = FirebaseDatabase.DefaultInstance.GetReference("Chat").Child(chatroomID.ToString());
-
             chatRef.ChildAdded += ChatChildAdded;
             chatroomFound = true;
-            getPartnerName();
+            GetPartnerName();
             scrollDown();
         }
 
         if (chatBox.text != "")
         {
-            // || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done)
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || (keyboard != null && keyboard.done))
             {
                 if (chatroomFound == true)
                 {
+                    //Send user ID and text from inputfield
                     sendMessage(userID, chatBox.text);
                     chatBox.text = "";
                 }
@@ -103,73 +90,76 @@ public class ChatManager : MonoBehaviour
         }
     }
 
-
+    
     public void SendMessageToChat(string text, string user)
     {
-        if (!addmsg)
+        if (addMessage = true)
         {
+            //message from user
             if (userID == user)
             {
                 GameObject newObjUser = (GameObject)Instantiate(textPrefabUser, chatPanel.transform);
 
-                //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
-
                 float sum = 400 - (text.Length * text.Length) + 50;
 
+                //minimal chatmessage width
                 if (sum < 100f)
                 {
                     sum = 100f;
                 }
 
+                //maximal chatmessage width
                 if (sum > 400f)
                 {
                     sum = 400f;
-                    // newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
                 }
 
+                //set textpanel position
                 newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMin = new Vector2(sum, 0);
-
+                //set text in message
                 newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
             }
             else
             {
-                andereUser = user;
+                //message from chat partner
+                otherUser = user;
                 if (user != "SYSTEEMBERICHT")
                 {
 
                     GameObject newObjUser = (GameObject)Instantiate(textPrefab, chatPanel.transform);
-                    //GameObject newObject = (GameObject)Instantiate(whiteSpace, chatPanel.transform);
 
                     float sum = 400 - (text.Length * text.Length) + 50;
 
+                    //minimal chatmessage width
                     if (sum < 100f)
                     {
                         sum = 100f;
                     }
-
+                    //maximal chatmessage width
                     if (sum > 400f)
                     {
                         sum = 400f;
-                        //newObject.transform.Find("Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(10, 50);
                     }
 
-
+                    //set textpanel position
                     newObjUser.transform.Find("TextPanel").GetComponent<RectTransform>().offsetMax = new Vector2((sum * -1), 0);
-
+                    //set text in message
                     newObjUser.transform.Find("TextPanel").Find("Message").GetComponent<TextMeshProUGUI>().text = text;
                 }
 
 
             }
+            addMessage = true;
         }
-        addmsg = true;
     }
-
+    //send message to firebase
     void sendMessage(string from, string content)
     {
         chatMessage2 Message = new chatMessage2(from, content);
         string json = JsonUtility.ToJson(Message);
+        //give unique key to message
         string key = reference.Child("Chat").Child(chatroomID.ToString()).Push().Key;
+        //send message to chat/chatroomID/...
         reference.Child("Chat").Child(chatroomID.ToString()).Child(key).SetRawJsonValueAsync(json);
 
         scrollDown();
@@ -177,31 +167,34 @@ public class ChatManager : MonoBehaviour
 
 
 
-    public void getPartnerName()
+    public void GetPartnerName()
     {
+        
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userID).Child("Chatrooms").Child(chatroomID).GetValueAsync().ContinueWith(
                task => {
                    if (task.IsCompleted)
                    {
+                       //take snapshot result
                        DataSnapshot snapshot = task.Result;
-
+                       //take snapshot userID's
                        var user2_db = snapshot.Child("users").Value.ToString();
-
+                       //split the two userID's
                        string[] users = user2_db.Split('|');
                        foreach (string user in users)
                        {
                            if (user != userID)
                            {
-                               //Debug.Log("Gegevens ophalen van: " + user);
-                               FirebaseDatabase.DefaultInstance.GetReference(usersTabel).Child(user).GetValueAsync().ContinueWith(
+                               //get partner name
+                               FirebaseDatabase.DefaultInstance.GetReference("Users").Child(user).GetValueAsync().ContinueWith(
                                                       task2 =>
                                                       {
                                                           if (task2.IsCompleted)
                                                           {
+                                                              //take snapshot result
                                                               DataSnapshot snapshot2 = task2.Result;
                                                               IDictionary dictUser = (IDictionary)snapshot2.Value;
                                                               string name = dictUser["Name"].ToString();
-                                                              //Verander de header name naar chat partner name
+                                                              //set partnername
                                                               partnerName.text = name;
                                                           }
 
@@ -214,27 +207,26 @@ public class ChatManager : MonoBehaviour
 
     void ChatChildAdded(object sender, ChildChangedEventArgs args)
     {
-        Debug.Log("chatChildAdded, chatroomID: " + chatroomID);
         if (args.DatabaseError == null)
         {
+            //get content, date, user
             content = args.Snapshot.Child("content").Value.ToString();
             date = args.Snapshot.Child("date").Value.ToString();
             user = args.Snapshot.Child("user").Value.ToString();
-
-            //SendMessageToChat(user + " " + tijdVerschil(int.Parse(date)) + ":\n" + content);
+            //put data in sendmessage
             SendMessageToChat(content, user);
-            addmsg = false;
-            // Dit tonen in de GUI
+            addMessage = false;
         }
     }
 
+    //empty chatroom ID on click
     void TaskOnClick()
     {
         chatroomID = "";
         chatroomFound = false;
-        Debug.Log("ChatroomFound !!" + chatroomFound);
     }
 
+    //get time difference
     public string tijdVerschil(int tijd)
     {
         int huidigeTijd = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -275,37 +267,22 @@ public class ChatManager : MonoBehaviour
 
     }
 
-    public void buildChatroom()
+    public void AddReport()
     {
-        // Hier later alles in de GUI laden
-        for (int i = 0; i < ChatRoomBerichten.Count; i++)
-        {
-            Debug.Log("ChatroomID: " + ChatRoomBerichten[i].chatroomID.ToString() + "\n" +
-                "Date: " + ChatRoomBerichten[i].date.ToString() + "\n" +
-                "name: " + ChatRoomBerichten[i].name.ToString() + "\n" +
-                "message: " + ChatRoomBerichten[i].message.ToString()
-            );
-        }
-    }
-
-    public void addReport()
-    {
+        //report chat partner
         string type = "chatReport";
         string data = "";
-        reportData report = new reportData(andereUser, userID, data);
+        reportData report = new reportData(otherUser, userID, data);
         string json = JsonUtility.ToJson(report);
-        reference.Child(type).Child(andereUser).SetRawJsonValueAsync(json); // .Child(userID)
-        // Melding geven dat de chat is gereport
-        Debug.Log("add report. Type: " + type + " , wie: " + andereUser);
-
+        reference.Child(type).Child(otherUser).SetRawJsonValueAsync(json);
         chatReportPanel.SetActive(true);
-
         Invoke("hideReport", 3f);
 
     }
 
     public void hideReport()
     {
+        //hide report panel
         chatReportPanel.SetActive(false);
     }
 }
@@ -331,39 +308,6 @@ public class report
     public report(string by)
     {
         this.by = by;
-    }
-}
-
-
-[System.Serializable]
-public class Message
-{
-    public string text;
-    public TMP_Text textObject;
-
-    public Message()
-    {
-
-    }
-
-}
-
-public class chatMessage
-{
-    public string username;
-    public string to;
-    public string text;
-    public Int32 date;
-
-    public chatMessage(string username, string to, string text)
-    {
-        //ChatManager chatManager = new ChatManager();
-        Debug.Log("Begin chatMessage");
-        this.username = username;
-        this.to = to;
-        this.text = text;
-        this.date = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds; // System.DateTime.UtcNow.ToString();
-        Debug.Log("Einde chatMessage");
     }
 }
 
