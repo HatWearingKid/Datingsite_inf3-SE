@@ -35,6 +35,7 @@ public class ChatManager : MonoBehaviour
     public Boolean messageExist = true;
 
     List<BerichtenLijst> BerichtenLijst = new List<BerichtenLijst>();
+    private bool initialStart = true;
 
     void Start()
     {
@@ -42,6 +43,10 @@ public class ChatManager : MonoBehaviour
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         //Get the user ID
         userID = auth.CurrentUser.UserId;
+        initialStart = false;
+
+        BerichtenLijst = null;
+        BerichtenLijst = new List<BerichtenLijst>();
 
         //Connect to Firebase
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -55,7 +60,23 @@ public class ChatManager : MonoBehaviour
         scrollDown();
 
     }
-    
+
+    void OnEnable()
+    {
+        BerichtenLijst = null;
+        BerichtenLijst = new List<BerichtenLijst>();
+
+        if (initialStart == false) // When enabled after reopening, not for the first load
+        {
+            foreach (Transform child in this.transform)
+            {
+                GameObject.Destroy(child.gameObject); // Delete all existing chats from the content
+            }
+            CancelInvoke("BuildChat");
+            Start(); // Start the canvas like normal, because we dit reset everything
+        }
+    }
+
     public void scrollDown()
     {
         //Scroll to bottem of chat
@@ -96,7 +117,10 @@ public class ChatManager : MonoBehaviour
 
     void OnDisable()
     {
+
         CancelInvoke("BuildChat");
+        BerichtenLijst = null;
+        BerichtenLijst = new List<BerichtenLijst>();
         foreach (Transform child in chatPanel.transform)
         {
             GameObject.Destroy(child.gameObject);

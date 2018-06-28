@@ -11,8 +11,9 @@ public class BackButton : MonoBehaviour {
 	public GameObject instructions;
 
 	void Update () {
-		// Get input and change the panels in the main
-		if(Input.GetKeyDown(KeyCode.Escape) ||	Input.GetMouseButton(1))
+        // Get input and change the panels in the main
+        CancelInvoke("BuildChat");
+        if (Input.GetKeyDown(KeyCode.Escape) ||	Input.GetMouseButton(1))
 		{
 			if(register.active)
 			{
