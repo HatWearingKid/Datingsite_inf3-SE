@@ -36,15 +36,16 @@ public class Steps : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //clear pawnpostions , otherwise it copy's from other scene
         Pawnpositions.Clear();
-        //get posities and sort by name
-        //Positions = GameObject.FindGameObjectsWithTag("positie").OrderBy(go => go.name).ToArray();
 
         for (int i = 0; i < Positions.Length; i++)
         {
+            //add positions based on 3d models
             Vector3 temp = new Vector3 { x = Positions[i].transform.position.x, y = Positions[i].transform.position.y, z = Positions[i].transform.position.z, };
             Pawnpositions.Add(temp);
         }
+        //set camera position
         cameraStand.z = Pawnpositions[stepNumber].z - 453;
         cameraStand.y = 1481;
         cameraStand.x = 510;
@@ -58,20 +59,22 @@ public class Steps : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 		
-        //camera alleen bewegen als de volgende stap is aangeklikt
+        //camera only moves if nextstep is clicked
         if (movecamera)
         {
+            //move camera
             cameraPos.transform.position = Vector3.Lerp(startPointCamera, cameraStand, (Time.time - startTime) / duration);
+            //if current position equeals current position stop movement
             if (cameraPos.transform.position.Equals(cameraStand))
             {
                 movecamera = false;
             }
         }
 
-        //wanneer de pion bijna op positie is
+        //when pawn is almost on position
         if(Vector3.Distance(Positions[stepNumber].transform.position, pawn.transform.position) <= 17)
         {
-            //stop beweging
+            //stop movement
             splineController.mSplineInterp.mState = "Stopped";
             stop = false;
             if (stepNumber > 0)
@@ -81,15 +84,16 @@ public class Steps : MonoBehaviour {
             }
         } else
         {
-            //anders follow curve
+            //else follow curve
             next = false;
             GameObject pion = pawn.gameObject.transform.GetChild(0).gameObject;
-            //pion.transform.position = new Vector3(pawn.transform.position.x, Random.Range(0.0f, 50.0f), pawn.transform.position.z);
+            
         }
 
-        //wanneer volgende stap wordt geselecteerd
+        //when next step is selected
         if (Input.GetMouseButtonDown(0) && (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() || Input.touchCount>0 && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
         {
+            //if raycast hits next step
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
@@ -100,7 +104,7 @@ public class Steps : MonoBehaviour {
                     if (!StepLock && stepNumber + 1 < Positions.Length && Positions[stepNumber + 1].ToString().Equals(nextlocation))
                     {
                         timeClicked = System.DateTime.Now;
-                        //zet stap
+                        //go to the next step
                         StepLock = true;
                         Step();
                         
@@ -159,10 +163,13 @@ public class Steps : MonoBehaviour {
             if(diffInSeconds > 1)
             {
                 //show question
+
+                //if it is not the first time playing
                 if(SetQuestions != null)
                 {
                     SetQuestions.ShowQuestion(position - 1);
                 }
+                //if it is the first time playing
                 else
                 {
                     getQuestions.ShowQuestion(position - 1);
@@ -171,6 +178,7 @@ public class Steps : MonoBehaviour {
                 QuestionLock = true;
                 next = false;
 
+                //if pawn is on last position show the next scene button
                 if (Pawnpositions.Count - 1 == position)
                 {
                     NextSceneButton.SetActive(true);
@@ -187,11 +195,11 @@ public class Steps : MonoBehaviour {
         stepNumber += 1;
         if (stepNumber > 1)
         {
-            //camera naar volgende positie
+            //camera to the next position
             cameraStand.z = Pawnpositions[position].z - 553;
             position += 1;
         }
-        //set mState zodat pion lijn weer volgt
+        //set mState to let pawn follow line
         splineController.mSplineInterp.mState = "";
         
         if (stepNumber >= Pawnpositions.Count)

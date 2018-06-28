@@ -21,36 +21,53 @@ public class SwitchScene : MonoBehaviour {
         SceneManager.LoadScene(sceneName);
     }
 
+    /// <summary>
+    /// opens a random scene
+    /// </summary>
     public void RandomScene()
     {
+        //get random  int
         int tempInt;
-        tempInt = getRandom();
+        tempInt = GetRandom();
 
+        // as long as new scene is equeal to current scene get new int
         while(m_Scene.name == Scenes[tempInt])
         {
-            tempInt = getRandom();
+            tempInt = GetRandom();
         }
+
+        //load new scene
         SceneManager.LoadScene(Scenes[tempInt]);
     }
 
-    private int getRandom()
+    /// <summary>
+    /// generates a random int based on amount of questions that are left for user
+    /// </summary>
+    /// <returns></returns>
+    private int GetRandom()
     {
         int random;
+        //get ammount of questions left
         questions = this.GetComponent<getQuestions>().ReturnAmmountQuestions();
-        Debug.Log(questions.Count);
 
+        //if there are over to seven questions 
         if (questions.Count >= 7)
         {
+            //return random number
             random = Random.Range(0, 1);
             SceneManager.LoadScene(Scenes[random]);
         }
+        //if there are over to nine questions
         if (questions.Count >= 9)
         {
+            //return random number
             random = Random.Range(0, Scenes.Count - 1);
             SceneManager.LoadScene(Scenes[random]);
         }
+        //else load return number one
         else
         {
+            //return 1
             random = 1;
         }
         return random;
