@@ -22,6 +22,7 @@ public class RetrieveProfile : MonoBehaviour {
 
 	void Start () 
 	{
+        // Initialize firebase variables
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 		user = auth.CurrentUser;
 
@@ -35,6 +36,7 @@ public class RetrieveProfile : MonoBehaviour {
 
 	void Update() 
 	{
+        // Keep retrieving profile so it stays up to date
 		if (Time.fixedTime >= timer) 
 		{
 			GetProfile();

@@ -60,6 +60,7 @@ public class LoginUser : MonoBehaviour {
 			user = task.Result;
             if (user.IsEmailVerified) {
                 toast.MyShowToastMethod("Logging in...");
+                // Depending if the user has a completed profile or not, the scene will be loaded
                 if (user.DisplayName == "1")
                 {
                     SceneManager.LoadScene("scene0");
@@ -69,6 +70,7 @@ public class LoginUser : MonoBehaviour {
                 }
             } else
             {
+                // If the user has not activated his mail, we inform the user
                 toast.MyShowToastMethod("Please verify your email first.");
             }
         });

@@ -136,7 +136,6 @@ public class CreateCrushList : MonoBehaviour {
             {
                 Debug.Log("Download succes");
                 sprite = Sprite.Create(imageUrl.texture, new Rect(0, 0, imageUrl.texture.width, imageUrl.texture.height), new Vector2(0, 0));
-                yield return new WaitForSecondsRealtime(1);
                 CrushViewPanel_ProfilePicture.GetComponent<Image>().sprite = sprite;
                 Check = false;
             }
