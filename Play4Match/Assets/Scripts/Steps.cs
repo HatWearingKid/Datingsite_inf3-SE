@@ -133,7 +133,7 @@ public class Steps : MonoBehaviour {
                     float deltaZ = initTouch.position.y - touch.position.y;
                     movZ = deltaZ * Time.deltaTime * moveSpeed * direction;
                     movZ = movZ + cameraPos.transform.position.z;
-                    if(movZ >= -44 && movZ <= maxCameraPlace && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() || Input.touchCount > 0 && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                    if(movZ >= -44 && movZ <= maxCameraPlace )
                     {
                         cameraPos.transform.position = new Vector3(cameraStand.x, 1481, movZ);
                     }
