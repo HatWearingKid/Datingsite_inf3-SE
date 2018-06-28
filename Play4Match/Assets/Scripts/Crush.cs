@@ -19,7 +19,7 @@ public class Crush : MonoBehaviour {
 
 	public static string chatroomID;
 
-    public void insertCrush()
+    public void InsertCrush()
     {
         // Set up the Editor before calling into the realtime database.
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");

@@ -30,6 +30,7 @@ public class CreateCrushList : MonoBehaviour {
 
     void Start()
 	{
+        // Enable loadingscreen
 		loadingScreen.SetActive(true);
 
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -53,7 +54,7 @@ public class CreateCrushList : MonoBehaviour {
 
                     long timestamp = (long)childSnapshot.Value;
  
-					string dateText = getDateAgo(timestamp);
+					string dateText = GetDateAgo(timestamp);
 
 
                     if (crushId != userId)
@@ -65,22 +66,25 @@ public class CreateCrushList : MonoBehaviour {
                             DataSnapshot snapshot2 = task2.Result;
 
                             string crushName = snapshot2.Child("Name").Value.ToString();
-                            string crushAge = getAge(snapshot2.Child("DateOfBirth").Value.ToString());
+                            string crushAge = GetAge(snapshot2.Child("DateOfBirth").Value.ToString());
                             string crushDescription = snapshot2.Child("Description").Value.ToString();
                             string crushLocation = snapshot2.Child("Location").Child("City").Value.ToString() + ", " + snapshot2.Child("Location").Child("CountryLong").Value.ToString();
                             Sprite ppSprite = sprite;
+                            
 
+                            //Create Crushobject in crushlist
                             if (crushName != "" && crushAge != "")
                             {
                                 GameObject newObj = (GameObject)Instantiate(prefab, transform);
                                 newObj.name = CrushItem.ToString();
                                 newObj.transform.Find("NameAgeText").GetComponent<Text>().text = crushName + " (" + crushAge + ")";
                                 newObj.transform.Find("LocationText").GetComponent<Text>().text = crushLocation;
-
                                 newObj.transform.Find("DateText").GetComponent<Text>().text = dateText;
+
+                                // Add click handler
                                 newObj.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { CreateView(crushName, crushAge, crushLocation, crushDescription, snapshot2.Key, newObj); });
                                 newObj.transform.Find("ProfilePicture").GetComponent<Image>().sprite = sprite;
-                                    CrushItem++;
+                                CrushItem++;
                                 }
                             }
                         });
@@ -158,7 +162,7 @@ public class CreateCrushList : MonoBehaviour {
 		}
 	}
 
-	string getDateAgo(long timestamp)
+	string GetDateAgo(long timestamp)
 	{
 		string result = "";
 
@@ -208,7 +212,7 @@ public class CreateCrushList : MonoBehaviour {
 		return result;
 	}
 
-    string getAge(string date)
+    string GetAge(string date)
     {
 
         string[] seperateNumbers = date.Split('/');

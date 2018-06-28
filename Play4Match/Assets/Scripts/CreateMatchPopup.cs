@@ -67,6 +67,7 @@ public class CreateMatchPopup : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        // CLicked with finger or leftmouse button and is not clicking on ui elements
         if (Input.GetMouseButton(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit;
@@ -108,6 +109,7 @@ public class CreateMatchPopup : MonoBehaviour {
 				impact.SetActive(true);
 				impact.transform.localScale = Vector3.Lerp(impact.transform.localScale, new Vector3(1, 1, 1), Time.deltaTime / 5);
 
+                // Keep fading till x is too big or fadeouttime is 0 or smaller
 				if (impact.transform.localScale.x >= 0.3 && fadeOutTime > 0)
 				{
 					float alpha = 1 / startingTime * fadeOutTime;
@@ -128,6 +130,7 @@ public class CreateMatchPopup : MonoBehaviour {
 		}
 	}
 
+    // Spawn hearts and remove button when crushed
 	public void OnCrush()
 	{
 		float currentX = transform.position.x;
@@ -146,7 +149,7 @@ public class CreateMatchPopup : MonoBehaviour {
 				heart = Instantiate(WhiteHeart);
 			}
 
-			// Set new X and Z values from the heart
+			// Set new X and Z values for the heart
 			float newX = Random.Range(currentX - 125f, currentX + 125f);
 			float newY = Random.Range(currentY, currentY + 125f);
 			float newZ = Random.Range(currentZ - 100f, currentZ + 100f);
