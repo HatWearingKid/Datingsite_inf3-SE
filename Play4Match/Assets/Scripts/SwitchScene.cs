@@ -50,18 +50,19 @@ public class SwitchScene : MonoBehaviour {
         //get ammount of questions left
         questions = this.GetComponent<getQuestions>().ReturnAmmountQuestions();
 
-        //if there are over to seven questions 
-        if (questions.Count >= 7)
-        {
-            //return random number
-            random = Random.Range(0, 1);
-            SceneManager.LoadScene(Scenes[random]);
-        }
+        
         //if there are over to nine questions
         if (questions.Count >= 9)
         {
             //return random number
             random = Random.Range(0, Scenes.Count - 1);
+            SceneManager.LoadScene(Scenes[random]);
+        }
+        //if there are over to seven questions 
+        if (questions.Count >= 7)
+        {
+            //return random number
+            random = Random.Range(0, 1);
             SceneManager.LoadScene(Scenes[random]);
         }
         //else load return number one
