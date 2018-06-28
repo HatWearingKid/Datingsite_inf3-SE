@@ -10,7 +10,7 @@ public class SwitchScene : MonoBehaviour {
 
     //zet scenes in volgorde van aantal vragen van laag naar hoog
     //kijk bij random scene of de nieuwe scene hier bij in kan
-    private List<string> Scenes = new List<string> { "scene0","scene1"};
+    private List<string> Scenes = new List<string> { "scene0","scene1","scene2"};
 
     /// <summary>
     /// to change scene give desired scene name as string
