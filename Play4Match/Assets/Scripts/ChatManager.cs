@@ -94,8 +94,17 @@ public class ChatManager : MonoBehaviour
         }
     }
 
-    
-    public void SendMessageToChat(string text, string user)
+    void OnDisable()
+    {
+        CancelInvoke("BuildChat");
+        foreach (Transform child in chatPanel.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+
+
+public void SendMessageToChat(string text, string user)
     {
         if (addMessage = true)
         {
