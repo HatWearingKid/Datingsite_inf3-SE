@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3228397, g: 0.7332232, b: 0.86286944, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -31940,17 +31940,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2a90496cfc7f14bba609e19d8694ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
+  loadingScreen: {fileID: 1315707012}
   NumberOfQuestions: 9
-  QuestionPanel: {fileID: 0}
-  QuestionText: {fileID: 0}
-  Answers2: {fileID: 0}
-  Answers3: {fileID: 0}
-  Answers4: {fileID: 0}
-  Answers5: {fileID: 0}
-  Answers6: {fileID: 0}
-  weightSlider: {fileID: 0}
-  NoQuestion: {fileID: 0}
+  QuestionPanel: {fileID: 2105164852}
+  QuestionText: {fileID: 1862739350}
+  Answers2: {fileID: 1948667680}
+  Answers3: {fileID: 1496848637}
+  Answers4: {fileID: 1584967195}
+  Answers5: {fileID: 1532586669}
+  Answers6: {fileID: 1673199136}
+  weightSlider: {fileID: 2135317200}
+  NoQuestion: {fileID: 737954647}
 --- !u!114 &1869673597
 MonoBehaviour:
   m_ObjectHideFlags: 0
