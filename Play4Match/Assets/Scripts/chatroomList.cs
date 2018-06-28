@@ -15,7 +15,7 @@ public class chatroomList : MonoBehaviour
     public string username, content, date, user, lastMessage, lastMessageTime, userID, chatroomID;
     List<ChatRoomBerichtList> ChatRoomBerichtenLijst = new List<ChatRoomBerichtList>();
     public UnityEngine.UI.VerticalLayoutGroup verticalLayoutGroup;
-    public GameObject prefab, chatList, chatviewPanel, loadingScreen, Camera;
+    public GameObject prefab, chatviewPanel, loadingScreen;
     private int chatroomNumber = 0;
     public int totalMessages = 0;
 
