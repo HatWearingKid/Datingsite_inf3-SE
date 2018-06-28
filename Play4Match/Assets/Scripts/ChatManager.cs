@@ -113,6 +113,8 @@ public class ChatManager : MonoBehaviour
                 }
             }
         }
+
+        
     }
 
     void OnDisable()
@@ -283,6 +285,9 @@ public void SendMessageToChat(string text, string user)
         {
             SendMessageToChat(BerichtenLijst[i].content.ToString(), BerichtenLijst[i].user.ToString());
         }
+
+        BerichtenLijst = null;
+        BerichtenLijst = new List<BerichtenLijst>();
     }
 
     //empty chatroom ID on click
