@@ -26,14 +26,15 @@ public class moveNotification : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!deleteThis)
+		
+		if (!deleteThis) // Move notification down
 		{
 			if(transform.GetComponent<RectTransform>().anchoredPosition.y > -42f)
 			{
 				transform.position = Vector3.MoveTowards(transform.position, target, moveDownSpeed * Time.deltaTime);
 			}
 		}
-		else
+		else // Move notification up and delete
 		{
 			transform.position = Vector3.MoveTowards(transform.position, deleteTarget, moveDownSpeed * Time.deltaTime);
 

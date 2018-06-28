@@ -8,7 +8,6 @@ using UnityEngine;
 public class Uncrush : MonoBehaviour
 {
 	Firebase.Auth.FirebaseAuth auth;
-	Firebase.Auth.FirebaseUser user;
 	DatabaseReference reference;
 
 	public GameObject CrushObj;
@@ -17,13 +16,12 @@ public class Uncrush : MonoBehaviour
 
 
 	// Use this for initialization
-	public void removeCrush()
+	public void RemoveCrush()
 	{
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
 
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-		user = auth.CurrentUser;
 
 		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
 		string userId = auth.CurrentUser.UserId;
@@ -39,7 +37,7 @@ public class Uncrush : MonoBehaviour
 		}
 	}
 
-	public void insertCrush()
+	public void InsertCrush()
 	{
 		// Set up the Editor before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://play4matc.firebaseio.com/");
@@ -48,7 +46,6 @@ public class Uncrush : MonoBehaviour
 		reference = FirebaseDatabase.DefaultInstance.RootReference;
 
 		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-		user = auth.CurrentUser;
 
 		//string userId = "xh4S3DibGraTqCn8HascIIvdFR02";
 		string userId = auth.CurrentUser.UserId;

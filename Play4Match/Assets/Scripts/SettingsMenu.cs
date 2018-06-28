@@ -11,7 +11,8 @@ public class SettingsMenu : MonoBehaviour {
 	public Slider volume;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		soundToggle.onValueChanged.AddListener(delegate {
                 SoundToggleChanged();
 				});
@@ -20,17 +21,14 @@ public class SettingsMenu : MonoBehaviour {
 				});
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-	}
-	
+	// Play sound and then mute
 	void SoundToggleChanged()
 	{
 		soundEngine.GetComponent<SoundScript>().PlaySound("toggleSound");
 		soundEngine.GetComponent<SoundScript>().SetMute();
 	}
 	
+	// Get slider value and set volume
 	void SoundVolumeChanged()
 	{
 		float vol = volume.value;
