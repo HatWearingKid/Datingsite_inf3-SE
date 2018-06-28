@@ -59,7 +59,7 @@ public class SwitchScene : MonoBehaviour {
             SceneManager.LoadScene(Scenes[random]);
         }
         //if there are over to seven questions 
-        if (questions.Count >= 7)
+       else if (questions.Count >= 7)
         {
             //return random number
             random = Random.Range(0, 1);
